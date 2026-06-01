@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.4 - 2026-06-01
+
+- Added `install.sh` for one-line remote installation.
+- Added installer tests covering dry-run, install, skip-existing, and overwrite behavior.
+- Added one-line install instructions to both README files and script documentation.
+
 ## 0.4.3 - 2026-06-01
 
 - Added `scripts/kb.py install-core` for installing the kit into an existing Obsidian vault.

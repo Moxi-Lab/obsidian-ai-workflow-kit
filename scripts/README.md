@@ -2,6 +2,15 @@
 
 These scripts are optional. The vault works without them.
 
+## One-line Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+```
+
+The remote installer downloads the current repository archive and delegates to `install-core`.
+
 ## Health Check
 
 ```bash
@@ -20,6 +29,8 @@ Checks:
 ```bash
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py install-core "/path/to/your-vault"
+bash install.sh --dry-run "/path/to/your-vault"
+bash install.sh "/path/to/your-vault"
 ```
 
 Copies the core kit into an existing Obsidian vault.

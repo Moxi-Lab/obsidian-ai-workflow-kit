@@ -13,6 +13,7 @@ from pathlib import Path
 
 
 CORE_PATHS = [
+    "install.sh",
     "START-HERE.md",
     "index.md",
     "AGENTS.md",
@@ -54,6 +55,7 @@ STALE_PATTERNS = [
 INSTALL_CORE_PATHS = [
     "README.md",
     "README.zh-CN.md",
+    "install.sh",
     "START-HERE.md",
     "index.md",
     "AGENTS.md",

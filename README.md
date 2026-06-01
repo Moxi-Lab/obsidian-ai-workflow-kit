@@ -64,13 +64,13 @@ Use this if you already have an Obsidian vault and want to add the AI-ready oper
 Preview first:
 
 ```bash
-python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
 ```
 
 Install:
 
 ```bash
-python3 scripts/kb.py install-core "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 ```
 
 Then check the installed vault:
@@ -80,6 +80,13 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` does not overwrite existing files unless you pass `--overwrite`.
+
+If you are working from a cloned copy, use:
+
+```bash
+bash install.sh --dry-run "/path/to/your-vault"
+bash install.sh "/path/to/your-vault"
+```
 
 ## Why This Exists
 
@@ -244,12 +251,13 @@ The vault works without scripts. If you want a faster setup loop:
 
 ```bash
 python3 scripts/kb.py health-check
+bash install.sh --dry-run "/path/to/your-vault"
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
 ```
 
-`health-check` verifies the core files, common stale concepts, and Markdown links. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
+`health-check` verifies the core files, common stale concepts, and Markdown links. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
 
 ## Included Templates
 
@@ -281,4 +289,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.4.3`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.4.4`. See [CHANGELOG.md](CHANGELOG.md).
