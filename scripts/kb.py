@@ -132,6 +132,7 @@ FOLDER_INTAKE_IGNORE_DIRS = {
 AUDIT_REPORT_DIR = "20-SharedAssets/05-audit-reports"
 MANIFEST_DIR = ".obsidian-ai-workflow-kit"
 MANIFEST_FILE = "manifest.json"
+ADAPTER_POLICY_FILE = "adoption-policy.json"
 MANIFEST_SCHEMA = 1
 
 
@@ -308,6 +309,37 @@ def manifest_path(root: Path) -> Path:
     return root / MANIFEST_DIR / MANIFEST_FILE
 
 
+def adapter_policy_path(root: Path) -> Path:
+    return root / MANIFEST_DIR / ADAPTER_POLICY_FILE
+
+
+def load_adapter_policy(root: Path) -> dict | None:
+    path = adapter_policy_path(root)
+    if not path.exists():
+        return None
+    try:
+        policy = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"invalid kit adapter policy: {path}: {exc}") from exc
+    if not isinstance(policy, dict):
+        raise SystemExit(f"invalid kit adapter policy: {path}")
+    return policy
+
+
+def enforce_adapter_write_policy(target_root: Path, args: argparse.Namespace) -> None:
+    if getattr(args, "dry_run", False) or getattr(args, "allow_protected_adapter_write", False):
+        return
+    policy = load_adapter_policy(target_root)
+    if not policy:
+        return
+    if policy.get("mode") == "local-adapter" and policy.get("allow_public_kit_writes") is False:
+        policy_rel = adapter_policy_path(target_root).relative_to(target_root).as_posix()
+        raise SystemExit(
+            "target vault is protected as a local adapter; refusing to write public kit files. "
+            f"Policy: {policy_rel}. Use --dry-run for review, then adapt changes manually."
+        )
+
+
 def load_manifest(root: Path) -> dict:
     path = manifest_path(root)
     if not path.exists():
@@ -371,6 +403,7 @@ def install_core(args: argparse.Namespace) -> int:
         raise SystemExit("target cannot be inside this kit repository")
     except ValueError:
         pass
+    enforce_adapter_write_policy(target_root, args)
 
     summary = {"created": 0, "updated": 0, "skipped": 0}
     manifest = load_manifest(target_root)
@@ -419,6 +452,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
         raise SystemExit(f"target vault does not exist: {target_root}")
     if target_root == source_root:
         raise SystemExit("target is already this kit repository; choose your own Obsidian vault path")
+    enforce_adapter_write_policy(target_root, args)
 
     manifest = load_manifest(target_root)
     managed_files = manifest.setdefault("files", {})
@@ -1153,6 +1187,11 @@ def build_parser() -> argparse.ArgumentParser:
     install.add_argument("target", help="Target Obsidian vault directory")
     install.add_argument("--mode", choices=["full", "barebone"], default="full", help="Install full kit or minimal barebone kit")
     install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
+    install.add_argument(
+        "--allow-protected-adapter-write",
+        action="store_true",
+        help="Override a local-adapter protection policy. Use only after an explicit manual decision.",
+    )
     install.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     install.set_defaults(func=install_core)
 
@@ -1161,6 +1200,11 @@ def build_parser() -> argparse.ArgumentParser:
     upgrade.add_argument("--mode", choices=["full", "barebone"], default="full", help="Upgrade full kit or minimal barebone kit")
     upgrade.add_argument("--overwrite", action="store_true", help="Overwrite modified or unmanaged files")
     upgrade.add_argument("--conflict-copy", action="store_true", help="Write new versions beside conflicted files")
+    upgrade.add_argument(
+        "--allow-protected-adapter-write",
+        action="store_true",
+        help="Override a local-adapter protection policy. Use only after an explicit manual decision.",
+    )
     upgrade.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     upgrade.set_defaults(func=upgrade_core)
 

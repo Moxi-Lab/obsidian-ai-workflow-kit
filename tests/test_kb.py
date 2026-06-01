@@ -1,5 +1,6 @@
 import importlib.util
 import argparse
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -104,6 +105,48 @@ class InstallModeTests(unittest.TestCase):
             self.assertIn("START-HERE.md", manifest["files"])
             self.assertIn("scripts/kb.py", manifest["files"])
 
+    def test_install_core_refuses_protected_local_adapter(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps({"mode": "local-adapter", "allow_public_kit_writes": False}),
+                encoding="utf-8",
+            )
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+
+            with self.assertRaises(SystemExit):
+                kb.install_core(args)
+
+            self.assertFalse((target / "START-HERE.md").exists())
+
+    def test_install_core_allows_protected_local_adapter_dry_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps({"mode": "local-adapter", "allow_public_kit_writes": False}),
+                encoding="utf-8",
+            )
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=True,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+
+            self.assertEqual(kb.install_core(args), 0)
+            self.assertFalse((target / "START-HERE.md").exists())
+
     def test_upgrade_core_updates_unmodified_managed_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
@@ -175,6 +218,29 @@ class InstallModeTests(unittest.TestCase):
             kb.upgrade_core(upgrade_args)
 
             self.assertEqual(start_here.read_text(encoding="utf-8"), "UNMANAGED CONTENT\n")
+
+    def test_upgrade_core_refuses_protected_local_adapter(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps({"mode": "local-adapter", "allow_public_kit_writes": False}),
+                encoding="utf-8",
+            )
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+                allow_protected_adapter_write=False,
+            )
+
+            with self.assertRaises(SystemExit):
+                kb.upgrade_core(upgrade_args)
+
+            self.assertFalse((target / "START-HERE.md").exists())
 
 
 class ProjectBridgeNamingTests(unittest.TestCase):

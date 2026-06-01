@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.5 - 2026-06-02
+
+- Added local adapter protection via `.obsidian-ai-workflow-kit/adoption-policy.json`.
+- `install-core` and `upgrade-core` now refuse to write into protected adapter vaults unless explicitly overridden.
+- Documented how a working vault can consume the public kit as architecture authority without becoming a managed kit install.
+
 ## 0.6.4 - 2026-06-02
 
 - Clarified the three-place responsibility model: public kit as architecture authority, working vault as live work record, and private backup remote as backup only.

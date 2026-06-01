@@ -33,12 +33,32 @@ Default behavior:
 - Updates kit files that are still unmodified.
 - Skips files that were edited by the user.
 - Skips existing files that were never recorded in the manifest.
+- Refuses to write into vaults protected by `.obsidian-ai-workflow-kit/adoption-policy.json`.
 
 Use `--conflict-copy` with `upgrade-core` when you want new versions written beside conflicted files for manual comparison:
 
 ```bash
 python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
 ```
+
+## Local Adapter Protection
+
+A vault can consume this kit as an architecture reference without becoming a managed kit install. Add this file to the vault:
+
+```json
+{
+  "mode": "local-adapter",
+  "allow_public_kit_writes": false
+}
+```
+
+Path:
+
+```text
+.obsidian-ai-workflow-kit/adoption-policy.json
+```
+
+When this policy exists, `install-core` and `upgrade-core` refuse to write kit files into the vault. `--dry-run` still works for review. Only use `--allow-protected-adapter-write` after an explicit manual decision.
 
 ## Health Check
 

@@ -172,4 +172,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.6.4`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.6.5`。见 [CHANGELOG.md](CHANGELOG.md)。

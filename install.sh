@@ -8,6 +8,7 @@ SOURCE="${OBSIDIAN_AI_WORKFLOW_KIT_SOURCE:-}"
 DRY_RUN=0
 OVERWRITE=0
 UPDATE=0
+ALLOW_PROTECTED_ADAPTER_WRITE=0
 MODE="full"
 TARGET=""
 TMP_DIR=""
@@ -17,7 +18,7 @@ usage() {
 Install Obsidian AI Workflow Kit into an existing Obsidian vault.
 
 Usage:
-  bash install.sh [--dry-run] [--overwrite] [--update] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
+  bash install.sh [--dry-run] [--overwrite] [--update] [--allow-protected-adapter-write] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
 
 Examples:
   bash install.sh --dry-run "/path/to/your-vault"
@@ -37,6 +38,7 @@ Default behavior:
   - Skips existing files.
   - Does not overwrite unless --overwrite is passed.
   - In --update mode, only managed and unmodified kit files are updated.
+  - Refuses to write into vaults protected by .obsidian-ai-workflow-kit/adoption-policy.json unless --allow-protected-adapter-write is passed.
   - Uses --mode full unless --mode barebone is passed.
 USAGE
 }
@@ -60,6 +62,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --update)
       UPDATE=1
+      shift
+      ;;
+    --allow-protected-adapter-write)
+      ALLOW_PROTECTED_ADAPTER_WRITE=1
       shift
       ;;
     --mode)
@@ -163,6 +169,9 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
 fi
 if [[ "$OVERWRITE" -eq 1 ]]; then
   ARGS+=(--overwrite)
+fi
+if [[ "$ALLOW_PROTECTED_ADAPTER_WRITE" -eq 1 ]]; then
+  ARGS+=(--allow-protected-adapter-write)
 fi
 
 python3 "$SOURCE/scripts/kb.py" "$COMMAND" "$TARGET" "${ARGS[@]}"
