@@ -8,6 +8,7 @@ startup_files:
   - "START-HERE.md"
   - "10-Projects/01-example-project/current-state.md"
   - "10-Projects/01-example-project/decisions.md"
+updated: 2026-06-01
 ---
 
 # Codex 项目桥接卡｜Example Project

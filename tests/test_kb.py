@@ -110,6 +110,76 @@ class FolderIntakeTests(unittest.TestCase):
         self.assertEqual(stats["skipped_ignored_dirs"], 1)
 
 
+class StaleCheckTests(unittest.TestCase):
+    def write_bridge(self, root: Path, slug: str, updated) -> Path:
+        project = root / "10-Projects" / slug
+        project.mkdir(parents=True)
+        updated_line = f"updated: {updated}\n" if updated is not None else ""
+        bridge = project / f"CODEX-BRIDGE-{slug}.md"
+        bridge.write_text(
+            f"""---
+type: codex-project-bridge
+status: active
+{updated_line}---
+
+# Bridge
+""",
+            encoding="utf-8",
+        )
+        return bridge
+
+    def test_finds_bridge_cards_older_than_threshold(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_bridge(root, "old-project", "2026-05-20")
+            self.write_bridge(root, "fresh-project", "2026-05-31")
+
+            report, count = kb.build_stale_report(
+                root,
+                max_age_days=7,
+                inbox_threshold=10,
+                today=kb.dt.date(2026, 6, 1),
+            )
+
+            self.assertEqual(count, 1)
+            self.assertIn("old-project", report)
+            self.assertNotIn("fresh-project", report)
+
+    def test_flags_bridge_cards_without_updated_date(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_bridge(root, "missing-date", None)
+
+            report, count = kb.build_stale_report(
+                root,
+                max_age_days=7,
+                inbox_threshold=10,
+                today=kb.dt.date(2026, 6, 1),
+            )
+
+            self.assertEqual(count, 1)
+            self.assertIn("missing updated date", report)
+
+    def test_reports_inbox_when_file_count_exceeds_threshold(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            inbox = root / "01-Inbox" / "agent-handoffs"
+            inbox.mkdir(parents=True)
+            (inbox / "a.md").write_text("a", encoding="utf-8")
+            (inbox / "b.md").write_text("b", encoding="utf-8")
+
+            report, count = kb.build_stale_report(
+                root,
+                max_age_days=7,
+                inbox_threshold=1,
+                today=kb.dt.date(2026, 6, 1),
+            )
+
+            self.assertEqual(count, 1)
+            self.assertIn("agent-handoffs", report)
+            self.assertIn("2 files", report)
+
+
 class SlugTests(unittest.TestCase):
     def test_make_slug_returns_source_for_empty_input(self):
         self.assertEqual(kb.make_slug("!!!"), "source")

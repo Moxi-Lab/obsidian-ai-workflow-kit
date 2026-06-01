@@ -53,7 +53,25 @@ test ! -d "$VAULT/20-SharedAssets/05-audit-reports"
 python3 "$VAULT/scripts/kb.py" audit-vault --vault "$VAULT" --write-report >/tmp/kb-audit-write.log
 find "$VAULT/20-SharedAssets/05-audit-reports" -name 'AUDIT-*.md' -type f | grep -q .
 
+python3 "$VAULT/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 >/tmp/kb-stale.log
+grep -q "Stale Check" /tmp/kb-stale.log
+grep -q "agent-handoffs" /tmp/kb-stale.log
+if python3 "$VAULT/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 --fail-on-findings >/tmp/kb-stale-fail.log; then
+  echo "stale-check --fail-on-findings should fail when findings exist" >&2
+  exit 1
+fi
+
+for i in $(seq 1 10); do
+  printf 'handoff\n' > "$VAULT/01-Inbox/agent-handoffs/handoff-$i.md"
+done
+printf '{"cwd":"%s"}\n' "$VAULT" | python3 "$VAULT/examples/claude-code-hooks/stop-session-check.py" >/tmp/kb-stop-hook.log
+grep -q '"decision": "block"' /tmp/kb-stop-hook.log
+grep -q "agent-handoffs" /tmp/kb-stop-hook.log
+
 rm -f /tmp/kb-intake-folder.log \
   /tmp/kb-intake-folder-dry-run.log \
   /tmp/kb-audit.log \
-  /tmp/kb-audit-write.log
+  /tmp/kb-audit-write.log \
+  /tmp/kb-stale.log \
+  /tmp/kb-stale-fail.log \
+  /tmp/kb-stop-hook.log

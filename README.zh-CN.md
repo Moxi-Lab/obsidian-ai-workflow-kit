@@ -121,6 +121,7 @@ bash install.sh --mode barebone "/path/to/your-vault"
 
 - [10 分钟首次体验](docs/10-minute-first-run.zh-CN.md)
 - [Before / After 案例](docs/before-after-case.zh-CN.md)
+- [自动化入门](docs/automation.zh-CN.md)
 - [迁移指南](MIGRATION.md)
 - [核心概念](docs/concepts.zh-CN.md)
 - [模板说明](docs/templates.zh-CN.md)
@@ -159,4 +160,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.5.7`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.8`。见 [CHANGELOG.md](CHANGELOG.md)。

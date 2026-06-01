@@ -28,6 +28,7 @@ CORE_PATHS = [
     "CONTENT-LICENSE.md",
     "MIGRATION.md",
     "VERSION",
+    "docs/automation.md",
     "01-Inbox/README.md",
     "02-Knowledge-Pipeline/README.md",
     "02-Knowledge-Pipeline/local-material-intake.md",
@@ -79,6 +80,7 @@ FULL_INSTALL_PATHS = [
     "40-ExternalSources",
     "90-Templates",
     "examples/ai-handoff-demo",
+    "examples/claude-code-hooks",
     "examples/filled-example",
     "examples/source-to-knowledge",
     "docs",
@@ -647,6 +649,114 @@ def count_inbox_files(root: Path) -> dict[str, int]:
     return result
 
 
+def read_frontmatter_value(path: Path, key: str) -> str | None:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0].strip() != "---":
+        return None
+    for line in lines[1:]:
+        if line.strip() == "---":
+            return None
+        if line.startswith(f"{key}:"):
+            return line.split(":", 1)[1].strip().strip('"').strip("'")
+    return None
+
+
+def project_bridge_cards(root: Path) -> list[Path]:
+    projects_root = root / "10-Projects"
+    if not projects_root.exists():
+        return []
+    return sorted(projects_root.rglob("CODEX-BRIDGE-*.md"))
+
+
+def build_stale_report(
+    root: Path,
+    *,
+    max_age_days: int,
+    inbox_threshold: int,
+    today: dt.date | None = None,
+) -> tuple[str, int]:
+    today = today or dt.date.today()
+    finding_count = 0
+    lines = [
+        "---",
+        "type: stale-check-report",
+        "status: draft",
+        f"created: {today.isoformat()}",
+        "---",
+        "",
+        f"# Stale Check | {today.isoformat()}",
+        "",
+        "## Project Bridge Freshness",
+        "",
+    ]
+
+    bridge_findings = []
+    for path in project_bridge_cards(root):
+        rel = path.relative_to(root).as_posix()
+        updated_value = read_frontmatter_value(path, "updated")
+        if not updated_value:
+            bridge_findings.append(f"- REVIEW `{rel}`: missing updated date")
+            continue
+        try:
+            updated = dt.date.fromisoformat(updated_value)
+        except ValueError:
+            bridge_findings.append(f"- REVIEW `{rel}`: invalid updated date `{updated_value}`")
+            continue
+        age_days = (today - updated).days
+        if age_days > max_age_days:
+            bridge_findings.append(
+                f"- STALE `{rel}`: updated {updated.isoformat()} "
+                f"({age_days} days old, threshold {max_age_days})"
+            )
+
+    if bridge_findings:
+        finding_count += len(bridge_findings)
+        lines.extend(bridge_findings)
+    else:
+        lines.append("- No stale bridge cards.")
+
+    lines.extend(["", "## Inbox Pile-up", ""])
+    inbox_findings = []
+    for rel, count in count_inbox_files(root).items():
+        if count > inbox_threshold:
+            inbox_findings.append(f"- WARN `{rel}`: {count} files (threshold {inbox_threshold})")
+
+    if inbox_findings:
+        finding_count += len(inbox_findings)
+        lines.extend(inbox_findings)
+    else:
+        lines.append("- No Inbox pile-up.")
+
+    lines.extend(
+        [
+            "",
+            "## Recommended Next Action",
+            "",
+            "1. Update stale project bridge cards before starting long work.",
+            "2. Move or promote Inbox files that already have a destination.",
+            "3. Write a short handoff if a session changed project state.",
+        ]
+    )
+    return "\n".join(lines) + "\n", finding_count
+
+
+def stale_check(args: argparse.Namespace) -> int:
+    if args.max_age_days < 1:
+        raise SystemExit("max-age-days must be at least 1")
+    if args.inbox_threshold < 0:
+        raise SystemExit("inbox-threshold must be at least 0")
+    root = vault_root(args.vault)
+    report, finding_count = build_stale_report(
+        root,
+        max_age_days=args.max_age_days,
+        inbox_threshold=args.inbox_threshold,
+    )
+    print(report)
+    if args.fail_on_findings and finding_count:
+        return 1
+    return 0
+
+
 def project_dirs_without_bridge(root: Path) -> list[str]:
     projects_root = root / "10-Projects"
     missing = []
@@ -783,6 +893,13 @@ def build_parser() -> argparse.ArgumentParser:
     audit.add_argument("--vault", help="Vault root. Defaults to current directory.")
     audit.add_argument("--write-report", action="store_true", help="Write an audit report into the vault")
     audit.set_defaults(func=audit_vault)
+
+    stale = subparsers.add_parser("stale-check", help="Report stale bridge cards and Inbox pile-up")
+    stale.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    stale.add_argument("--max-age-days", type=int, default=7, help="Bridge card freshness threshold")
+    stale.add_argument("--inbox-threshold", type=int, default=10, help="Inbox files allowed per Inbox type")
+    stale.add_argument("--fail-on-findings", action="store_true", help="Exit with 1 when findings exist")
+    stale.set_defaults(func=stale_check)
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")

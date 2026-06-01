@@ -34,6 +34,15 @@ Checks:
 
 Use `--mode barebone` when checking a minimal install.
 
+## Stale Check
+
+```bash
+python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
+python3 scripts/kb.py stale-check --vault "/path/to/your-vault" --max-age-days 7 --inbox-threshold 10 --fail-on-findings
+```
+
+Reports project bridge cards with old or missing `updated` dates and Inbox folders that exceed the file threshold. Use `--fail-on-findings` for hooks or CI jobs that should stop when review items exist.
+
 ## Install Core
 
 ```bash

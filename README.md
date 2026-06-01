@@ -121,6 +121,7 @@ Not a good fit:
 
 - [10-Minute First Run](docs/10-minute-first-run.md)
 - [Before / After Case](docs/before-after-case.md)
+- [Automation Starter](docs/automation.md)
 - [Migration Guide](MIGRATION.md)
 - [Concepts](docs/concepts.md)
 - [Templates](docs/templates.md)
@@ -159,4 +160,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.5.7`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.8`. See [CHANGELOG.md](CHANGELOG.md).

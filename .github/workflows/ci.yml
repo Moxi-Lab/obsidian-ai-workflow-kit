@@ -19,7 +19,7 @@ jobs:
 
       - name: Check script syntax
         run: |
-          python3 -m py_compile scripts/kb.py
+          python3 -m py_compile scripts/kb.py examples/claude-code-hooks/stop-session-check.py
           bash -n install.sh scripts/test_install.sh scripts/test_tools.sh
 
       - name: Run kit health check

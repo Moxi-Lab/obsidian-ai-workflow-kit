@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.8 - 2026-06-01
+
+- Added `scripts/kb.py stale-check` for bridge-card freshness and Inbox pile-up checks.
+- Added Claude Code Stop hook examples under `examples/claude-code-hooks/`.
+- Added English and Chinese automation starter docs.
+- Linked automation docs from both README files and documented `stale-check` in script docs.
+- Simplified both README files and moved concept and template details into `docs/`.
+
 ## 0.5.7 - 2026-06-01
 
 - Added `barebone` install mode for a smaller first-time setup.
