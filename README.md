@@ -57,6 +57,12 @@ You can send it to tools that can read local files, such as Claude Code, Cursor,
 
 To organize local materials, give the AI a folder path or a short file list after it reads `START-HERE.md`. It should use the knowledge pipeline instead of scanning everything blindly.
 
+For a controlled first import, create an inventory card instead of moving files:
+
+```bash
+python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" --vault "/path/to/your-vault" --title "Materials Intake"
+```
+
 ### Option B: Install Into An Existing Vault
 
 Use this if you already have an Obsidian vault and want to add the AI-ready operating layer without rebuilding your notes.
@@ -255,9 +261,11 @@ bash install.sh --dry-run "/path/to/your-vault"
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
+python3 scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
+python3 scripts/kb.py audit-vault --write-report
 ```
 
-`health-check` verifies the core files, common stale concepts, and Markdown links. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
+`health-check` verifies the core files, common stale concepts, and Markdown links. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine. `intake-folder` creates a folder inventory card without moving original files. `audit-vault` checks entry points, Inbox files, project bridge coverage, stale concepts, and links.
 
 ## Included Templates
 
@@ -289,4 +297,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.4.4`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.4.5`. See [CHANGELOG.md](CHANGELOG.md).

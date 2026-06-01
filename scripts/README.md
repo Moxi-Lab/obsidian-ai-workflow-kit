@@ -63,4 +63,28 @@ python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" 
 
 Creates a source analysis card under `40-ExternalSources/01-samples/`.
 
-Use this when a local file, folder, or URL should enter the knowledge pipeline before AI decides whether to promote it into a project update, shared asset, or recall map entry.
+Use this when a local file or URL should enter the knowledge pipeline before AI decides whether to promote it into a project update, shared asset, or recall map entry. For folders, use `intake-folder`.
+
+## Intake Folder
+
+```bash
+python3 scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
+```
+
+Creates a folder inventory card under `40-ExternalSources/02-folder-intakes/`.
+
+Default behavior:
+
+- Does not move or edit original files.
+- Skips hidden files and common tool folders.
+- Lists at most 200 files unless `--max-files` is passed.
+- Supports `--extensions md,pdf,txt` for a narrower inventory.
+
+## Audit Vault
+
+```bash
+python3 scripts/kb.py audit-vault
+python3 scripts/kb.py audit-vault --write-report
+```
+
+Checks core entry points, stale concepts, Markdown links, Inbox files, and project directories without bridge cards. `--write-report` writes a report under `20-SharedAssets/05-audit-reports/`.

@@ -73,6 +73,12 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 如果要整理本机资料，在 AI 读完 `START-HERE.md` 后，再给它一个文件夹路径或文件清单。AI 应该先走资料整理流水线，而不是盲目扫描整个电脑。
 
+第一次整理时，可以先生成资料清单，不移动原文件：
+
+```bash
+python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" --vault "/path/to/your-vault" --title "资料导入清单"
+```
+
 ### 方式 B：安装到已有 vault
 
 如果你已经有自己的 Obsidian vault，不需要重建。可以把这套 AI 操作层安装进去。
@@ -271,9 +277,11 @@ bash install.sh --dry-run "/path/to/your-vault"
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" --project my-project
+python3 scripts/kb.py intake-folder "/path/to/materials" --title "资料导入清单" --project my-project
+python3 scripts/kb.py audit-vault --write-report
 ```
 
-`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`install.sh` 提供远程一行安装入口。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。
+`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`install.sh` 提供远程一行安装入口。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。`intake-folder` 会生成目录清单，不移动原文件。`audit-vault` 会检查入口、Inbox 堆积、项目桥接覆盖、旧概念残留和链接。
 
 ## 内置模板
 
@@ -305,4 +313,4 @@ python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" 
 
 ## Version
 
-当前版本：`0.4.4`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.4.5`。见 [CHANGELOG.md](CHANGELOG.md)。

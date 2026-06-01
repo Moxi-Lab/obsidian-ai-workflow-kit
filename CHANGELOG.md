@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.5 - 2026-06-01
+
+- Added `scripts/kb.py intake-folder` to create controlled folder inventory cards without moving original files.
+- Added `scripts/kb.py audit-vault` to check entry points, Inbox files, project bridge coverage, stale concepts, and links.
+- Added script tests for folder intake and vault audit behavior.
+- Documented the new tools in both README files and script documentation.
+
 ## 0.4.4 - 2026-06-01
 
 - Added `install.sh` for one-line remote installation.
