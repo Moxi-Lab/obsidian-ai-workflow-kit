@@ -24,4 +24,4 @@ status: active
 |---|---|
 | `task-to-context-map.md` | 按任务类型列出必读上下文 |
 | `recall-fields.md` | 说明召回字段怎么写 |
-
+| `example-recall-chain.md` | 展示一次经验如何被后续任务召回 |

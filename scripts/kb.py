@@ -35,6 +35,7 @@ CORE_PATHS = [
     "02-Knowledge-Pipeline/local-material-intake.md",
     "02-Knowledge-Pipeline/source-to-knowledge-workflow.md",
     "03-Recall-System/README.md",
+    "03-Recall-System/example-recall-chain.md",
     "03-Recall-System/task-to-context-map.md",
     "03-Recall-System/recall-fields.md",
     "10-Projects/PROJECTS-REGISTRY.md",
@@ -749,9 +750,10 @@ def build_stale_report(
             "",
             "## Recommended Next Action",
             "",
-            "1. Update stale project bridge cards before starting long work.",
-            "2. Move or promote Inbox files that already have a destination.",
-            "3. Write a short handoff if a session changed project state.",
+            "1. For each bridge finding, update the bridge card `updated` field, current state, recent decisions, and next startup action.",
+            "2. For each Inbox warning, move or promote files that already have a destination.",
+            "3. Before long work, tell the user which bridge card or Inbox folder needs maintenance.",
+            "4. Write a short handoff if this session changed project state.",
         ]
     )
     return "\n".join(lines) + "\n", finding_count

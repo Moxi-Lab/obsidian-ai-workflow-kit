@@ -12,6 +12,8 @@ This kit fixes that handoff problem with a local-first Obsidian structure: one s
 
 It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level workflow that humans can edit and any AI agent with file access can follow.
 
+Instead of asking AI to search the whole vault, it uses task routing plus recall fields so the agent reads the right few files first.
+
 ## Start Fast
 
 ### Existing Vault
@@ -161,4 +163,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.6.1`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.6.2`. See [CHANGELOG.md](CHANGELOG.md).

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.2 - 2026-06-02
+
+- Added `03-Recall-System/example-recall-chain.md` to show how a reusable lesson is recalled by a future task.
+- Added agent rules for warning users when project bridge cards are missing `updated` dates or have gone stale.
+- Made `stale-check` recommendations more actionable by naming the bridge-card fields and project files to update.
+- Clarified in README that recall is based on task routing and recall fields, not whole-vault scanning.
+
 ## 0.6.1 - 2026-06-02
 
 - Moved maintainer-facing files out of the repository root:

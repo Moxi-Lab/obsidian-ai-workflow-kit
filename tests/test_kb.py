@@ -262,6 +262,23 @@ status: active
             self.assertIn("agent-handoffs", report)
             self.assertIn("2 files", report)
 
+    def test_recommendations_name_files_to_update_for_stale_bridge(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_bridge(root, "old-project", "2026-05-20")
+
+            report, _count = kb.build_stale_report(
+                root,
+                max_age_days=7,
+                inbox_threshold=10,
+                today=kb.dt.date(2026, 6, 1),
+            )
+
+            self.assertIn("updated` field", report)
+            self.assertIn("current state", report)
+            self.assertIn("recent decisions", report)
+            self.assertIn("next startup action", report)
+
 
 class SlugTests(unittest.TestCase):
     def test_make_slug_returns_source_for_empty_input(self):

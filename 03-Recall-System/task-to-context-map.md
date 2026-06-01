@@ -16,9 +16,11 @@ AI 接到任务后，先用这张表决定读什么。
 | 复盘问题/事故 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`90-Templates/TPL-incident-experience-card.md` | 来源交接卡、项目桥接卡、相关日志 |
 | 维护知识库 | `00-Agent-Governance/maintenance-loop.md`、`20-SharedAssets/02-modules/vault-health-checklist-v1.md` | 最近健康报告 |
 | 写交接 | `90-Templates/TPL-agent-handoff-card.md` | 项目桥接卡 |
+| 理解召回链 | `03-Recall-System/example-recall-chain.md` | `examples/filled-example/BRIDGE-launch-notes.md` |
 
 ## 使用规则
 
 - 首轮只读“必读”列。
 - 只有任务需要时再读“可选”列。
 - 新增高复用经验后，要补到对应任务类型。
+- 如果项目桥接卡过期，先提醒用户，再继续短任务；长任务开始前建议更新桥接卡。

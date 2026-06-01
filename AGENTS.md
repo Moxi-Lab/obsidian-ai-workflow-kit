@@ -36,6 +36,7 @@
 - 不把完整聊天记录写入长期记忆。
 - 不直接复制第三方原文全文。
 - 有项目状态变化时，更新对应项目桥接卡。
+- 如果发现项目桥接卡缺少 `updated` 或超过 7 天未更新，先提醒用户，并建议更新桥接卡、`current-state.md` 和下一步动作；不要因此扫描整个 vault。
 - 有复用价值的经验，写到 `20-SharedAssets/02-modules/`。
 - 遇到失败、误判、返工、测试失败、用户纠正、工具配置损坏、网络/权限/性能异常时，结束前判断是否要沉淀为问题事故经验；需要沉淀时使用 `90-Templates/TPL-incident-experience-card.md`。
 - 临时交接写到 `01-Inbox/agent-handoffs/`。
@@ -85,6 +86,7 @@ Older or private vaults may still contain legacy filenames. The public kit now u
 - Do not save full chat transcripts as long-term memory.
 - Do not copy full third-party source text into the vault.
 - When project state changes, update the matching project bridge card.
+- If a project bridge card has no `updated` date or has not been updated for more than 7 days, tell the user and suggest updating the bridge card, `current-state.md`, and next action. Do not scan the whole vault because of this.
 - Put reusable lessons in `20-SharedAssets/02-modules/`.
 - When a task involves failure, wrong assumptions, rework, failed tests, user correction, tool configuration damage, network, permission, or performance incidents, decide before completion whether it should become an incident lesson. If yes, use `90-Templates/TPL-incident-experience-card.md`.
 - Put temporary handoffs in `01-Inbox/agent-handoffs/`.
