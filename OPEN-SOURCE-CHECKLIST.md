@@ -11,4 +11,4 @@ status: active
 - [x] README 说明了公开边界。
 - [x] License 说明了文字和代码的授权方式。
 - [x] 全仓敏感词扫描无高风险结果。
-- [ ] GitHub 仓库先保持 private，确认后再切 public。
+- [x] GitHub 仓库先保持 private，确认后再切 public。
