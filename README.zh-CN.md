@@ -52,6 +52,15 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 安装器默认跳过已有文件；只有你明确传入 `--overwrite` 才会覆盖。
 
+后续更新：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+```
+
+更新时会读取本地 manifest，只替换仍然保持原样的 kit 文件，不静默覆盖你改过的内容。
+
 ### 30 秒演示
 
 安装到自己的 vault 前，可以先看只读演示：
@@ -163,4 +172,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.6.2`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.6.3`。见 [CHANGELOG.md](CHANGELOG.md)。

@@ -86,6 +86,96 @@ class InstallModeTests(unittest.TestCase):
             health_args = argparse.Namespace(vault=str(target), mode="barebone")
             self.assertEqual(kb.health_check(health_args), 0)
 
+    def test_install_core_writes_managed_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            manifest = kb.load_manifest(target)
+            self.assertEqual(manifest["kit"], "obsidian-ai-workflow-kit")
+            self.assertEqual(manifest["mode"], "barebone")
+            self.assertIn("START-HERE.md", manifest["files"])
+            self.assertIn("scripts/kb.py", manifest["files"])
+
+    def test_upgrade_core_updates_unmodified_managed_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+            kb.install_core(install_args)
+
+            start_here = target / "START-HERE.md"
+            start_here.write_text("OLD KIT CONTENT\n", encoding="utf-8")
+            manifest = kb.load_manifest(target)
+            manifest["files"]["START-HERE.md"] = {"sha256": kb.file_sha256(start_here)}
+            kb.save_manifest(target, manifest, kb.ROOT if hasattr(kb, "ROOT") else Path(__file__).resolve().parents[1], "barebone", False)
+
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+            )
+            kb.upgrade_core(upgrade_args)
+
+            self.assertNotEqual(start_here.read_text(encoding="utf-8"), "OLD KIT CONTENT\n")
+            self.assertIn("# START HERE", start_here.read_text(encoding="utf-8"))
+
+    def test_upgrade_core_skips_modified_managed_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+            kb.install_core(install_args)
+
+            start_here = target / "START-HERE.md"
+            start_here.write_text("USER CUSTOM CONTENT\n", encoding="utf-8")
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+            )
+
+            kb.upgrade_core(upgrade_args)
+
+            self.assertEqual(start_here.read_text(encoding="utf-8"), "USER CUSTOM CONTENT\n")
+
+    def test_upgrade_core_skips_unmanaged_existing_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            target.mkdir()
+            start_here = target / "START-HERE.md"
+            start_here.write_text("UNMANAGED CONTENT\n", encoding="utf-8")
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+            )
+
+            kb.upgrade_core(upgrade_args)
+
+            self.assertEqual(start_here.read_text(encoding="utf-8"), "UNMANAGED CONTENT\n")
+
 
 class ProjectBridgeNamingTests(unittest.TestCase):
     def test_new_project_uses_agent_neutral_bridge_filename(self):

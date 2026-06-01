@@ -52,6 +52,15 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 The installer skips existing files by default. Pass `--overwrite` only when you intentionally want to replace files.
 
+Update later:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+```
+
+Updates use a local manifest to replace only managed kit files that you have not edited.
+
 ### 30-Second Demo
 
 Try the read-only demo before installing anything:
@@ -163,4 +172,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.6.2`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.6.3`. See [CHANGELOG.md](CHANGELOG.md).

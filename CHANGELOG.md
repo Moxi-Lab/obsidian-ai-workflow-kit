@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.3 - 2026-06-02
+
+- Added a managed install manifest at `.obsidian-ai-workflow-kit/manifest.json`.
+- Added `scripts/kb.py upgrade-core` for safer updates after installation.
+- Added `install.sh --update` so users can pull newer GitHub versions with the same one-line installer.
+- Documented the update flow and the private-vault/public-kit sync policy.
+
 ## 0.6.2 - 2026-06-02
 
 - Added `03-Recall-System/example-recall-chain.md` to show how a reusable lesson is recalled by a future task.

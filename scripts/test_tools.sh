@@ -9,6 +9,8 @@ VAULT="$TMP_DIR/vault"
 MATERIALS="$TMP_DIR/materials"
 
 python3 "$ROOT/scripts/kb.py" install-core "$VAULT" >/dev/null
+python3 "$ROOT/scripts/kb.py" upgrade-core "$VAULT" --dry-run >/tmp/kb-upgrade-dry-run.log
+grep -q "would upgrade core files" /tmp/kb-upgrade-dry-run.log
 
 mkdir -p "$MATERIALS/notes" "$MATERIALS/.hidden" "$MATERIALS/node_modules/pkg"
 printf 'alpha\n' > "$MATERIALS/notes/a.md"
@@ -70,6 +72,7 @@ grep -q "agent-handoffs" /tmp/kb-stop-hook.log
 
 rm -f /tmp/kb-intake-folder.log \
   /tmp/kb-intake-folder-dry-run.log \
+  /tmp/kb-upgrade-dry-run.log \
   /tmp/kb-audit.log \
   /tmp/kb-audit-write.log \
   /tmp/kb-stale.log \

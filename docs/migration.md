@@ -64,6 +64,35 @@ python3 scripts/kb.py health-check --vault "/path/to/your-vault"
 python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
 ```
 
+## Keeping The Kit Updated
+
+New installs write a small manifest at `.obsidian-ai-workflow-kit/manifest.json`. Future updates use it to distinguish kit-managed files from user-edited files.
+
+Preview an update first:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+```
+
+Apply it:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+```
+
+Update behavior:
+
+- New kit files are created.
+- Unmodified managed files are updated.
+- User-edited files are skipped.
+- Existing files without manifest history are treated as user-owned.
+
+If you need to compare a skipped file with the new kit version:
+
+```bash
+python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
+```
+
 ## If You Want AI To Organize Existing Local Materials
 
 1. Pick one folder, not your whole computer.

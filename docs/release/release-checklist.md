@@ -6,6 +6,7 @@ Use this checklist before switching the repository public or announcing a releas
 
 - [ ] Repository visibility decision is intentional.
 - [ ] `README.md` explains who this is for, who it is not for, and current maturity.
+- [ ] If the release promotes a pattern from a working vault, `docs/release/source-sync-policy.md` has been checked.
 - [ ] One-line installer has been tested from a clean environment.
 - [ ] `python3 scripts/kb.py health-check` passes.
 - [ ] `bash scripts/test_install.sh` passes.
@@ -31,3 +32,9 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] Release is tagged and marked as prerelease if still in beta.
 - [ ] README install command has been tested after the visibility change.
 - [ ] No private paths, secrets, personal notes, source clips, or private handoff history are included.
+
+## Source Sync Checks
+
+- [ ] The release is classified as public-only, promoted-from-working-vault, or imported-back-to-working-vault.
+- [ ] Public files contain no private project state, task board details, handoff history, raw clips, or personal rules.
+- [ ] If the public change also matters to a working vault, the working vault has its own bridge-card note or sync candidate.

@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
+import json
 import os
 import re
 import shutil
@@ -128,6 +130,9 @@ FOLDER_INTAKE_IGNORE_DIRS = {
     "target",
 }
 AUDIT_REPORT_DIR = "20-SharedAssets/05-audit-reports"
+MANIFEST_DIR = ".obsidian-ai-workflow-kit"
+MANIFEST_FILE = "manifest.json"
+MANIFEST_SCHEMA = 1
 
 
 def vault_root(value: str | None) -> Path:
@@ -284,6 +289,60 @@ def repo_root() -> Path:
     return Path(__file__).resolve().parents[1]
 
 
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def read_kit_version(root: Path) -> str:
+    version_file = root / "VERSION"
+    if not version_file.exists():
+        return "unknown"
+    return version_file.read_text(encoding="utf-8").strip() or "unknown"
+
+
+def manifest_path(root: Path) -> Path:
+    return root / MANIFEST_DIR / MANIFEST_FILE
+
+
+def load_manifest(root: Path) -> dict:
+    path = manifest_path(root)
+    if not path.exists():
+        return {"schema": MANIFEST_SCHEMA, "kit": "obsidian-ai-workflow-kit", "files": {}}
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"invalid kit manifest: {path}: {exc}") from exc
+    if not isinstance(manifest, dict):
+        raise SystemExit(f"invalid kit manifest: {path}")
+    manifest.setdefault("schema", MANIFEST_SCHEMA)
+    manifest.setdefault("kit", "obsidian-ai-workflow-kit")
+    manifest.setdefault("files", {})
+    return manifest
+
+
+def save_manifest(root: Path, manifest: dict, source_root: Path, mode: str, dry_run: bool) -> None:
+    manifest["schema"] = MANIFEST_SCHEMA
+    manifest["kit"] = "obsidian-ai-workflow-kit"
+    manifest["source_version"] = read_kit_version(source_root)
+    manifest["mode"] = mode
+    manifest["updated_at"] = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    path = manifest_path(root)
+    if dry_run:
+        print(f"would update {path.relative_to(root).as_posix()}")
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def record_managed_file(manifest: dict, relative: Path, source_hash: str) -> None:
+    files = manifest.setdefault("files", {})
+    files[relative.as_posix()] = {"sha256": source_hash}
+
+
 def iter_install_files(source_root: Path, rel: str):
     source = source_root / rel
     if not source.exists():
@@ -314,6 +373,7 @@ def install_core(args: argparse.Namespace) -> int:
         pass
 
     summary = {"created": 0, "updated": 0, "skipped": 0}
+    manifest = load_manifest(target_root)
     if args.dry_run:
         print(f"would install core files into {target_root}")
     else:
@@ -323,9 +383,12 @@ def install_core(args: argparse.Namespace) -> int:
         for source, relative in iter_install_files(source_root, rel):
             target = target_root / relative
             display = str(relative)
+            source_hash = file_sha256(source)
             if target.exists() and not args.overwrite:
                 summary["skipped"] += 1
                 print(f"skip existing {display}")
+                if file_sha256(target) == source_hash:
+                    record_managed_file(manifest, relative, source_hash)
                 continue
             action = "update" if target.exists() else "create"
             if args.dry_run:
@@ -334,12 +397,104 @@ def install_core(args: argparse.Namespace) -> int:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, target)
                 print(f"{action}d {display}")
+                record_managed_file(manifest, relative, source_hash)
             summary["updated" if action == "update" else "created"] += 1
+
+    save_manifest(target_root, manifest, source_root, mode, args.dry_run)
 
     print(
         "summary: "
         f"{summary['created']} created, "
         f"{summary['updated']} updated, "
+        f"{summary['skipped']} skipped"
+    )
+    return 0
+
+
+def upgrade_core(args: argparse.Namespace) -> int:
+    source_root = repo_root()
+    target_root = Path(args.target).expanduser().resolve()
+    mode = getattr(args, "mode", "full")
+    if not target_root.exists():
+        raise SystemExit(f"target vault does not exist: {target_root}")
+    if target_root == source_root:
+        raise SystemExit("target is already this kit repository; choose your own Obsidian vault path")
+
+    manifest = load_manifest(target_root)
+    managed_files = manifest.setdefault("files", {})
+    stamp = dt.datetime.now().strftime("%Y%m%d%H%M%S")
+    summary = {
+        "created": 0,
+        "updated": 0,
+        "unchanged": 0,
+        "skipped": 0,
+        "conflicts": 0,
+        "candidates": 0,
+    }
+
+    if args.dry_run:
+        print(f"would upgrade core files in {target_root}")
+
+    for rel in install_paths_for_mode(mode):
+        for source, relative in iter_install_files(source_root, rel):
+            target = target_root / relative
+            display = relative.as_posix()
+            source_hash = file_sha256(source)
+
+            if not target.exists():
+                summary["created"] += 1
+                if args.dry_run:
+                    print(f"would create {display}")
+                else:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(source, target)
+                    record_managed_file(manifest, relative, source_hash)
+                    print(f"created {display}")
+                continue
+
+            target_hash = file_sha256(target)
+            if target_hash == source_hash:
+                summary["unchanged"] += 1
+                record_managed_file(manifest, relative, source_hash)
+                print(f"unchanged {display}")
+                continue
+
+            previous_hash = managed_files.get(display, {}).get("sha256")
+            can_update = args.overwrite or (previous_hash and target_hash == previous_hash)
+            if can_update:
+                summary["updated"] += 1
+                action = "overwrite" if args.overwrite and target_hash != previous_hash else "update"
+                if args.dry_run:
+                    print(f"would {action} {display}")
+                else:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(source, target)
+                    record_managed_file(manifest, relative, source_hash)
+                    print(f"{action}d {display}")
+                continue
+
+            summary["conflicts"] += 1
+            reason = "modified" if previous_hash else "unmanaged"
+            print(f"skip {reason} {display}")
+            if args.conflict_copy:
+                candidate = target.with_name(f"{target.name}.kit-update-{stamp}")
+                summary["candidates"] += 1
+                if args.dry_run:
+                    print(f"would write candidate {candidate.relative_to(target_root).as_posix()}")
+                else:
+                    shutil.copy2(source, candidate)
+                    print(f"wrote candidate {candidate.relative_to(target_root).as_posix()}")
+            else:
+                summary["skipped"] += 1
+
+    save_manifest(target_root, manifest, source_root, mode, args.dry_run)
+    print(
+        "summary: "
+        f"{summary['created']} created, "
+        f"{summary['updated']} updated, "
+        f"{summary['unchanged']} unchanged, "
+        f"{summary['conflicts']} conflicts, "
+        f"{summary['candidates']} candidates, "
         f"{summary['skipped']} skipped"
     )
     return 0
@@ -1000,6 +1155,14 @@ def build_parser() -> argparse.ArgumentParser:
     install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
     install.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     install.set_defaults(func=install_core)
+
+    upgrade = subparsers.add_parser("upgrade-core", help="Upgrade managed kit files in an installed vault")
+    upgrade.add_argument("target", help="Target Obsidian vault directory")
+    upgrade.add_argument("--mode", choices=["full", "barebone"], default="full", help="Upgrade full kit or minimal barebone kit")
+    upgrade.add_argument("--overwrite", action="store_true", help="Overwrite modified or unmanaged files")
+    upgrade.add_argument("--conflict-copy", action="store_true", help="Write new versions beside conflicted files")
+    upgrade.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
+    upgrade.set_defaults(func=upgrade_core)
 
     return parser
 

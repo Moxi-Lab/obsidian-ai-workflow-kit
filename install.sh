@@ -7,6 +7,7 @@ ARCHIVE_URL="${OBSIDIAN_AI_WORKFLOW_KIT_ARCHIVE_URL:-https://github.com/${REPO}/
 SOURCE="${OBSIDIAN_AI_WORKFLOW_KIT_SOURCE:-}"
 DRY_RUN=0
 OVERWRITE=0
+UPDATE=0
 MODE="full"
 TARGET=""
 TMP_DIR=""
@@ -16,21 +17,26 @@ usage() {
 Install Obsidian AI Workflow Kit into an existing Obsidian vault.
 
 Usage:
-  bash install.sh [--dry-run] [--overwrite] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
+  bash install.sh [--dry-run] [--overwrite] [--update] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
 
 Examples:
   bash install.sh --dry-run "/path/to/your-vault"
   bash install.sh "/path/to/your-vault"
   bash install.sh --mode barebone "/path/to/your-vault"
+  bash install.sh --update --mode barebone --dry-run "/path/to/your-vault"
+  bash install.sh --update --mode barebone "/path/to/your-vault"
 
 Remote one-line form:
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
 
 Default behavior:
   - Creates missing files and directories.
   - Skips existing files.
   - Does not overwrite unless --overwrite is passed.
+  - In --update mode, only managed and unmodified kit files are updated.
   - Uses --mode full unless --mode barebone is passed.
 USAGE
 }
@@ -50,6 +56,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --overwrite)
       OVERWRITE=1
+      shift
+      ;;
+    --update)
+      UPDATE=1
       shift
       ;;
     --mode)
@@ -141,6 +151,11 @@ if [[ ! -f "$SOURCE/scripts/kb.py" ]]; then
   exit 1
 fi
 
+COMMAND="install-core"
+if [[ "$UPDATE" -eq 1 ]]; then
+  COMMAND="upgrade-core"
+fi
+
 ARGS=()
 ARGS+=(--mode "$MODE")
 if [[ "$DRY_RUN" -eq 1 ]]; then
@@ -150,7 +165,7 @@ if [[ "$OVERWRITE" -eq 1 ]]; then
   ARGS+=(--overwrite)
 fi
 
-python3 "$SOURCE/scripts/kb.py" install-core "$TARGET" "${ARGS[@]}"
+python3 "$SOURCE/scripts/kb.py" "$COMMAND" "$TARGET" "${ARGS[@]}"
 
 if [[ "$DRY_RUN" -eq 0 ]]; then
   cat <<NEXT

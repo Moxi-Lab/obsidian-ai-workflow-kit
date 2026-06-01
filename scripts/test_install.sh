@@ -14,7 +14,10 @@ test ! -e "$TARGET"
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-install.log
 test -f "$TARGET/START-HERE.md"
 test -f "$TARGET/scripts/kb.py"
+test -f "$TARGET/.obsidian-ai-workflow-kit/manifest.json"
 python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" >/tmp/obsidian-ai-workflow-kit-health.log
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --update --dry-run "$TARGET" >/tmp/obsidian-ai-workflow-kit-update-dry-run.log
+grep -q "would upgrade core files" /tmp/obsidian-ai-workflow-kit-update-dry-run.log
 
 printf 'CUSTOM SENTINEL\n' > "$TARGET/START-HERE.md"
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-skip.log
@@ -36,6 +39,7 @@ python3 "$BAREBONE_TARGET/scripts/kb.py" health-check --vault "$BAREBONE_TARGET"
 rm -f /tmp/obsidian-ai-workflow-kit-dry-run.log \
   /tmp/obsidian-ai-workflow-kit-install.log \
   /tmp/obsidian-ai-workflow-kit-health.log \
+  /tmp/obsidian-ai-workflow-kit-update-dry-run.log \
   /tmp/obsidian-ai-workflow-kit-skip.log \
   /tmp/obsidian-ai-workflow-kit-overwrite.log \
   /tmp/obsidian-ai-workflow-kit-barebone.log \

@@ -18,6 +18,28 @@ Modes:
 - `full` is the default and installs the complete workflow kit.
 - `barebone` installs the smallest usable layer: startup entry, governance, project registry, project bridge template, and `scripts/kb.py`.
 
+## Update Existing Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+```
+
+`--update` upgrades managed kit files from the latest GitHub version. It uses `.obsidian-ai-workflow-kit/manifest.json` to tell whether a file is still the original kit file or has been changed by the user.
+
+Default behavior:
+
+- Creates new kit files that were added after your install.
+- Updates kit files that are still unmodified.
+- Skips files that were edited by the user.
+- Skips existing files that were never recorded in the manifest.
+
+Use `--conflict-copy` with `upgrade-core` when you want new versions written beside conflicted files for manual comparison:
+
+```bash
+python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
+```
+
 ## Health Check
 
 ```bash
@@ -78,7 +100,17 @@ Default behavior:
 - Creates missing files and directories.
 - Skips existing files.
 - Does not overwrite unless `--overwrite` is passed.
+- Records managed kit files in `.obsidian-ai-workflow-kit/manifest.json` so future updates can be safer.
 - Refuses to install into this kit repository or into a child directory of it.
+
+## Upgrade Core
+
+```bash
+python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --dry-run
+python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone
+```
+
+Use this when a vault already has the kit and you want to follow newer GitHub versions without replacing user-owned notes. It only updates files that are managed by the kit and still match the last installed checksum.
 
 ## New Project
 
