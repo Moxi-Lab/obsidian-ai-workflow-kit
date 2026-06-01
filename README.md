@@ -4,334 +4,152 @@
 
 [![CI](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
 
-AI-ready vault structure for agents that keep forgetting your project context.
+Make your local Obsidian vault readable, writable, and maintainable by AI agents.
 
 You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this project is, where the important context lives, and what changed last time. Again.
 
-Obsidian AI Workflow Kit fixes the handoff problem by turning your local Obsidian vault into a readable operating layer for AI agents: one startup entry, explicit write-back rules, task-to-context maps, source triage, review gates, and reusable lesson promotion.
+This kit fixes that handoff problem with a local-first Obsidian structure: one startup entry, project bridge cards, write-back rules, source triage, recall maps, and maintenance checks.
 
-It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level convention that humans can edit and any AI agent with file access can execute.
+It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level workflow that humans can edit and any AI agent with file access can follow.
 
-It helps you:
+## Start Fast
 
-- Stop re-explaining the same project context every time you switch AI sessions.
-- Sort local files, web clips, notes, and chat conclusions into the right knowledge types.
-- Give AI rules for what it may write, where it should write, and what must be verified first.
-- Make project state, decisions, source summaries, and reusable lessons easy to recall.
-- Keep the vault maintainable with health checks, review gates, and write-back rules.
-- Use everything locally with your own private Obsidian vault.
+### Existing Vault
 
-## Who This Is For
+Recommended first step: install the minimal layer into your own vault.
 
-- Obsidian users who already keep project notes, sources, or decisions locally.
-- AI agent users who switch between Claude Code, Cursor, Codex, ChatGPT, or similar tools.
-- People who want local-first memory that remains human editable.
-- Teams or solo builders who need project handoff, source triage, and reusable lessons.
-
-## Who This Is Not For
-
-- Users looking for a full Obsidian plugin with a graphical interface.
-- Users who want a cloud memory service or managed RAG backend.
-- Users who want AI to scan an entire computer automatically.
-- Users who want automatic bulk rewriting of an existing vault.
-
-## Maturity
-
-This is a `0.x` beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
-
-This is a workflow kit, not an automation platform. It works best when project state, decisions, handoffs, and reusable lessons are kept current. If those files are not maintained, the vault will slowly become ordinary folders again.
-
-## What Problem It Solves
-
-AI agents are getting better at doing work, but they still lose the thread when the conversation window changes. Existing memory solutions usually live inside one tool, require infrastructure, or produce a search index that humans cannot comfortably maintain.
-
-This repository adds an AI-readable operating convention to Obsidian, a place many people already use as their local knowledge filesystem.
-
-| Approach | What it is | Limitation |
-|---|---|---|
-| Claude Code memory files | Tool-specific memory | Tied to one tool and one workflow |
-| Cursor Rules | Project-level instructions | Mostly code-focused, weak for sources, lessons, and vault maintenance |
-| Vector memory systems | Embedded memory storage | Requires infrastructure and is hard to inspect or edit manually |
-| Plain Obsidian / Notion notes | Human notes | AI does not know the entry point, priority, or write-back rules |
-| RAG plugins | Full-text retrieval | Recall can be noisy, with weak task mapping and priority control |
-| This kit | AI-readable Obsidian operating convention | Local files, human editable, tool agnostic, task mapped |
-
-## Quick Start
-
-### Option A: Open This Repository As A Demo Vault
-
-1. Clone or download this repository.
-2. In Obsidian, choose **Open folder as vault** and select the repository folder. No community plugins are required. Obsidian will create its local `.obsidian/` config when you open the folder.
-3. Open `START-HERE.md`.
-4. Send this instruction to your AI agent:
-
-```text
-You are the knowledge base maintenance agent. Read START-HERE.md in the current vault and follow its startup workflow.
-```
-
-If your agent is not running from the vault root, include the vault path:
-
-```text
-You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read START-HERE.md in that directory, then follow its startup workflow.
-```
-
-You can send it to tools that can read local files, such as Claude Code, Cursor, Codex CLI, or a ChatGPT session where you upload or expose the vault files. If the tool cannot read your local folder directly, use the path-based instruction above.
-
-To organize local materials, give the AI a folder path or a short file list after it reads `START-HERE.md`. It should use the knowledge pipeline instead of scanning everything blindly.
-
-For the first complete experience, follow [10-Minute First Run](docs/10-minute-first-run.md).
-
-For a concrete messy-folder example, see [Before / After Case](docs/before-after-case.md).
-
-For a controlled first import, create an inventory card instead of moving files:
+Preview:
 
 ```bash
-python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" --vault "/path/to/your-vault" --title "Materials Intake"
-```
-
-### Option B: Install Into An Existing Vault
-
-Use this if you already have an Obsidian vault and want to add the AI-ready operating layer without rebuilding your notes.
-
-Choose an install mode:
-
-- `full` is the default. It installs the complete starter vault: pipeline, recall system, templates, examples, docs, and scripts.
-- `barebone` installs only the startup entry, agent governance, project registry, project bridge template, and `scripts/kb.py`. Use it when you want the smallest first step inside an existing vault.
-
-Preview first:
-
-```bash
-# Full mode, default
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
-
-# Barebone mode
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
 ```
 
 Install:
 
 ```bash
-# Full mode, default
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
-
-# Barebone mode
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
 ```
 
-Then check the installed vault:
+Check:
 
 ```bash
-# Full mode
-python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault"
-
-# Barebone mode
 python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
-`install-core` does not overwrite existing files unless you pass `--overwrite`.
+Then send this to your AI agent:
 
-Security-sensitive users can skip the remote `curl` form and run the installer from a local clone instead.
+```text
+You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read START-HERE.md in that directory, then follow its startup workflow.
+```
 
-If you are working from a cloned copy, use:
+Use full mode when you want the complete starter vault, including pipeline, recall system, docs, examples, and templates:
 
 ```bash
-bash install.sh --dry-run "/path/to/your-vault"
-bash install.sh "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+```
+
+The installer skips existing files by default. Pass `--overwrite` only when you intentionally want to replace files.
+
+### Demo Vault
+
+1. Clone or download this repository.
+2. In Obsidian, choose **Open folder as vault** and select the repository folder.
+3. Open `START-HERE.md`.
+4. Send the AI startup instruction above.
+
+No Obsidian community plugins are required.
+
+## What You Get
+
+| Need | Included layer |
+|---|---|
+| AI needs a clear start point | `START-HERE.md` |
+| Project context is scattered | project bridge cards in `10-Projects/` |
+| AI writes too freely | governance rules in `00-Agent-Governance/` |
+| Local materials need sorting | knowledge pipeline in `02-Knowledge-Pipeline/` |
+| Useful lessons are hard to recall | task maps and recall fields in `03-Recall-System/` |
+| The vault slowly gets messy | health checks and maintenance rules |
+
+## How It Works
+
+![Obsidian AI Workflow Kit architecture](docs/images/architecture-flow.png)
+
+Daily use stays small:
+
+```text
+User task
+  -> START-HERE.md
+  -> relevant project bridge card or task map
+  -> required context only
+  -> structured write-back
+  -> reusable lessons promoted for future recall
+```
+
+The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place.
+
+## Install Modes
+
+| Mode | Best for | What it installs |
+|---|---|---|
+| `barebone` | First step inside an existing vault | startup entry, governance, project registry, project bridge template, `scripts/kb.py` |
+| `full` | New starter vault or complete trial | all workflow folders, examples, docs, templates, scripts |
+
+Security-sensitive users can skip the remote `curl` form and run the installer from a local clone:
+
+```bash
 bash install.sh --mode barebone --dry-run "/path/to/your-vault"
 bash install.sh --mode barebone "/path/to/your-vault"
 ```
 
-## Why This Exists
+## Is This For You?
 
-Most notes are readable by humans, but not structured enough for AI agents to organize, govern, recall, and maintain reliably.
+Good fit:
 
-This kit adds a lightweight operating layer on top of Obsidian:
+- You already use Obsidian for project notes, sources, or decisions.
+- You use AI agents often enough that context handoff is painful.
+- You want local-first memory that remains human editable.
+- You are willing to keep project state and handoffs current.
 
-| Problem | This kit provides |
-|---|---|
-| AI does not know how to start | `START-HERE.md` as the single entry point |
-| Local materials are mixed together | `02-Knowledge-Pipeline/` for intake, classification, extraction, and promotion |
-| AI writes too freely | `00-Agent-Governance/` for review gates and write-back rules |
-| Useful knowledge is hard to recall | `03-Recall-System/` for task-to-context maps and recall fields |
-| Project context is scattered | Project bridge cards in `10-Projects/` |
-| External sources get copied blindly | Analysis cards in `40-ExternalSources/` |
+Not a good fit:
 
-## Architecture
+- You want a graphical Obsidian plugin.
+- You want a cloud memory service or managed RAG backend.
+- You want AI to scan your whole computer automatically.
+- You want automatic bulk rewriting of an existing vault.
 
-![Obsidian AI Workflow Kit architecture](docs/images/architecture-flow.png)
+## Learn More
 
-The daily loop is intentionally small: the agent reads the startup file, follows the task map, opens only the required context, writes results back to the right place, and promotes reusable lessons so future sessions can recall them.
-
-## Scope
-
-The kit focuses on four jobs:
-
-- Knowledge pipeline: turn local materials into structured notes.
-- Agent governance: control what AI reads, writes, verifies, and avoids.
-- Recall system: help AI find the right context for each task.
-- Maintenance loop: keep the vault healthy over time.
-
-This is not a RAG stack, a cloud service, or a task manager. It is a local-first operating method for Obsidian plus AI.
+- [10-Minute First Run](docs/10-minute-first-run.md)
+- [Before / After Case](docs/before-after-case.md)
+- [Migration Guide](MIGRATION.md)
+- [Concepts](docs/concepts.md)
+- [Templates](docs/templates.md)
+- [Scripts](scripts/README.md)
+- [Release Checklist](RELEASE_CHECKLIST.md)
 
 ## Repository Layout
 
 ```text
-.
-├── START-HERE.md
-├── index.md
-├── AGENTS.md
-├── 00-Agent-Governance/
-├── 01-Inbox/
-├── 02-Knowledge-Pipeline/
-├── 03-Recall-System/
-├── 10-Projects/
-├── 20-SharedAssets/
-├── 40-ExternalSources/
-├── 90-Templates/
-├── docs/
-├── scripts/
-└── examples/
+START-HERE.md              AI startup entry
+00-Agent-Governance/       write-back, review, and maintenance rules
+02-Knowledge-Pipeline/     local material intake and promotion
+03-Recall-System/          task-to-context maps and recall fields
+10-Projects/               project workspaces and bridge cards
+20-SharedAssets/           reusable methods and lessons
+40-ExternalSources/        source analysis cards
+90-Templates/              reusable note templates
+docs/                      guides, diagrams, and walkthroughs
+scripts/                   optional helper scripts
+examples/                  demo project and source workflows
 ```
 
-| Path | Purpose |
-|---|---|
-| [`START-HERE.md`](START-HERE.md) | The first file an AI agent should read |
-| [`index.md`](index.md) | Human-facing vault homepage |
-| [`AGENTS.md`](AGENTS.md) | Rules for Codex, Claude Code, and other coding agents |
-| [`00-Agent-Governance/`](00-Agent-Governance/) | Startup contract, review gates, write-back rules, maintenance loop |
-| [`01-Inbox/`](01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
-| [`02-Knowledge-Pipeline/`](02-Knowledge-Pipeline/) | How AI turns local materials into structured knowledge |
-| [`03-Recall-System/`](03-Recall-System/) | Task-to-context maps and recall fields |
-| [`10-Projects/`](10-Projects/) | Project workspaces and bridge cards |
-| [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
-| [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
-| [`90-Templates/`](90-Templates/) | Standard templates |
-| [`docs/`](docs/) | First-run guides, diagrams, and user-facing walkthroughs |
-| [`scripts/`](scripts/) | Small helper scripts for project cards and health checks |
-| [`examples/`](examples/) | End-to-end handoff demo |
+Some source filenames are not English because they come from the original working method. The English entry points are `README.md`, `START-HERE.md`, `AGENTS.md`, `index.md`, and the docs linked above.
 
-Some source filenames are not English because they come from the original working method. The English README, `START-HERE.md`, `AGENTS.md`, and `index.md` provide English-facing entry points; the filenames do not affect how the workflow runs.
+## Maturity
 
-## Core Ideas
+This is a `0.x` beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
 
-### 1. One Entry Point
-
-`START-HERE.md` tells the agent what kind of task it is handling, which files to read first, and where results should be written.
-
-### 2. Knowledge Pipeline
-
-`02-Knowledge-Pipeline/` tells AI how to intake local materials, classify them, extract value, connect them, promote reusable knowledge, and maintain the result.
-
-### 3. Agent Governance
-
-`00-Agent-Governance/` tells AI what it may write, what it must verify, and when it should stop instead of guessing.
-
-### 4. Recall System
-
-`03-Recall-System/` maps tasks to the files AI should read first.
-
-### 5. Project Bridge Cards
-
-Each important project gets a bridge card with the project path, current state, recent decisions, next action, and write-back rules.
-
-Start with:
-
-```text
-10-Projects/01-example-project/CODEX-BRIDGE-example.md
-```
-
-### 6. Inbox Is Temporary
-
-`01-Inbox/` is for incoming handoffs, task cards, and web clips. It is not a permanent storage area.
-
-### 7. Lessons Become Assets
-
-Repeated lessons should move into `20-SharedAssets/` with a clear trigger, action, and verification method.
-
-Failures, wrong assumptions, rework, failed tests, user corrections, and tool incidents should become incident lessons when they can prevent the same mistake later.
-
-### 8. Local-first by Default
-
-This kit is designed to be copied into your own local Obsidian vault. Your real project states, personal notes, handoff history, and private source material stay on your machine.
-
-## Example Workflow
-
-```text
-User instruction
-  -> START-HERE.md
-  -> task-to-context map
-  -> governance rules
-  -> knowledge pipeline or project bridge card
-  -> structured write-back
-  -> reusable lesson enters Recall System
-```
-
-Try the demo:
-
-```text
-examples/ai-handoff-demo/README.md
-```
-
-For a more realistic filled example, see:
-
-```text
-examples/filled-example/
-```
-
-For a source-to-knowledge example, see:
-
-```text
-examples/source-to-knowledge/
-```
-
-Daily use should stay small: after the first setup, most agent sessions only need `START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
-
-If you already have an Obsidian vault, start with [MIGRATION.md](MIGRATION.md). Do not rebuild your vault; add one project bridge card first.
-
-## Optional Scripts
-
-The vault works without scripts. If you want a faster setup loop:
-
-```bash
-python3 scripts/kb.py health-check
-bash install.sh --dry-run "/path/to/your-vault"
-bash install.sh --mode barebone --dry-run "/path/to/your-vault"
-python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
-python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
-python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
-python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
-python3 scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
-python3 scripts/kb.py audit-vault --write-report
-```
-
-`health-check` verifies the core files, common stale concepts, and Markdown links. Use `--mode barebone` when checking a minimal install. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine. `intake-folder` creates a folder inventory card without moving original files. `audit-vault` checks entry points, Inbox files, project bridge coverage, stale concepts, and links.
-
-## Tests And CI
-
-CI runs script syntax checks, `health-check`, installer tests, tool behavior tests, and Python unit tests from `tests/`.
-
-## Included Templates
-
-| Template | Use |
-|---|---|
-| [Project Bridge Card](90-Templates/TPL-Codex%E9%A1%B9%E7%9B%AE%E6%A1%A5%E6%8E%A5%E5%8D%A1.md) | Project handoff and continuation |
-| [Agent Handoff Card](90-Templates/TPL-Agent%E4%BA%A4%E6%8E%A5%E5%8D%A1.md) | End-of-session handoff |
-| [Source Analysis Card](90-Templates/TPL-%E8%B5%84%E6%96%99%E5%88%86%E6%9E%90%E5%8D%A1.md) | External source analysis |
-| [Task State Card](90-Templates/TPL-%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81%E5%8D%A1.md) | Task state tracking |
-| [Acceptance Record](90-Templates/TPL-%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95.md) | Acceptance record |
-| [Question Knowledge / Experience Asset Card](90-Templates/TPL-%E9%97%AE%E9%A2%98%E7%9F%A5%E8%AF%86%E5%8D%A1-%E7%BB%8F%E9%AA%8C%E8%B5%84%E4%BA%A7%E5%8D%A1.md) | Reusable question and experience asset |
-| [Incident Experience Card](90-Templates/TPL-%E9%97%AE%E9%A2%98%E4%BA%8B%E6%95%85%E7%BB%8F%E9%AA%8C%E5%8D%A1.md) | Failure, rework, wrong-assumption, and tool-incident lesson |
-| [Web Clip Minimal Template](90-Templates/TPL-WebClip-%E6%9C%80%E7%AE%80%E6%A8%A1%E6%9D%BF.md) | Raw Web Clipper capture |
-
-## Not Included
-
-This repository intentionally excludes:
-
-- Personal profiles, preferences, and real project states.
-- Full third-party articles, X posts, web clips, or long translations.
-- Trading records, account information, or strategy runtime state.
-- Agent run logs and private handoff history.
-- Local paths, sync scripts, API keys, tokens, cookies, private keys, passwords, and verification codes.
+This is a workflow kit, not an automation platform. If project state, decisions, handoffs, and reusable lessons are not maintained, the vault will slowly become ordinary folders again.
 
 ## License
 
