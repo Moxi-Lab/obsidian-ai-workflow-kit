@@ -36,6 +36,8 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 
 ## Quick Start
 
+### 方式 A：把这个仓库当示例 vault 打开
+
 1. 克隆或下载这个仓库。
 2. 在 Obsidian 里选择 **Open folder as vault**，打开这个仓库目录。不需要社区插件。Obsidian 会在你打开目录时自动创建本地 `.obsidian/` 配置。
 3. 打开 `START-HERE.md`。
@@ -70,6 +72,30 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 可以发给能读取本地文件的工具，比如 Claude Code、Cursor、Codex CLI，或者上传/暴露 vault 文件后的 ChatGPT 会话。如果工具不能直接读取本地文件，就使用上面带路径的版本。
 
 如果要整理本机资料，在 AI 读完 `START-HERE.md` 后，再给它一个文件夹路径或文件清单。AI 应该先走资料整理流水线，而不是盲目扫描整个电脑。
+
+### 方式 B：安装到已有 vault
+
+如果你已经有自己的 Obsidian vault，不需要重建。可以把这套 AI 操作层安装进去。
+
+先预览：
+
+```bash
+python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+```
+
+确认后安装：
+
+```bash
+python3 scripts/kb.py install-core "/path/to/your-vault"
+```
+
+再检查安装后的 vault：
+
+```bash
+python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault"
+```
+
+`install-core` 默认不会覆盖已有文件；只有显式加 `--overwrite` 才会覆盖。
 
 ## 为什么需要它
 
@@ -234,11 +260,12 @@ examples/source-to-knowledge/
 
 ```bash
 python3 scripts/kb.py health-check
+python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" --project my-project
 ```
 
-`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。
+`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。
 
 ## 内置模板
 
@@ -270,4 +297,4 @@ python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" 
 
 ## Version
 
-当前版本：`0.4.2`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.4.3`。见 [CHANGELOG.md](CHANGELOG.md)。

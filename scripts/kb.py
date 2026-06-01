@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import re
+import shutil
 import sys
 import urllib.parse
 from pathlib import Path
@@ -49,6 +50,34 @@ STALE_PATTERNS = [
     "40-" + "\u5916\u90e8\u8d44\u6599",
     "00-Agent" + "\u534f\u4f5c",
 ]
+
+INSTALL_CORE_PATHS = [
+    "README.md",
+    "README.zh-CN.md",
+    "START-HERE.md",
+    "index.md",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "MIGRATION.md",
+    "NOTICE.md",
+    "VERSION",
+    "00-Agent-Governance",
+    "01-Inbox",
+    "02-Knowledge-Pipeline",
+    "03-Recall-System",
+    "10-Projects",
+    "20-SharedAssets",
+    "40-ExternalSources",
+    "90-Templates",
+    "examples/ai-handoff-demo",
+    "examples/filled-example",
+    "examples/source-to-knowledge",
+    "scripts/README.md",
+    "scripts/kb.py",
+]
+
+SKIP_INSTALL_PARTS = {".git", "__pycache__"}
 
 
 def vault_root(value: str | None) -> Path:
@@ -153,6 +182,70 @@ def write_file(path: Path, content: str, dry_run: bool) -> None:
         return
     path.write_text(content, encoding="utf-8")
     print(f"created {path}")
+
+
+def repo_root() -> Path:
+    return Path(__file__).resolve().parents[1]
+
+
+def iter_install_files(source_root: Path, rel: str):
+    source = source_root / rel
+    if not source.exists():
+        return
+    if source.is_file():
+        yield source, Path(rel)
+        return
+    for path in sorted(source.rglob("*")):
+        if not path.is_file():
+            continue
+        if any(part in SKIP_INSTALL_PARTS for part in path.parts):
+            continue
+        if path.name in {".DS_Store"} or path.suffix == ".pyc":
+            continue
+        yield path, path.relative_to(source_root)
+
+
+def install_core(args: argparse.Namespace) -> int:
+    source_root = repo_root()
+    target_root = Path(args.target).expanduser().resolve()
+    if target_root == source_root:
+        raise SystemExit("target is already this kit repository; choose your own Obsidian vault path")
+    try:
+        target_root.relative_to(source_root)
+        raise SystemExit("target cannot be inside this kit repository")
+    except ValueError:
+        pass
+
+    summary = {"created": 0, "updated": 0, "skipped": 0}
+    if args.dry_run:
+        print(f"would install core files into {target_root}")
+    else:
+        target_root.mkdir(parents=True, exist_ok=True)
+
+    for rel in INSTALL_CORE_PATHS:
+        for source, relative in iter_install_files(source_root, rel):
+            target = target_root / relative
+            display = str(relative)
+            if target.exists() and not args.overwrite:
+                summary["skipped"] += 1
+                print(f"skip existing {display}")
+                continue
+            action = "update" if target.exists() else "create"
+            if args.dry_run:
+                print(f"would {action} {display}")
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(source, target)
+                print(f"{action}d {display}")
+            summary["updated" if action == "update" else "created"] += 1
+
+    print(
+        "summary: "
+        f"{summary['created']} created, "
+        f"{summary['updated']} updated, "
+        f"{summary['skipped']} skipped"
+    )
+    return 0
 
 
 def new_project(args: argparse.Namespace) -> int:
@@ -356,6 +449,12 @@ def build_parser() -> argparse.ArgumentParser:
     intake.add_argument("--force", action="store_true", help="Overwrite an existing source card")
     intake.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     intake.set_defaults(func=intake_source)
+
+    install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
+    install.add_argument("target", help="Target Obsidian vault directory")
+    install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
+    install.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
+    install.set_defaults(func=install_core)
 
     return parser
 

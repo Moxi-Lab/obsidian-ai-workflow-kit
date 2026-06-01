@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3 - 2026-06-01
+
+- Added `scripts/kb.py install-core` for installing the kit into an existing Obsidian vault.
+- Documented the safe dry-run install path in both README files.
+- Clarified that installation skips existing files by default and only overwrites with `--overwrite`.
+
 ## 0.4.2 - 2026-06-01
 
 - Rewrote the README opening around the repeated AI session handoff problem.

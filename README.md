@@ -36,6 +36,8 @@ This repository adds an AI-readable operating convention to Obsidian, a place ma
 
 ## Quick Start
 
+### Option A: Open This Repository As A Demo Vault
+
 1. Clone or download this repository.
 2. In Obsidian, choose **Open folder as vault** and select the repository folder. No community plugins are required. Obsidian will create its local `.obsidian/` config when you open the folder.
 3. Open `START-HERE.md`.
@@ -54,6 +56,30 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 You can send it to tools that can read local files, such as Claude Code, Cursor, Codex CLI, or a ChatGPT session where you upload or expose the vault files. If the tool cannot read your local folder directly, use the path-based instruction above.
 
 To organize local materials, give the AI a folder path or a short file list after it reads `START-HERE.md`. It should use the knowledge pipeline instead of scanning everything blindly.
+
+### Option B: Install Into An Existing Vault
+
+Use this if you already have an Obsidian vault and want to add the AI-ready operating layer without rebuilding your notes.
+
+Preview first:
+
+```bash
+python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+```
+
+Install:
+
+```bash
+python3 scripts/kb.py install-core "/path/to/your-vault"
+```
+
+Then check the installed vault:
+
+```bash
+python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault"
+```
+
+`install-core` does not overwrite existing files unless you pass `--overwrite`.
 
 ## Why This Exists
 
@@ -218,11 +244,12 @@ The vault works without scripts. If you want a faster setup loop:
 
 ```bash
 python3 scripts/kb.py health-check
+python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
 ```
 
-`health-check` verifies the core files, common stale concepts, and Markdown links. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
+`health-check` verifies the core files, common stale concepts, and Markdown links. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
 
 ## Included Templates
 
@@ -254,4 +281,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.4.2`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.4.3`. See [CHANGELOG.md](CHANGELOG.md).

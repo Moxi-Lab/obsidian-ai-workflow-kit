@@ -15,6 +15,22 @@ Checks:
 - Markdown relative links point to existing files.
 - The English README does not contain visible Chinese text.
 
+## Install Core
+
+```bash
+python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+python3 scripts/kb.py install-core "/path/to/your-vault"
+```
+
+Copies the core kit into an existing Obsidian vault.
+
+Default behavior:
+
+- Creates missing files and directories.
+- Skips existing files.
+- Does not overwrite unless `--overwrite` is passed.
+- Refuses to install into this kit repository or into a child directory of it.
+
 ## New Project
 
 ```bash
