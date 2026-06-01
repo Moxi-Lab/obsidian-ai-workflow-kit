@@ -149,23 +149,7 @@ bash install.sh "/path/to/your-vault"
 
 ## 架构
 
-```mermaid
-flowchart LR
-    User["用户发出一句开工指令"] --> Start["START-HERE.md"]
-    Start --> Map["任务到上下文映射"]
-    Map --> Project["项目桥接卡"]
-    Map --> Pipeline["资料整理流水线"]
-    Map --> Sources["资料分析卡"]
-    Project --> Governance["AI 治理规则"]
-    Pipeline --> Governance
-    Sources --> Governance
-    Governance --> Writeback["结构化写回"]
-    Writeback --> Projects["10-Projects"]
-    Writeback --> Assets["20-SharedAssets"]
-    Writeback --> Recall["03-Recall-System"]
-    Assets --> Map
-    Recall --> Map
-```
+![Obsidian AI Workflow Kit 架构图](docs/images/architecture-flow.png)
 
 日常使用时，AI 不需要扫描完整 vault：先读开工入口，再按任务映射读取必要上下文，最后把结果写回项目、共享资产或召回系统。
 
@@ -213,7 +197,7 @@ flowchart LR
 | [`20-SharedAssets/`](20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
 | [`90-Templates/`](90-Templates/) | 标准模板 |
-| [`docs/`](docs/) | 首次体验指南和面向使用者的说明文档 |
+| [`docs/`](docs/) | 首次体验指南、架构图和面向使用者的说明文档 |
 | [`scripts/`](scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](examples/) | 从开工到交接的完整示例 |
 
@@ -337,4 +321,4 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## Version
 
-当前版本：`0.5.3`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.4`。见 [CHANGELOG.md](CHANGELOG.md)。

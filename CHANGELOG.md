@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.4 - 2026-06-01
+
+- Replaced the README Mermaid architecture diagram with a generated PNG image.
+- Added `docs/images/architecture-flow.png` as the project architecture visual.
+- Updated the `docs/` layout description to include diagrams.
+
 ## 0.5.3 - 2026-06-01
 
 - Replaced the mixed `LICENSE.md` file with a standard root `LICENSE` for MIT-licensed code and scripts.

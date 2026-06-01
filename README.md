@@ -133,23 +133,7 @@ This kit adds a lightweight operating layer on top of Obsidian:
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    User["User gives one startup instruction"] --> Start["START-HERE.md"]
-    Start --> Map["Task-to-context map"]
-    Map --> Project["Project bridge cards"]
-    Map --> Pipeline["Knowledge pipeline"]
-    Map --> Sources["Source analysis cards"]
-    Project --> Governance["Agent governance"]
-    Pipeline --> Governance
-    Sources --> Governance
-    Governance --> Writeback["Structured write-back"]
-    Writeback --> Projects["10-Projects"]
-    Writeback --> Assets["20-SharedAssets"]
-    Writeback --> Recall["03-Recall-System"]
-    Assets --> Map
-    Recall --> Map
-```
+![Obsidian AI Workflow Kit architecture](docs/images/architecture-flow.png)
 
 The daily loop is intentionally small: the agent reads the startup file, follows the task map, opens only the required context, writes results back to the right place, and promotes reusable lessons so future sessions can recall them.
 
@@ -197,7 +181,7 @@ This is not a RAG stack, a cloud service, or a task manager. It is a local-first
 | [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
 | [`90-Templates/`](90-Templates/) | Standard templates |
-| [`docs/`](docs/) | First-run guides and user-facing walkthroughs |
+| [`docs/`](docs/) | First-run guides, diagrams, and user-facing walkthroughs |
 | [`scripts/`](scripts/) | Small helper scripts for project cards and health checks |
 | [`examples/`](examples/) | End-to-end handoff demo |
 
@@ -321,4 +305,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.5.3`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.4`. See [CHANGELOG.md](CHANGELOG.md).
