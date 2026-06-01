@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.6 - 2026-06-01
+
+- Added Python unit tests under `tests/` and made CI run them.
+- Added a Before / After case showing how a messy folder becomes AI-readable project knowledge.
+- Clarified that the kit is a workflow convention, not a full automation platform, and that it depends on continued write-back discipline.
+- Clarified the local-clone install path for security-sensitive users.
+- Added an English README note explaining non-English source filenames.
+
 ## 0.5.5 - 2026-06-01
 
 - Added `TPL-问题事故经验卡.md` for failure, rework, wrong-assumption, user-correction, and tool-incident lessons.

@@ -39,6 +39,8 @@ It helps you:
 
 This is a `0.x` beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
 
+This is a workflow kit, not an automation platform. It works best when project state, decisions, handoffs, and reusable lessons are kept current. If those files are not maintained, the vault will slowly become ordinary folders again.
+
 ## What Problem It Solves
 
 AI agents are getting better at doing work, but they still lose the thread when the conversation window changes. Existing memory solutions usually live inside one tool, require infrastructure, or produce a search index that humans cannot comfortably maintain.
@@ -79,6 +81,8 @@ To organize local materials, give the AI a folder path or a short file list afte
 
 For the first complete experience, follow [10-Minute First Run](docs/10-minute-first-run.md).
 
+For a concrete messy-folder example, see [Before / After Case](docs/before-after-case.md).
+
 For a controlled first import, create an inventory card instead of moving files:
 
 ```bash
@@ -108,6 +112,8 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` does not overwrite existing files unless you pass `--overwrite`.
+
+Security-sensitive users can skip the remote `curl` form and run the installer from a local clone instead.
 
 If you are working from a cloned copy, use:
 
@@ -184,6 +190,8 @@ This is not a RAG stack, a cloud service, or a task manager. It is a local-first
 | [`docs/`](docs/) | First-run guides, diagrams, and user-facing walkthroughs |
 | [`scripts/`](scripts/) | Small helper scripts for project cards and health checks |
 | [`examples/`](examples/) | End-to-end handoff demo |
+
+Some source filenames are not English because they come from the original working method. The English README, `START-HERE.md`, `AGENTS.md`, and `index.md` provide English-facing entry points; the filenames do not affect how the workflow runs.
 
 ## Core Ideas
 
@@ -277,6 +285,10 @@ python3 scripts/kb.py audit-vault --write-report
 
 `health-check` verifies the core files, common stale concepts, and Markdown links. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine. `intake-folder` creates a folder inventory card without moving original files. `audit-vault` checks entry points, Inbox files, project bridge coverage, stale concepts, and links.
 
+## Tests And CI
+
+CI runs script syntax checks, `health-check`, installer tests, tool behavior tests, and Python unit tests from `tests/`.
+
 ## Included Templates
 
 | Template | Use |
@@ -308,4 +320,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.5.5`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.6`. See [CHANGELOG.md](CHANGELOG.md).

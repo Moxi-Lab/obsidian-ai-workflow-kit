@@ -39,6 +39,8 @@ Obsidian AI Workflow Kit 解决的就是这个接手问题：在本地 Obsidian 
 
 当前是 `0.x` beta starter kit，适合受控试用、小范围 vault 和反馈验证；不承诺兼容所有已有 Obsidian vault 结构。
 
+这是一套 workflow kit，不是自动化平台。它的效果依赖项目状态、决策、交接和经验被持续写回。如果这些文件长期不维护，它会慢慢退化成普通文件夹。
+
 ## 它解决什么问题
 
 AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案大多绑在某个工具里，要么需要额外基础设施，要么只是全文检索，人和 AI 都很难共同维护。
@@ -95,6 +97,8 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 第一次完整体验建议按 [10 分钟首次体验](docs/10-minute-first-run.zh-CN.md) 走一遍。
 
+想看混乱资料夹如何整理成可接手知识库，可以看 [Before / After 案例](docs/before-after-case.zh-CN.md)。
+
 第一次整理时，可以先生成资料清单，不移动原文件：
 
 ```bash
@@ -124,6 +128,8 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` 默认不会覆盖已有文件；只有显式加 `--overwrite` 才会覆盖。
+
+如果你对远程 `curl` 安装敏感，可以跳过一行安装，改用本地克隆后的脚本。
 
 如果你已经克隆了本仓库，也可以用本地脚本：
 
@@ -200,6 +206,8 @@ bash install.sh "/path/to/your-vault"
 | [`docs/`](docs/) | 首次体验指南、架构图和面向使用者的说明文档 |
 | [`scripts/`](scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](examples/) | 从开工到交接的完整示例 |
+
+部分文件名保留中文，是因为它们来自原始工作方法的内容层。英文用户可以从英文 README、`START-HERE.md`、`AGENTS.md` 和 `index.md` 入口使用；文件名本身不影响工作流执行。
 
 ## 核心思路
 
@@ -293,6 +301,10 @@ python3 scripts/kb.py audit-vault --write-report
 
 `health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`install.sh` 提供远程一行安装入口。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。`intake-folder` 会生成目录清单，不移动原文件。`audit-vault` 会检查入口、Inbox 堆积、项目桥接覆盖、旧概念残留和链接。
 
+## 测试和 CI
+
+CI 会运行脚本语法检查、`health-check`、安装测试、工具行为测试，以及 `tests/` 里的 Python 单元测试。
+
 ## 内置模板
 
 | 模板 | 用途 |
@@ -324,4 +336,4 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## Version
 
-当前版本：`0.5.5`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.6`。见 [CHANGELOG.md](CHANGELOG.md)。

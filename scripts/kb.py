@@ -24,6 +24,8 @@ CORE_PATHS = [
     "00-Agent-Governance/review-gates.md",
     "00-Agent-Governance/maintenance-loop.md",
     "CHANGELOG.md",
+    "LICENSE",
+    "CONTENT-LICENSE.md",
     "MIGRATION.md",
     "VERSION",
     "01-Inbox/README.md",

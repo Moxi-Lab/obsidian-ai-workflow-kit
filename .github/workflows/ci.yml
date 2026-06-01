@@ -25,6 +25,9 @@ jobs:
       - name: Run kit health check
         run: python3 scripts/kb.py health-check
 
+      - name: Run Python unit tests
+        run: python3 -m unittest discover -s tests
+
       - name: Run installer tests
         run: bash scripts/test_install.sh
 
