@@ -308,4 +308,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.5.4`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.5`. See [CHANGELOG.md](CHANGELOG.md).
