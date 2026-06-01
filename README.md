@@ -1,6 +1,6 @@
 # Obsidian AI Memory Kit
 
-[中文](README.zh-CN.md) | English
+[Chinese](README.zh-CN.md) | English
 
 Stop re-explaining your projects to AI.
 
@@ -130,13 +130,13 @@ examples/ai-handoff-demo/README.md
 
 | Template | Use |
 |---|---|
-| [`TPL-Codex项目桥接卡.md`](90-Templates/TPL-Codex项目桥接卡.md) | Project handoff and continuation |
-| [`TPL-Agent交接卡.md`](90-Templates/TPL-Agent交接卡.md) | End-of-session handoff |
-| [`TPL-资料分析卡.md`](90-Templates/TPL-资料分析卡.md) | External source analysis |
-| [`TPL-任务状态卡.md`](90-Templates/TPL-任务状态卡.md) | Task state tracking |
-| [`TPL-验收记录.md`](90-Templates/TPL-验收记录.md) | Acceptance record |
-| [`TPL-问题知识卡-经验资产卡.md`](90-Templates/TPL-问题知识卡-经验资产卡.md) | Reusable question and experience asset |
-| [`TPL-WebClip-最简模板.md`](90-Templates/TPL-WebClip-最简模板.md) | Raw Web Clipper capture |
+| [Project Bridge Card](90-Templates/TPL-Codex%E9%A1%B9%E7%9B%AE%E6%A1%A5%E6%8E%A5%E5%8D%A1.md) | Project handoff and continuation |
+| [Agent Handoff Card](90-Templates/TPL-Agent%E4%BA%A4%E6%8E%A5%E5%8D%A1.md) | End-of-session handoff |
+| [Source Analysis Card](90-Templates/TPL-%E8%B5%84%E6%96%99%E5%88%86%E6%9E%90%E5%8D%A1.md) | External source analysis |
+| [Task State Card](90-Templates/TPL-%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81%E5%8D%A1.md) | Task state tracking |
+| [Acceptance Record](90-Templates/TPL-%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95.md) | Acceptance record |
+| [Question Knowledge / Experience Asset Card](90-Templates/TPL-%E9%97%AE%E9%A2%98%E7%9F%A5%E8%AF%86%E5%8D%A1-%E7%BB%8F%E9%AA%8C%E8%B5%84%E4%BA%A7%E5%8D%A1.md) | Reusable question and experience asset |
+| [Web Clip Minimal Template](90-Templates/TPL-WebClip-%E6%9C%80%E7%AE%80%E6%A8%A1%E6%9D%BF.md) | Raw Web Clipper capture |
 
 ## Not Included
 
