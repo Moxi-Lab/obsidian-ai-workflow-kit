@@ -3,6 +3,7 @@ type: analysis-card
 created: {{date}}
 updated: {{date}}
 status: draft
+aliases: ["TPL-资料分析卡", "资料分析卡模板", "Source Analysis Card Template"]
 source_note: ""
 source_url: ""
 decision: "" # reference-only / action / asset / review / skip

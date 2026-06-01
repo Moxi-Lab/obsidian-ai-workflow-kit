@@ -42,7 +42,7 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 可以从这个示例开始：
 
 ```text
-10-Projects/01-example-project/CODEX-BRIDGE-example.md
+10-Projects/01-example-project/BRIDGE-example.md
 ```
 
 ### 6. Inbox 只是临时区
@@ -110,7 +110,7 @@ examples/source-to-knowledge/
 |---|---|
 | [`START-HERE.md`](../START-HERE.md) | AI Agent 第一个应该读的文件 |
 | [`index.md`](../index.md) | 给人看的 vault 首页 |
-| [`AGENTS.md`](../AGENTS.md) | 给 Codex、Claude Code 等 coding agent 的规则 |
+| [`AGENTS.md`](../AGENTS.md) | 给 Claude Code、Cursor、Codex 等 AI agent 的规则 |
 | [`00-Agent-Governance/`](../00-Agent-Governance/) | 开工契约、审查门、写回规则、维护循环 |
 | [`01-Inbox/`](../01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
 | [`02-Knowledge-Pipeline/`](../02-Knowledge-Pipeline/) | AI 如何把本机资料整理成结构化知识 |
@@ -123,4 +123,4 @@ examples/source-to-knowledge/
 | [`scripts/`](../scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](../examples/) | 从开工到交接的完整示例 |
 
-部分文件名保留中文，是因为它们来自原始工作方法的内容层。英文用户可以从英文 README、`START-HERE.md`、`AGENTS.md` 和 `index.md` 入口使用；文件名本身不影响工作流执行。
+核心文件名已统一为英文，方便英文 AI Agent 按路径读取；页面标题和部分正文保留中文，用来保留原始工作方法。

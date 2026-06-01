@@ -1,8 +1,9 @@
 ---
 asset: true
 asset_group: 规则资产
-asset_label: Codex项目经验资产化机制
+asset_label: 项目经验资产化机制
 type: standard
+aliases: ["Codex项目经验资产化机制-v1", "项目经验资产化机制", "Project Lesson Promotion System"]
 created: 2026-05-31
 updated: 2026-06-01
 status: active
@@ -10,7 +11,7 @@ scope: cross-project
 owner: maintainer
 ---
 
-# Codex 项目经验资产化机制 v1
+# 项目经验资产化机制 v1
 
 ## 目标
 
@@ -64,7 +65,7 @@ owner: maintainer
 4. 验证方式：怎么判断问题真的解决。
 5. 禁止事项：哪些动作会扩大损失或造成误判。
 
-模板：`90-Templates/TPL-问题事故经验卡.md`
+模板：`90-Templates/TPL-incident-experience-card.md`
 
 ## 什么不升舱
 
@@ -95,7 +96,7 @@ owner: maintainer
 |---|---|
 | 跨项目规则、检查清单、SOP | `20-SharedAssets/02-modules/` |
 | 反复踩坑的解决方案 | `20-SharedAssets/02-modules/` 或问题知识卡 / 经验资产卡 |
-| 某个项目专属状态和边界 | 对应 Codex 项目桥接卡 |
+| 某个项目专属状态和边界 | 对应 项目桥接卡 |
 | 某次任务的短期交接 | `01-Inbox/agent-handoffs/` |
 
 ## 桥接卡召回规则

@@ -14,6 +14,18 @@
 2. `index.md`
 3. 与任务直接相关的治理规则、项目桥接卡或模板
 
+### 文件别名
+
+旧版本或私有 vault 可能出现旧文件名。当前公开版默认使用下面的当前路径。
+
+| 当前路径 | 旧名 / 常见说法 |
+|---|---|
+| `10-Projects/*/BRIDGE-*.md` | `CODEX-BRIDGE-*.md` |
+| `90-Templates/TPL-project-bridge-card.md` | `TPL-Codex项目桥接卡.md` |
+| `90-Templates/TPL-agent-handoff-card.md` | `TPL-Agent交接卡.md` |
+| `20-SharedAssets/02-modules/project-lesson-promotion-v1.md` | `Codex项目经验资产化机制-v1.md` |
+| `20-SharedAssets/02-modules/vault-health-checklist-v1.md` | `知识库巡检清单-v1.md` |
+
 ### Rules
 
 - 只加载必要上下文，不扫描整个 vault。
@@ -25,7 +37,7 @@
 - 不直接复制第三方原文全文。
 - 有项目状态变化时，更新对应项目桥接卡。
 - 有复用价值的经验，写到 `20-SharedAssets/02-modules/`。
-- 遇到失败、误判、返工、测试失败、用户纠正、工具配置损坏、网络/权限/性能异常时，结束前判断是否要沉淀为问题事故经验；需要沉淀时使用 `90-Templates/TPL-问题事故经验卡.md`。
+- 遇到失败、误判、返工、测试失败、用户纠正、工具配置损坏、网络/权限/性能异常时，结束前判断是否要沉淀为问题事故经验；需要沉淀时使用 `90-Templates/TPL-incident-experience-card.md`。
 - 临时交接写到 `01-Inbox/agent-handoffs/`。
 
 ### Completion
@@ -51,6 +63,18 @@ At the beginning of each session, read:
 2. `index.md`
 3. The governance rule, project bridge card, or template directly related to the task
 
+### File Aliases
+
+Older or private vaults may still contain legacy filenames. The public kit now uses the current paths below.
+
+| Current path | Legacy or common name |
+|---|---|
+| `10-Projects/*/BRIDGE-*.md` | `CODEX-BRIDGE-*.md` |
+| `90-Templates/TPL-project-bridge-card.md` | `TPL-Codex项目桥接卡.md` |
+| `90-Templates/TPL-agent-handoff-card.md` | `TPL-Agent交接卡.md` |
+| `20-SharedAssets/02-modules/project-lesson-promotion-v1.md` | `Codex项目经验资产化机制-v1.md` |
+| `20-SharedAssets/02-modules/vault-health-checklist-v1.md` | `知识库巡检清单-v1.md` |
+
 ### Rules
 
 - Load only the context needed for the current task. Do not scan the whole vault by default.
@@ -62,7 +86,7 @@ At the beginning of each session, read:
 - Do not copy full third-party source text into the vault.
 - When project state changes, update the matching project bridge card.
 - Put reusable lessons in `20-SharedAssets/02-modules/`.
-- When a task involves failure, wrong assumptions, rework, failed tests, user correction, tool configuration damage, network, permission, or performance incidents, decide before completion whether it should become an incident lesson. If yes, use `90-Templates/TPL-问题事故经验卡.md`.
+- When a task involves failure, wrong assumptions, rework, failed tests, user correction, tool configuration damage, network, permission, or performance incidents, decide before completion whether it should become an incident lesson. If yes, use `90-Templates/TPL-incident-experience-card.md`.
 - Put temporary handoffs in `01-Inbox/agent-handoffs/`.
 
 ### Completion

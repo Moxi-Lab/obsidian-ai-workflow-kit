@@ -20,7 +20,7 @@ project: Example Project
 
 ## AI 开工入口
 
-- `CODEX-BRIDGE-example.md`
+- `BRIDGE-example.md`
 
 ## 人类入口
 

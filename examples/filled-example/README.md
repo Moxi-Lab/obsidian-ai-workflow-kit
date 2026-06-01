@@ -12,7 +12,7 @@ This example shows how a filled project workspace can look after a few AI-assist
 
 ## Files
 
-- `CODEX-BRIDGE-launch-notes.md`
+- `BRIDGE-launch-notes.md`
 - `current-state.md`
 - `decisions.md`
 

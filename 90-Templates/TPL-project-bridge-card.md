@@ -3,13 +3,14 @@ type: template
 created: 2026-05-14
 updated: 2026-05-24
 status: active
+aliases: ["TPL-Codex项目桥接卡", "项目桥接卡模板", "Project Bridge Card Template"]
 ---
 
-# TPL｜Codex 项目桥接卡
+# TPL｜项目桥接卡
 
 ```yaml
 ---
-type: codex-project-bridge
+type: project-bridge
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 status: active # active / waiting / paused / archived
@@ -23,11 +24,11 @@ last_verified:
 ---
 ```
 
-# Codex 项目桥接卡｜<项目名>
+# 项目桥接卡｜<项目名>
 
 ## 一句话定位
 
-这个本地 Codex 项目对应知识库中的哪个项目区域，以及当前为什么需要接入。
+这个本地项目对应知识库中的哪个项目区域，以及当前为什么需要 AI 接入。
 
 ## 本地项目
 
@@ -68,7 +69,7 @@ last_verified:
 
 ### 下次开工
 
-- `<YYYY-MM-DD｜来源任务｜下次 Codex 进入项目后第一件该做的事>`
+- `<YYYY-MM-DD｜来源任务｜下次 AI agent 进入项目后第一件该做的事>`
 
 ### 可沉淀经验
 

@@ -144,7 +144,7 @@ scripts/                   optional helper scripts
 examples/                  demo project and source workflows
 ```
 
-Some source filenames are not English because they come from the original working method. The English entry points are `README.md`, `START-HERE.md`, `AGENTS.md`, `index.md`, and the docs linked above.
+Core filenames are English for agent readability. Some page titles and template body text still include Chinese because they preserve the original working method.
 
 ## Maturity
 
@@ -160,4 +160,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.5.8`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.6.0`. See [CHANGELOG.md](CHANGELOG.md).

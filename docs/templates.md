@@ -4,14 +4,14 @@ The templates are optional Markdown starting points. Use them when a note needs 
 
 | Template | Use |
 |---|---|
-| [Project Bridge Card](../90-Templates/TPL-Codex%E9%A1%B9%E7%9B%AE%E6%A1%A5%E6%8E%A5%E5%8D%A1.md) | Project handoff and continuation |
-| [Agent Handoff Card](../90-Templates/TPL-Agent%E4%BA%A4%E6%8E%A5%E5%8D%A1.md) | End-of-session handoff |
-| [Source Analysis Card](../90-Templates/TPL-%E8%B5%84%E6%96%99%E5%88%86%E6%9E%90%E5%8D%A1.md) | External source analysis |
-| [Task State Card](../90-Templates/TPL-%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81%E5%8D%A1.md) | Task state tracking |
-| [Acceptance Record](../90-Templates/TPL-%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95.md) | Acceptance record |
-| [Question Knowledge / Experience Asset Card](../90-Templates/TPL-%E9%97%AE%E9%A2%98%E7%9F%A5%E8%AF%86%E5%8D%A1-%E7%BB%8F%E9%AA%8C%E8%B5%84%E4%BA%A7%E5%8D%A1.md) | Reusable question and experience asset |
-| [Incident Experience Card](../90-Templates/TPL-%E9%97%AE%E9%A2%98%E4%BA%8B%E6%95%85%E7%BB%8F%E9%AA%8C%E5%8D%A1.md) | Failure, rework, wrong-assumption, and tool-incident lesson |
-| [Web Clip Minimal Template](../90-Templates/TPL-WebClip-%E6%9C%80%E7%AE%80%E6%A8%A1%E6%9D%BF.md) | Raw Web Clipper capture |
+| [Project Bridge Card](../90-Templates/TPL-project-bridge-card.md) | Project handoff and continuation |
+| [Agent Handoff Card](../90-Templates/TPL-agent-handoff-card.md) | End-of-session handoff |
+| [Source Analysis Card](../90-Templates/TPL-source-analysis-card.md) | External source analysis |
+| [Task State Card](../90-Templates/TPL-task-state-card.md) | Task state tracking |
+| [Acceptance Record](../90-Templates/TPL-acceptance-record.md) | Acceptance record |
+| [Question Knowledge / Experience Asset Card](../90-Templates/TPL-question-knowledge-experience-asset-card.md) | Reusable question and experience asset |
+| [Incident Experience Card](../90-Templates/TPL-incident-experience-card.md) | Failure, rework, wrong-assumption, and tool-incident lesson |
+| [Web Clip Minimal Template](../90-Templates/TPL-web-clip-minimal.md) | Raw Web Clipper capture |
 
 ## When To Use Each Template
 
@@ -24,4 +24,4 @@ The templates are optional Markdown starting points. Use them when a note needs 
 - Use an incident experience card when a failure, wrong assumption, rework, or tool issue can prevent future mistakes.
 - Use a web clip template for raw capture only; promote it later if it becomes useful knowledge.
 
-Some filenames are non-English because they come from the original working method. The display names above are the English names to use when talking to an AI agent.
+Template filenames are English for agent readability. Chinese titles inside the files preserve the original working method.

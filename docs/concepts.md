@@ -42,7 +42,7 @@ Each important project gets a bridge card with the project path, current state, 
 Start with:
 
 ```text
-10-Projects/01-example-project/CODEX-BRIDGE-example.md
+10-Projects/01-example-project/BRIDGE-example.md
 ```
 
 ### 6. Inbox Is Temporary
@@ -110,7 +110,7 @@ If you already have an Obsidian vault, start with [MIGRATION.md](../MIGRATION.md
 |---|---|
 | [`START-HERE.md`](../START-HERE.md) | The first file an AI agent should read |
 | [`index.md`](../index.md) | Human-facing vault homepage |
-| [`AGENTS.md`](../AGENTS.md) | Rules for Codex, Claude Code, and other coding agents |
+| [`AGENTS.md`](../AGENTS.md) | Rules for AI agents such as Claude Code, Cursor, and Codex |
 | [`00-Agent-Governance/`](../00-Agent-Governance/) | Startup contract, review gates, write-back rules, maintenance loop |
 | [`01-Inbox/`](../01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
 | [`02-Knowledge-Pipeline/`](../02-Knowledge-Pipeline/) | How AI turns local materials into structured knowledge |

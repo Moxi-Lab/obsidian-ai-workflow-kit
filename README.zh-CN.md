@@ -144,7 +144,7 @@ scripts/                   可选辅助脚本
 examples/                  演示项目和资料工作流
 ```
 
-部分文件名保留中文，是因为它们来自原始工作方法的内容层。英文用户可以从 `README.md`、`START-HERE.md`、`AGENTS.md`、`index.md` 和英文 docs 入口使用。
+核心文件名已统一为英文，方便英文 AI Agent 按路径读取；部分页面标题和模板正文保留中文，用来保留原始工作方法。
 
 ## 成熟度
 
@@ -160,4 +160,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.5.8`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.6.0`。见 [CHANGELOG.md](CHANGELOG.md)。

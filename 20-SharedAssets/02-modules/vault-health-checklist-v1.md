@@ -3,6 +3,7 @@ asset: true
 asset_group: 规则资产
 asset_label: 巡检清单
 type: checklist
+aliases: ["知识库巡检清单-v1", "Vault Health Checklist"]
 updated: 2026-06-01
 scope: cross-project
 owner: maintainer
@@ -59,7 +60,7 @@ status: active
 
 ## 六、元数据最小标准（持续）
 
-新增页面必须遵守 [元数据最小标准-v1](./元数据最小标准-v1.md)。
+新增页面必须遵守 [metadata-minimum-standard-v1](./metadata-minimum-standard-v1.md)。
 
 最小 frontmatter：
 

@@ -2,6 +2,7 @@
 type: agent-handoff
 created: {{date}}
 updated: {{date}}
+aliases: ["TPL-Agent交接卡", "Agent交接卡模板", "Agent Handoff Card Template"]
 source_agent: ""
 source_role: "" # maintainer / reviewer / researcher / writer / developer
 rule_version: "" # 例如 v2.1.0

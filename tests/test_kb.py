@@ -27,7 +27,7 @@ class InstallModeTests(unittest.TestCase):
                 "00-Agent-Governance",
                 "10-Projects/README.md",
                 "10-Projects/PROJECTS-REGISTRY.md",
-                "90-Templates/TPL-Codex项目桥接卡.md",
+                "90-Templates/TPL-project-bridge-card.md",
                 "scripts/kb.py",
             ],
         )
@@ -48,7 +48,7 @@ class InstallModeTests(unittest.TestCase):
             self.assertTrue((target / "AGENTS.md").exists())
             self.assertTrue((target / "00-Agent-Governance").is_dir())
             self.assertTrue((target / "10-Projects" / "README.md").exists())
-            self.assertTrue((target / "90-Templates" / "TPL-Codex项目桥接卡.md").exists())
+            self.assertTrue((target / "90-Templates" / "TPL-project-bridge-card.md").exists())
             self.assertTrue((target / "scripts" / "kb.py").exists())
             self.assertFalse((target / "02-Knowledge-Pipeline").exists())
             self.assertFalse((target / "03-Recall-System").exists())
@@ -87,6 +87,73 @@ class InstallModeTests(unittest.TestCase):
             self.assertEqual(kb.health_check(health_args), 0)
 
 
+class ProjectBridgeNamingTests(unittest.TestCase):
+    def test_new_project_uses_agent_neutral_bridge_filename(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            args = argparse.Namespace(
+                slug="demo",
+                vault=tmp,
+                name="Demo",
+                root=None,
+                dry_run=False,
+            )
+
+            kb.new_project(args)
+
+            project = Path(tmp) / "10-Projects" / "demo"
+            self.assertTrue((project / "BRIDGE-demo.md").exists())
+            self.assertFalse((project / "CODEX-BRIDGE-demo.md").exists())
+            text = (project / "BRIDGE-demo.md").read_text(encoding="utf-8")
+            self.assertIn("type: project-bridge", text)
+
+    def test_project_dirs_without_bridge_accepts_new_and_legacy_names(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            new_project = root / "10-Projects" / "new"
+            legacy_project = root / "10-Projects" / "legacy"
+            missing_project = root / "10-Projects" / "missing"
+            new_project.mkdir(parents=True)
+            legacy_project.mkdir(parents=True)
+            missing_project.mkdir(parents=True)
+            (new_project / "BRIDGE-new.md").write_text("---\nupdated: 2026-06-01\n---\n", encoding="utf-8")
+            (legacy_project / "CODEX-BRIDGE-legacy.md").write_text("---\nupdated: 2026-06-01\n---\n", encoding="utf-8")
+
+            self.assertEqual(kb.project_dirs_without_bridge(root), ["missing"])
+
+
+class CodexNameMigrationTests(unittest.TestCase):
+    def test_migrate_codex_names_renames_files_and_references(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project = root / "10-Projects" / "demo"
+            template_dir = root / "90-Templates"
+            module_dir = root / "20-SharedAssets" / "02-modules"
+            project.mkdir(parents=True)
+            template_dir.mkdir(parents=True)
+            module_dir.mkdir(parents=True)
+            (project / "CODEX-BRIDGE-demo.md").write_text("bridge", encoding="utf-8")
+            (template_dir / "TPL-Codex项目桥接卡.md").write_text("template", encoding="utf-8")
+            (module_dir / "Codex项目经验资产化机制-v1.md").write_text("lesson", encoding="utf-8")
+            (root / "note.md").write_text(
+                "See 10-Projects/demo/CODEX-BRIDGE-demo.md, "
+                "90-Templates/TPL-Codex项目桥接卡.md and "
+                "20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md",
+                encoding="utf-8",
+            )
+            args = argparse.Namespace(vault=str(root), dry_run=False)
+
+            kb.migrate_codex_names(args)
+
+            self.assertFalse((project / "CODEX-BRIDGE-demo.md").exists())
+            self.assertTrue((project / "BRIDGE-demo.md").exists())
+            self.assertTrue((template_dir / "TPL-project-bridge-card.md").exists())
+            self.assertTrue((module_dir / "project-lesson-promotion-v1.md").exists())
+            text = (root / "note.md").read_text(encoding="utf-8")
+            self.assertIn("10-Projects/demo/BRIDGE-demo.md", text)
+            self.assertIn("90-Templates/TPL-project-bridge-card.md", text)
+            self.assertIn("20-SharedAssets/02-modules/project-lesson-promotion-v1.md", text)
+
+
 class FolderIntakeTests(unittest.TestCase):
     def test_collect_folder_files_skips_hidden_and_tool_dirs(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -111,14 +178,15 @@ class FolderIntakeTests(unittest.TestCase):
 
 
 class StaleCheckTests(unittest.TestCase):
-    def write_bridge(self, root: Path, slug: str, updated) -> Path:
+    def write_bridge(self, root: Path, slug: str, updated, legacy: bool = False) -> Path:
         project = root / "10-Projects" / slug
         project.mkdir(parents=True)
         updated_line = f"updated: {updated}\n" if updated is not None else ""
-        bridge = project / f"CODEX-BRIDGE-{slug}.md"
+        prefix = "CODEX-BRIDGE" if legacy else "BRIDGE"
+        bridge = project / f"{prefix}-{slug}.md"
         bridge.write_text(
             f"""---
-type: codex-project-bridge
+type: project-bridge
 status: active
 {updated_line}---
 
@@ -159,6 +227,21 @@ status: active
 
             self.assertEqual(count, 1)
             self.assertIn("missing updated date", report)
+
+    def test_stale_check_accepts_legacy_codex_bridge_cards(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_bridge(root, "legacy-project", "2026-05-20", legacy=True)
+
+            report, count = kb.build_stale_report(
+                root,
+                max_age_days=7,
+                inbox_threshold=10,
+                today=kb.dt.date(2026, 6, 1),
+            )
+
+            self.assertEqual(count, 1)
+            self.assertIn("CODEX-BRIDGE-legacy-project.md", report)
 
     def test_reports_inbox_when_file_count_exceeds_threshold(self):
         with tempfile.TemporaryDirectory() as tmp:

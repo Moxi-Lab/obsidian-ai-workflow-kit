@@ -14,7 +14,7 @@ status: active
 每个项目至少包含：
 
 - `README.md`：人类看的项目入口。
-- `CODEX-BRIDGE-*.md`：AI 接手用的桥接卡。
+- `BRIDGE-*.md`：AI 接手用的桥接卡。
 - `current-state.md`：当前状态。
 - `decisions.md`：稳定决策。
 

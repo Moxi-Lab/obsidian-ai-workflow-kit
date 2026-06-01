@@ -3,6 +3,7 @@ asset: true
 asset_group: 规则资产
 asset_label: 标签与召回字段设计
 type: standard
+aliases: ["标签与召回字段设计-v1", "Tag and Recall Field Design"]
 created: 2026-06-01
 updated: 2026-06-01
 status: active
@@ -39,7 +40,7 @@ owner: maintainer
 
 ## 召回字段
 
-用于 `90-Templates/TPL-问题知识卡-经验资产卡.md`：
+用于 `90-Templates/TPL-question-knowledge-experience-asset-card.md`：
 
 ```yaml
 source_refs: []

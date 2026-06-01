@@ -15,7 +15,7 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 
 5. Fill only three files first:
 
-- `10-Projects/my-project/CODEX-BRIDGE-my-project.md`
+- `10-Projects/my-project/BRIDGE-my-project.md`
 - `10-Projects/my-project/current-state.md`
 - `10-Projects/my-project/decisions.md`
 
@@ -38,6 +38,31 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 3. Pick one active project.
 4. Create one bridge card for that project.
 5. Link existing notes from the bridge card instead of reorganizing them.
+
+## If You Used Older Codex-Specific Names
+
+Version `0.6.0` changed the public default naming from Codex-specific names to agent-neutral names.
+
+Preview the rename first:
+
+```bash
+python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
+```
+
+Apply it:
+
+```bash
+python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
+```
+
+This command renames legacy files such as `CODEX-BRIDGE-my-project.md` to `BRIDGE-my-project.md`, renames old Chinese/Codex-specific template filenames to English filenames, and updates Markdown references.
+
+After migration, run:
+
+```bash
+python3 scripts/kb.py health-check --vault "/path/to/your-vault"
+python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
+```
 
 ## If You Want AI To Organize Existing Local Materials
 

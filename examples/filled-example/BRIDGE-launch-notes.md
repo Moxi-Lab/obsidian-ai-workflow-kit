@@ -1,5 +1,5 @@
 ---
-type: codex-project-bridge
+type: project-bridge
 status: active
 project: Launch Notes
 local_root: "<your-local-project-path>"
@@ -57,5 +57,5 @@ Launch Notes is a recurring writing project for turning product updates into cle
 
 | Situation | Read | Use |
 |---|---|---|
-| Repeated editorial preference appears | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md` | Turn it into a reusable lesson instead of keeping it in chat |
+| Repeated editorial preference appears | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md` | Turn it into a reusable lesson instead of keeping it in chat |
 | External source needs analysis | `40-ExternalSources/README.md` | Summarize the source without copying the full article |

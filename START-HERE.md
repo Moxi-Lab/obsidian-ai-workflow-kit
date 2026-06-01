@@ -55,12 +55,12 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 任务类型 | 先读 |
 |---|---|
 | 整理本机资料 | `02-Knowledge-Pipeline/README.md`、`02-Knowledge-Pipeline/local-material-intake.md` |
-| 接手项目 | `10-Projects/<项目>/CODEX-BRIDGE-*.md` |
-| 整理外部资料 | `40-ExternalSources/README.md`、`90-Templates/TPL-资料分析卡.md` |
-| 沉淀经验 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md`、`90-Templates/TPL-问题知识卡-经验资产卡.md` |
-| 复盘问题/事故 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md`、`90-Templates/TPL-问题事故经验卡.md` |
-| 维护知识库 | `00-Agent-Governance/maintenance-loop.md`、`20-SharedAssets/02-modules/知识库巡检清单-v1.md` |
-| 写交接 | `90-Templates/TPL-Agent交接卡.md` |
+| 接手项目 | `10-Projects/<项目>/BRIDGE-*.md` |
+| 整理外部资料 | `40-ExternalSources/README.md`、`90-Templates/TPL-source-analysis-card.md` |
+| 沉淀经验 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`90-Templates/TPL-question-knowledge-experience-asset-card.md` |
+| 复盘问题/事故 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`90-Templates/TPL-incident-experience-card.md` |
+| 维护知识库 | `00-Agent-Governance/maintenance-loop.md`、`20-SharedAssets/02-modules/vault-health-checklist-v1.md` |
+| 写交接 | `90-Templates/TPL-agent-handoff-card.md` |
 
 ### 第 2 步：只加载必要上下文
 
@@ -80,7 +80,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
 | 复用经验 | `20-SharedAssets/02-modules/` |
-| 问题/事故经验 | `90-Templates/TPL-问题事故经验卡.md` 复制后写入对应项目或 `20-SharedAssets/02-modules/` |
+| 问题/事故经验 | `90-Templates/TPL-incident-experience-card.md` 复制后写入对应项目或 `20-SharedAssets/02-modules/` |
 | 召回规则 | `03-Recall-System/` |
 | 标准模板 | `90-Templates/` |
 
@@ -88,7 +88,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 
 | 项目 | 桥接卡 | 用途 |
 |---|---|---|
-| Example Project | `10-Projects/01-example-project/CODEX-BRIDGE-example.md` | 演示 AI 如何接手项目、读取状态、写回交接 |
+| Example Project | `10-Projects/01-example-project/BRIDGE-example.md` | 演示 AI 如何接手项目、读取状态、写回交接 |
 
 ## 禁止事项
 

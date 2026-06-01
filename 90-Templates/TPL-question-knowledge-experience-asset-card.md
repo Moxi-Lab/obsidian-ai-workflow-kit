@@ -3,7 +3,7 @@ type: template
 created: 2026-06-01
 updated: 2026-06-01
 status: active
-aliases: ["Question Knowledge Card Template", "Experience Asset Template"]
+aliases: ["TPL-问题知识卡-经验资产卡", "Question Knowledge Card Template", "Experience Asset Template"]
 ---
 
 # TPL｜问题知识卡 / 经验资产卡

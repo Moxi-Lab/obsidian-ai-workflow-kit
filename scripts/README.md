@@ -43,6 +43,21 @@ python3 scripts/kb.py stale-check --vault "/path/to/your-vault" --max-age-days 7
 
 Reports project bridge cards with old or missing `updated` dates and Inbox folders that exceed the file threshold. Use `--fail-on-findings` for hooks or CI jobs that should stop when review items exist.
 
+## Migrate Legacy Codex Names
+
+```bash
+python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
+python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
+```
+
+Renames older Codex-specific files to the current agent-neutral names and updates Markdown references.
+
+Examples:
+
+- `CODEX-BRIDGE-my-project.md` -> `BRIDGE-my-project.md`
+- `TPL-Codex项目桥接卡.md` -> `TPL-project-bridge-card.md`
+- `Codex项目经验资产化机制-v1.md` -> `project-lesson-promotion-v1.md`
+
 ## Install Core
 
 ```bash
@@ -74,7 +89,7 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 Creates:
 
 - `10-Projects/my-project/README.md`
-- `10-Projects/my-project/CODEX-BRIDGE-my-project.md`
+- `10-Projects/my-project/BRIDGE-my-project.md`
 - `10-Projects/my-project/current-state.md`
 - `10-Projects/my-project/decisions.md`
 

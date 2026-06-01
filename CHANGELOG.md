@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 - 2026-06-01
+
+- Replaced Codex-specific default bridge naming with agent-neutral `BRIDGE-*.md` and `project-bridge`.
+- Renamed core templates and shared modules to English filenames while preserving Chinese titles and aliases.
+- Kept legacy `CODEX-BRIDGE-*.md` compatibility in stale checks and project bridge coverage checks.
+- Added `scripts/kb.py migrate-codex-names` to rename old Codex-specific files and update Markdown references.
+- Added migration guidance and alias tables for users upgrading older vaults.
+
 ## 0.5.8 - 2026-06-01
 
 - Added `scripts/kb.py stale-check` for bridge-card freshness and Inbox pile-up checks.
@@ -25,7 +33,7 @@
 
 ## 0.5.5 - 2026-06-01
 
-- Added `TPL-问题事故经验卡.md` for failure, rework, wrong-assumption, user-correction, and tool-incident lessons.
+- Added `TPL-incident-experience-card.md` for failure, rework, wrong-assumption, user-correction, and tool-incident lessons.
 - Updated startup, recall, governance, and write-back rules so agents check whether incidents should be promoted before ending a task.
 - Added the incident template to health-check required paths and README template lists.
 - Aligned README version text with the `0.5.5` release.

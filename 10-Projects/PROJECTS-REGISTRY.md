@@ -7,7 +7,7 @@ status: active
 
 | 项目 | 本地根目录 | 知识库入口 | 桥接卡 | 状态 |
 |---|---|---|---|---|
-| Example Project | `<your-project-path>` | `10-Projects/01-example-project/README.md` | `10-Projects/01-example-project/CODEX-BRIDGE-example.md` | active |
+| Example Project | `<your-project-path>` | `10-Projects/01-example-project/README.md` | `10-Projects/01-example-project/BRIDGE-example.md` | active |
 
 ## 使用规则
 

@@ -17,7 +17,7 @@ status: active
 
 1. `START-HERE.md`
 2. `index.md`
-3. `10-Projects/01-example-project/CODEX-BRIDGE-example.md`
+3. `10-Projects/01-example-project/BRIDGE-example.md`
 4. `10-Projects/01-example-project/current-state.md`
 
 ## AI 应该输出

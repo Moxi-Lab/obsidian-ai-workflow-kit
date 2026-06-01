@@ -28,7 +28,7 @@ test -f "$BAREBONE_TARGET/START-HERE.md"
 test -f "$BAREBONE_TARGET/AGENTS.md"
 test -d "$BAREBONE_TARGET/00-Agent-Governance"
 test -f "$BAREBONE_TARGET/10-Projects/README.md"
-test -f "$BAREBONE_TARGET/90-Templates/TPL-Codex项目桥接卡.md"
+test -f "$BAREBONE_TARGET/90-Templates/TPL-project-bridge-card.md"
 test -f "$BAREBONE_TARGET/scripts/kb.py"
 test ! -d "$BAREBONE_TARGET/02-Knowledge-Pipeline"
 python3 "$BAREBONE_TARGET/scripts/kb.py" health-check --vault "$BAREBONE_TARGET" --mode barebone >/tmp/obsidian-ai-workflow-kit-barebone-health.log

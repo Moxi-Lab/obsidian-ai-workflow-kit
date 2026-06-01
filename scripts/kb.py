@@ -39,9 +39,10 @@ CORE_PATHS = [
     "10-Projects/PROJECTS-REGISTRY.md",
     "10-Projects/README.md",
     "20-SharedAssets/README.md",
+    "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
     "40-ExternalSources/README.md",
-    "90-Templates/TPL-Codex项目桥接卡.md",
-    "90-Templates/TPL-问题事故经验卡.md",
+    "90-Templates/TPL-project-bridge-card.md",
+    "90-Templates/TPL-incident-experience-card.md",
 ]
 
 STALE_PATTERNS = [
@@ -94,9 +95,26 @@ BAREBONE_INSTALL_PATHS = [
     "00-Agent-Governance",
     "10-Projects/README.md",
     "10-Projects/PROJECTS-REGISTRY.md",
-    "90-Templates/TPL-Codex项目桥接卡.md",
+    "90-Templates/TPL-project-bridge-card.md",
     "scripts/kb.py",
 ]
+
+LEGACY_STATIC_RENAMES = {
+    "20-SharedAssets/02-modules/AI知识库复利维护SOP-v1.md": "20-SharedAssets/02-modules/ai-vault-maintenance-sop-v1.md",
+    "20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md": "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
+    "20-SharedAssets/02-modules/元数据最小标准-v1.md": "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
+    "20-SharedAssets/02-modules/标签与召回字段设计-v1.md": "20-SharedAssets/02-modules/tags-and-recall-fields-v1.md",
+    "20-SharedAssets/02-modules/知识库巡检清单-v1.md": "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
+    "20-SharedAssets/04-optional-advanced/跨项目多窗口协作写作规范-v2.1.md": "20-SharedAssets/04-optional-advanced/multi-agent-collaboration-writing-v2.1.md",
+    "90-Templates/TPL-Agent交接卡.md": "90-Templates/TPL-agent-handoff-card.md",
+    "90-Templates/TPL-Codex项目桥接卡.md": "90-Templates/TPL-project-bridge-card.md",
+    "90-Templates/TPL-WebClip-最简模板.md": "90-Templates/TPL-web-clip-minimal.md",
+    "90-Templates/TPL-任务状态卡.md": "90-Templates/TPL-task-state-card.md",
+    "90-Templates/TPL-资料分析卡.md": "90-Templates/TPL-source-analysis-card.md",
+    "90-Templates/TPL-问题事故经验卡.md": "90-Templates/TPL-incident-experience-card.md",
+    "90-Templates/TPL-问题知识卡-经验资产卡.md": "90-Templates/TPL-question-knowledge-experience-asset-card.md",
+    "90-Templates/TPL-验收记录.md": "90-Templates/TPL-acceptance-record.md",
+}
 
 SKIP_INSTALL_PARTS = {".git", "__pycache__"}
 FOLDER_INTAKE_IGNORE_DIRS = {
@@ -338,7 +356,7 @@ def new_project(args: argparse.Namespace) -> int:
 
     today = dt.date.today().isoformat()
     root_hint = args.root or "<your-project-path>"
-    bridge_name = f"CODEX-BRIDGE-{args.slug}.md"
+    bridge_name = f"BRIDGE-{args.slug}.md"
     files = {
         "README.md": f"""---
 type: project-readme
@@ -363,7 +381,7 @@ Describe what this project is for and why an AI agent may need to resume it.
 - Define the next concrete action before starting work.
 """,
         bridge_name: f"""---
-type: codex-project-bridge
+type: project-bridge
 status: active
 project: {args.name}
 local_root: "{root_hint}"
@@ -665,7 +683,9 @@ def project_bridge_cards(root: Path) -> list[Path]:
     projects_root = root / "10-Projects"
     if not projects_root.exists():
         return []
-    return sorted(projects_root.rglob("CODEX-BRIDGE-*.md"))
+    cards = list(projects_root.rglob("BRIDGE-*.md"))
+    cards.extend(projects_root.rglob("CODEX-BRIDGE-*.md"))
+    return sorted(set(cards))
 
 
 def build_stale_report(
@@ -765,9 +785,78 @@ def project_dirs_without_bridge(root: Path) -> list[str]:
     for path in sorted(projects_root.iterdir()):
         if not path.is_dir() or path.name.startswith("."):
             continue
-        if not list(path.glob("CODEX-BRIDGE-*.md")):
+        if not list(path.glob("BRIDGE-*.md")) and not list(path.glob("CODEX-BRIDGE-*.md")):
             missing.append(path.name)
     return missing
+
+
+def collect_codex_name_migrations(root: Path) -> list[tuple[Path, Path]]:
+    migrations = []
+    for old_rel, new_rel in LEGACY_STATIC_RENAMES.items():
+        old = root / old_rel
+        if old.exists():
+            migrations.append((old, root / new_rel))
+    for old in sorted(root.rglob("CODEX-BRIDGE-*.md")):
+        new = old.with_name(old.name.replace("CODEX-BRIDGE-", "BRIDGE-", 1))
+        migrations.append((old, new))
+    return migrations
+
+
+def migrate_codex_names(args: argparse.Namespace) -> int:
+    root = vault_root(args.vault)
+    migrations = collect_codex_name_migrations(root)
+    replacements = {
+        old.relative_to(root).as_posix(): new.relative_to(root).as_posix()
+        for old, new in migrations
+    }
+    replacements.update(
+        {
+            "CODEX-BRIDGE-": "BRIDGE-",
+            "TPL-Codex项目桥接卡.md": "TPL-project-bridge-card.md",
+            "TPL-Agent交接卡.md": "TPL-agent-handoff-card.md",
+            "TPL-WebClip-最简模板.md": "TPL-web-clip-minimal.md",
+            "TPL-任务状态卡.md": "TPL-task-state-card.md",
+            "TPL-资料分析卡.md": "TPL-source-analysis-card.md",
+            "TPL-问题事故经验卡.md": "TPL-incident-experience-card.md",
+            "TPL-问题知识卡-经验资产卡.md": "TPL-question-knowledge-experience-asset-card.md",
+            "TPL-验收记录.md": "TPL-acceptance-record.md",
+            "AI知识库复利维护SOP-v1.md": "ai-vault-maintenance-sop-v1.md",
+            "Codex项目经验资产化机制-v1.md": "project-lesson-promotion-v1.md",
+            "元数据最小标准-v1.md": "metadata-minimum-standard-v1.md",
+            "标签与召回字段设计-v1.md": "tags-and-recall-fields-v1.md",
+            "知识库巡检清单-v1.md": "vault-health-checklist-v1.md",
+            "跨项目多窗口协作写作规范-v2.1.md": "multi-agent-collaboration-writing-v2.1.md",
+            "codex-project-bridge": "project-bridge",
+        }
+    )
+
+    for old, new in migrations:
+        old_display = old.relative_to(root).as_posix()
+        new_display = new.relative_to(root).as_posix()
+        if new.exists():
+            print(f"skip rename, target exists: {old_display} -> {new_display}")
+            continue
+        if args.dry_run:
+            print(f"would rename {old_display} -> {new_display}")
+            continue
+        new.parent.mkdir(parents=True, exist_ok=True)
+        old.rename(new)
+        print(f"renamed {old_display} -> {new_display}")
+
+    for path in iter_markdown_files(root):
+        text = path.read_text(encoding="utf-8")
+        updated = text
+        for old, new in replacements.items():
+            updated = updated.replace(old, new)
+        if updated == text:
+            continue
+        rel = path.relative_to(root).as_posix()
+        if args.dry_run:
+            print(f"would update references in {rel}")
+            continue
+        path.write_text(updated, encoding="utf-8")
+        print(f"updated references in {rel}")
+    return 0
 
 
 def build_audit_report(root: Path) -> tuple[str, int]:
@@ -900,6 +989,11 @@ def build_parser() -> argparse.ArgumentParser:
     stale.add_argument("--inbox-threshold", type=int, default=10, help="Inbox files allowed per Inbox type")
     stale.add_argument("--fail-on-findings", action="store_true", help="Exit with 1 when findings exist")
     stale.set_defaults(func=stale_check)
+
+    migrate = subparsers.add_parser("migrate-codex-names", help="Rename legacy Codex-specific files to agent-neutral names")
+    migrate.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    migrate.add_argument("--dry-run", action="store_true", help="Print actions without renaming files")
+    migrate.set_defaults(func=migrate_codex_names)
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")

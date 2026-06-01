@@ -2,6 +2,7 @@
 type: task_card
 created: {{date}}
 updated: {{date}}
+aliases: ["TPL-任务状态卡", "任务状态卡模板", "Task State Card Template"]
 task_id: ""
 title: ""
 project: ""

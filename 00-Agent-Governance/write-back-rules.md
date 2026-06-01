@@ -14,7 +14,7 @@ AI 写入前先判断内容类型，再写到对应位置。
 | 临时交接 | `01-Inbox/agent-handoffs/` | 只服务下一次接续 |
 | 外部资料分析 | `40-ExternalSources/` | 有来源、有摘要、有可用结论 |
 | 可复用经验 | `20-SharedAssets/02-modules/` 或问题知识卡 | 未来多个任务会重复用 |
-| 问题/事故经验 | 用 `90-Templates/TPL-问题事故经验卡.md` 新建后放到项目或 `20-SharedAssets/02-modules/` | 下次能避免失败、误判、返工或工具异常 |
+| 问题/事故经验 | 用 `90-Templates/TPL-incident-experience-card.md` 新建后放到项目或 `20-SharedAssets/02-modules/` | 下次能避免失败、误判、返工或工具异常 |
 | 召回规则 | `03-Recall-System/` | 能告诉 AI 什么任务先读什么 |
 | 模板 | `90-Templates/` | 会重复创建同类页面 |
 

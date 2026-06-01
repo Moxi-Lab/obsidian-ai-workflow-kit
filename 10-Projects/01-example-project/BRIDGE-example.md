@@ -1,5 +1,5 @@
 ---
-type: codex-project-bridge
+type: project-bridge
 status: active
 project: Example Project
 local_root: "<your-project-path>"
@@ -11,7 +11,7 @@ startup_files:
 updated: 2026-06-01
 ---
 
-# Codex 项目桥接卡｜Example Project
+# 项目桥接卡｜Example Project
 
 ## 一句话定位
 

@@ -56,7 +56,7 @@ AI 读完 `START-HERE.md` 后，应该这样分流：
 
 ```text
 10-Projects/product-launch/
-├── CODEX-BRIDGE-product-launch.md
+├── BRIDGE-product-launch.md
 ├── current-state.md
 └── decisions.md
 

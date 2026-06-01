@@ -56,7 +56,7 @@ After reading `START-HERE.md`, the AI should route the material like this:
 
 ```text
 10-Projects/product-launch/
-├── CODEX-BRIDGE-product-launch.md
+├── BRIDGE-product-launch.md
 ├── current-state.md
 └── decisions.md
 

@@ -31,7 +31,7 @@ canonical: false
 
 ## Write-back Target
 
-- Project: `examples/filled-example/CODEX-BRIDGE-launch-notes.md`
+- Project: `examples/filled-example/BRIDGE-launch-notes.md`
 - Shared asset: 待判断
 - Recall map: 如果后续多次用于 onboarding 任务，再挂入 `03-Recall-System/task-to-context-map.md`
 

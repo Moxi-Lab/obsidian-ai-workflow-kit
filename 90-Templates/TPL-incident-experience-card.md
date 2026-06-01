@@ -1,7 +1,7 @@
 ---
 type: template
 status: active
-aliases: ["事故经验卡模板", "问题复盘模板", "Incident Experience Template"]
+aliases: ["TPL-问题事故经验卡", "事故经验卡模板", "问题复盘模板", "Incident Experience Template"]
 ---
 
 # TPL｜问题事故经验卡

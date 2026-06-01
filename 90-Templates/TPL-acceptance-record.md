@@ -2,6 +2,7 @@
 type: acceptance
 created: {{date}}
 updated: {{date}}
+aliases: ["TPL-验收记录", "验收记录模板", "Acceptance Record Template"]
 dispatch_link: ""
 assignee_role: ""
 result: "" # pass / fail / partial
@@ -26,4 +27,3 @@ notes: ""
 ## 备注
 
 {{notes}}
-

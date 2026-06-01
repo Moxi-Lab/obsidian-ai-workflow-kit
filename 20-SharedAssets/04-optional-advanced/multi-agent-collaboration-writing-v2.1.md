@@ -3,6 +3,7 @@ asset: true
 asset_group: 规则资产
 asset_label: 共享规范
 type: spec
+aliases: ["跨项目多窗口协作写作规范-v2.1", "Multi-agent Collaboration Writing Guide"]
 updated: 2026-02-21
 scope: cross-project
 owner: maintainer

@@ -3,6 +3,7 @@ asset: true
 asset_group: 规则资产
 asset_label: AI知识库复利维护SOP
 type: sop
+aliases: ["AI知识库复利维护SOP-v1", "AI Vault Maintenance SOP"]
 created: 2026-04-12
 updated: 2026-06-01
 scope: cross-project
@@ -61,8 +62,8 @@ tags:
 | 只用于理解来源 | `40-ExternalSources/` |
 | 影响某个项目动作 | `10-Projects/<project>/` |
 | 多个项目可复用 | `20-SharedAssets/` |
-| 反复踩坑或稳定经验 | `90-Templates/TPL-问题知识卡-经验资产卡.md` 或 `20-SharedAssets/02-modules/` |
-| 旧项目经验需要被 AI 复用 | [Codex项目经验资产化机制-v1](./Codex项目经验资产化机制-v1.md) + 对应项目桥接卡 |
+| 反复踩坑或稳定经验 | `90-Templates/TPL-question-knowledge-experience-asset-card.md` 或 `20-SharedAssets/02-modules/` |
+| 旧项目经验需要被 AI 复用 | [project-lesson-promotion-v1](./project-lesson-promotion-v1.md) + 对应项目桥接卡 |
 | 影响当前优先级 | 对应项目桥接卡或 `10-Projects/README.md` |
 
 没有回写去向的学习卡，只算收录，不算完成吸收。

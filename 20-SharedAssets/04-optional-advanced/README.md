@@ -11,5 +11,5 @@ Use them only when the project has multiple people or multiple AI agents working
 
 | File | When to use |
 |---|---|
-| `跨项目多窗口协作写作规范-v2.1.md` | Multi-agent or multi-window development with shared integration documents |
+| `multi-agent-collaboration-writing-v2.1.md` | Multi-agent or multi-window development with shared integration documents |
 
