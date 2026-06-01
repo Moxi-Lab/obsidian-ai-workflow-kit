@@ -50,14 +50,15 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 安装器默认跳过已有文件；只有你明确传入 `--overwrite` 才会覆盖。
 
-### 当作演示 vault 打开
+### 30 秒演示
 
-1. 克隆或下载这个仓库。
-2. 在 Obsidian 里选择 **Open folder as vault**，打开这个仓库目录。
-3. 打开 `START-HERE.md`。
-4. 把上面的开工指令发给 AI。
+安装到自己的 vault 前，可以先看只读演示：
 
-不需要 Obsidian 社区插件。
+1. 下载或克隆这个仓库。
+2. 在 Obsidian 里选择 **Open folder as vault**，选中这个仓库目录。vault 本质上就是一个本地 Markdown 文件夹。
+3. 使用 [30 秒演示](docs/30-second-demo.zh-CN.md) 里的提示词。
+
+这个演示会让 AI 读取开工入口，找到已填好的项目桥接卡，并回答当前状态、最新决策和下一步动作。不需要 Obsidian 社区插件。
 
 ## 你会得到什么
 
@@ -119,14 +120,14 @@ bash install.sh --mode barebone "/path/to/your-vault"
 
 ## 继续阅读
 
+- [30 秒演示](docs/30-second-demo.zh-CN.md)
 - [10 分钟首次体验](docs/10-minute-first-run.zh-CN.md)
 - [Before / After 案例](docs/before-after-case.zh-CN.md)
 - [自动化入门](docs/automation.zh-CN.md)
-- [迁移指南](MIGRATION.md)
+- [迁移指南](docs/migration.md)
 - [核心概念](docs/concepts.zh-CN.md)
 - [模板说明](docs/templates.zh-CN.md)
 - [脚本说明](scripts/README.md)
-- [发布检查清单](RELEASE_CHECKLIST.md)
 
 ## 仓库结构
 
@@ -155,9 +156,9 @@ examples/                  演示项目和资料工作流
 ## License
 
 - 代码、脚本和可执行片段：[MIT](LICENSE)。
-- 原创文字内容、模板、示例和文档：[CC BY 4.0](CONTENT-LICENSE.md)。
+- 原创文字内容、模板、示例和文档：[CC BY 4.0](docs/legal/content-license.md)。
 - 第三方内容不包含在本仓库授权范围内。
 
 ## Version
 
-当前版本：`0.6.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.6.1`。见 [CHANGELOG.md](CHANGELOG.md)。

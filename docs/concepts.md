@@ -102,7 +102,7 @@ examples/source-to-knowledge/
 
 Daily use should stay small: after the first setup, most agent sessions only need `START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
 
-If you already have an Obsidian vault, start with [MIGRATION.md](../MIGRATION.md). Do not rebuild your vault; add one project bridge card first.
+If you already have an Obsidian vault, start with [Migration Guide](migration.md). Do not rebuild your vault; add one project bridge card first.
 
 ## Repository Layout
 

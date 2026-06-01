@@ -4,6 +4,6 @@ Original written content, templates, examples, and documentation in this reposit
 
 See: https://creativecommons.org/licenses/by/4.0/
 
-Code, scripts, and executable snippets are licensed separately under the MIT License in [LICENSE](LICENSE).
+Code, scripts, and executable snippets are licensed separately under the MIT License in [LICENSE](../../LICENSE).
 
 Third-party content is not covered by this license unless explicitly stated.

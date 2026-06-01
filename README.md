@@ -50,14 +50,15 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 The installer skips existing files by default. Pass `--overwrite` only when you intentionally want to replace files.
 
-### Demo Vault
+### 30-Second Demo
 
-1. Clone or download this repository.
-2. In Obsidian, choose **Open folder as vault** and select the repository folder.
-3. Open `START-HERE.md`.
-4. Send the AI startup instruction above.
+Try the read-only demo before installing anything:
 
-No Obsidian community plugins are required.
+1. Download or clone this repository.
+2. In Obsidian, choose **Open folder as vault** and select the repository folder. A vault is just a local Markdown folder.
+3. Send the prompt in [30-Second Demo](docs/30-second-demo.md).
+
+The demo shows an AI agent reading the startup entry, finding a filled project bridge card, and reporting current state, latest decision, and next action. No Obsidian community plugins are required.
 
 ## What You Get
 
@@ -119,14 +120,14 @@ Not a good fit:
 
 ## Learn More
 
+- [30-Second Demo](docs/30-second-demo.md)
 - [10-Minute First Run](docs/10-minute-first-run.md)
 - [Before / After Case](docs/before-after-case.md)
 - [Automation Starter](docs/automation.md)
-- [Migration Guide](MIGRATION.md)
+- [Migration Guide](docs/migration.md)
 - [Concepts](docs/concepts.md)
 - [Templates](docs/templates.md)
 - [Scripts](scripts/README.md)
-- [Release Checklist](RELEASE_CHECKLIST.md)
 
 ## Repository Layout
 
@@ -155,9 +156,9 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 ## License
 
 - Code, scripts, and executable snippets: [MIT](LICENSE).
-- Original written content, templates, examples, and documentation: [CC BY 4.0](CONTENT-LICENSE.md).
+- Original written content, templates, examples, and documentation: [CC BY 4.0](docs/legal/content-license.md).
 - Third-party content is not covered by this repository license.
 
 ## Version
 
-Current version: `0.6.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.6.1`. See [CHANGELOG.md](CHANGELOG.md).

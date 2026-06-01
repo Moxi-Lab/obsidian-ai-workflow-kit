@@ -13,7 +13,7 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] GitHub Actions CI passes on `main`.
 - [ ] `VERSION` matches the intended release tag.
 - [ ] `CHANGELOG.md` has an entry for the release.
-- [ ] Root `LICENSE` is standard MIT and `CONTENT-LICENSE.md` explains CC BY 4.0 content licensing.
+- [ ] Root `LICENSE` is standard MIT and `docs/legal/content-license.md` explains CC BY 4.0 content licensing.
 
 ## Beta Trial Checks
 

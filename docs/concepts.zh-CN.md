@@ -102,7 +102,7 @@ examples/source-to-knowledge/
 
 日常使用不需要读完整仓库：初始化之后，大多数 AI 会话只需要读 `START-HERE.md`、一个项目桥接卡，以及该项目的 `current-state.md` / `decisions.md`。
 
-如果你已经有自己的 Obsidian vault，先看 [MIGRATION.md](../MIGRATION.md)。不要重建整个 vault，先加一张项目桥接卡。
+如果你已经有自己的 Obsidian vault，先看 [迁移指南](migration.md)。不要重建整个 vault，先加一张项目桥接卡。
 
 ## 仓库结构
 

@@ -14,7 +14,7 @@ SPEC.loader.exec_module(kb)
 class CorePathTests(unittest.TestCase):
     def test_health_check_requires_license_files(self):
         self.assertIn("LICENSE", kb.CORE_PATHS)
-        self.assertIn("CONTENT-LICENSE.md", kb.CORE_PATHS)
+        self.assertIn("docs/legal/content-license.md", kb.CORE_PATHS)
 
 
 class InstallModeTests(unittest.TestCase):
