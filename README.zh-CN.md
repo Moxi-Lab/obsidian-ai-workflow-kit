@@ -2,6 +2,8 @@
 
 中文 | [English](README.md)
 
+[![CI](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
+
 让每个新的 AI 对话窗口，都能快速接上你的项目上下文。
 
 你打开一个新的 Claude Code、Cursor、Codex 或 ChatGPT 会话。它又问你：这个项目是什么？关键资料在哪？上次做到哪？哪些内容不能乱改？
@@ -195,6 +197,7 @@ flowchart LR
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
 ├── 90-Templates/
+├── docs/
 ├── scripts/
 └── examples/
 ```
@@ -212,6 +215,7 @@ flowchart LR
 | [`20-SharedAssets/`](20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
 | [`90-Templates/`](90-Templates/) | 标准模板 |
+| [`docs/`](docs/) | 首次体验指南和面向使用者的说明文档 |
 | [`scripts/`](scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](examples/) | 从开工到交接的完整示例 |
 

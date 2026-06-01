@@ -2,6 +2,8 @@
 
 [Chinese](README.zh-CN.md) | English
 
+[![CI](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
+
 AI-ready vault structure for agents that keep forgetting your project context.
 
 You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this project is, where the important context lives, and what changed last time. Again.
@@ -179,6 +181,7 @@ This is not a RAG stack, a cloud service, or a task manager. It is a local-first
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
 ├── 90-Templates/
+├── docs/
 ├── scripts/
 └── examples/
 ```
@@ -196,6 +199,7 @@ This is not a RAG stack, a cloud service, or a task manager. It is a local-first
 | [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
 | [`90-Templates/`](90-Templates/) | Standard templates |
+| [`docs/`](docs/) | First-run guides and user-facing walkthroughs |
 | [`scripts/`](scripts/) | Small helper scripts for project cards and health checks |
 | [`examples/`](examples/) | End-to-end handoff demo |
 
