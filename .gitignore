@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Obsidian local state
+.obsidian/cache/
+.obsidian/workspace*.json
+.obsidian/workspace-mobile*.json
+
+# Local secrets and temp files
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+tmp/
+.trash/
+
+# Python cache
+__pycache__/
+*.pyc
