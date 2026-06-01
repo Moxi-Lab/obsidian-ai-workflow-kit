@@ -56,6 +56,7 @@ STALE_PATTERNS = [
 INSTALL_CORE_PATHS = [
     "README.md",
     "README.zh-CN.md",
+    "RELEASE_CHECKLIST.md",
     "install.sh",
     "START-HERE.md",
     "index.md",
@@ -76,6 +77,7 @@ INSTALL_CORE_PATHS = [
     "examples/ai-handoff-demo",
     "examples/filled-example",
     "examples/source-to-knowledge",
+    "docs",
     "scripts/README.md",
     "scripts/kb.py",
 ]

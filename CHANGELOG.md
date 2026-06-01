@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 - 2026-06-01
+
+- Added GitHub Actions CI for health checks, installer tests, and tool tests.
+- Added `RELEASE_CHECKLIST.md` for private beta and public release readiness.
+- Added 10-minute first-run guides in English and Chinese.
+- Clarified target users, non-goals, maturity, and private repository install limits in README files.
+
 ## 0.4.5 - 2026-06-01
 
 - Added `scripts/kb.py intake-folder` to create controlled folder inventory cards without moving original files.

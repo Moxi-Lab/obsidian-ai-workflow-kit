@@ -19,6 +19,24 @@ It helps you:
 - Keep the vault maintainable with health checks, review gates, and write-back rules.
 - Use everything locally with your own private Obsidian vault.
 
+## Who This Is For
+
+- Obsidian users who already keep project notes, sources, or decisions locally.
+- AI agent users who switch between Claude Code, Cursor, Codex, ChatGPT, or similar tools.
+- People who want local-first memory that remains human editable.
+- Teams or solo builders who need project handoff, source triage, and reusable lessons.
+
+## Who This Is Not For
+
+- Users looking for a full Obsidian plugin with a graphical interface.
+- Users who want a cloud memory service or managed RAG backend.
+- Users who want AI to scan an entire computer automatically.
+- Users who want automatic bulk rewriting of an existing vault.
+
+## Maturity
+
+This is a `0.x` private-beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
+
 ## What Problem It Solves
 
 AI agents are getting better at doing work, but they still lose the thread when the conversation window changes. Existing memory solutions usually live inside one tool, require infrastructure, or produce a search index that humans cannot comfortably maintain.
@@ -57,6 +75,8 @@ You can send it to tools that can read local files, such as Claude Code, Cursor,
 
 To organize local materials, give the AI a folder path or a short file list after it reads `START-HERE.md`. It should use the knowledge pipeline instead of scanning everything blindly.
 
+For the first complete experience, follow [10-Minute First Run](docs/10-minute-first-run.md).
+
 For a controlled first import, create an inventory card instead of moving files:
 
 ```bash
@@ -86,6 +106,8 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` does not overwrite existing files unless you pass `--overwrite`.
+
+If the repository is still private, the remote `curl` command requires GitHub access and may not work for external users. Use a cloned copy until the repository is public.
 
 If you are working from a cloned copy, use:
 
@@ -297,4 +319,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.4.5`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.0`. See [CHANGELOG.md](CHANGELOG.md).

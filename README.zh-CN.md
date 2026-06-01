@@ -19,6 +19,24 @@ Obsidian AI Memory Kit 解决的就是这个接手问题：在本地 Obsidian va
 - 用巡检、审查门和写回规则持续维护知识库。
 - 在自己的本地 Obsidian vault 里使用，不依赖云端服务。
 
+## 适合谁
+
+- 已经在 Obsidian 里保存项目笔记、资料、决策的人。
+- 经常在 Claude Code、Cursor、Codex、ChatGPT 等 AI 工具之间切换的人。
+- 想要本地优先、人工可编辑 AI 记忆的人。
+- 需要项目接手、资料分流、经验复用的个人或小团队。
+
+## 不适合谁
+
+- 想要完整图形界面 Obsidian 插件的人。
+- 想要云端记忆服务或托管 RAG 后端的人。
+- 想让 AI 自动扫描整台电脑的人。
+- 想自动批量改写已有 vault 的人。
+
+## 成熟度
+
+当前是 `0.x` private beta starter kit，适合受控试用、小范围 vault 和反馈验证；不承诺兼容所有已有 Obsidian vault 结构。
+
 ## 它解决什么问题
 
 AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案大多绑在某个工具里，要么需要额外基础设施，要么只是全文检索，人和 AI 都很难共同维护。
@@ -73,6 +91,8 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 如果要整理本机资料，在 AI 读完 `START-HERE.md` 后，再给它一个文件夹路径或文件清单。AI 应该先走资料整理流水线，而不是盲目扫描整个电脑。
 
+第一次完整体验建议按 [10 分钟首次体验](docs/10-minute-first-run.zh-CN.md) 走一遍。
+
 第一次整理时，可以先生成资料清单，不移动原文件：
 
 ```bash
@@ -102,6 +122,8 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` 默认不会覆盖已有文件；只有显式加 `--overwrite` 才会覆盖。
+
+如果仓库仍是 private，远程 `curl` 命令需要 GitHub 访问权限，外部用户可能无法使用。仓库公开前请使用克隆后的本地脚本。
 
 如果你已经克隆了本仓库，也可以用本地脚本：
 
@@ -313,4 +335,4 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## Version
 
-当前版本：`0.4.5`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.0`。见 [CHANGELOG.md](CHANGELOG.md)。

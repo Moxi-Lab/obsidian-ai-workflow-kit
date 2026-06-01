@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check script syntax
+        run: |
+          python3 -m py_compile scripts/kb.py
+          bash -n install.sh scripts/test_install.sh scripts/test_tools.sh
+
+      - name: Run kit health check
+        run: python3 scripts/kb.py health-check
+
+      - name: Run installer tests
+        run: bash scripts/test_install.sh
+
+      - name: Run tool tests
+        run: bash scripts/test_tools.sh
