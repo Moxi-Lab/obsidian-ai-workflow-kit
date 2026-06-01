@@ -2,19 +2,37 @@
 
 [Chinese](README.zh-CN.md) | English
 
-Turn local materials into an AI-maintained Obsidian knowledge base.
+AI-ready vault structure for agents that keep forgetting your project context.
 
-Most people already have useful knowledge scattered across local folders, notes, web clips, project documents, and chat history. The problem is not storage. The problem is that AI does not know how to sort it, govern it, recall it, or keep it healthy over time.
+You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this project is, where the important context lives, and what changed last time. Again.
 
-Obsidian AI Memory Kit gives your AI agent a working system for organizing your local materials into a clear Obsidian vault with governance rules, recall maps, project memory, source triage, and maintenance loops.
+Obsidian AI Memory Kit fixes the handoff problem by turning your local Obsidian vault into a readable operating layer for AI agents: one startup entry, explicit write-back rules, task-to-context maps, source triage, review gates, and reusable lesson promotion.
+
+It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level convention that humans can edit and any AI agent with file access can execute.
 
 It helps you:
 
+- Stop re-explaining the same project context every time you switch AI sessions.
 - Sort local files, web clips, notes, and chat conclusions into the right knowledge types.
 - Give AI rules for what it may write, where it should write, and what must be verified first.
 - Make project state, decisions, source summaries, and reusable lessons easy to recall.
 - Keep the vault maintainable with health checks, review gates, and write-back rules.
 - Use everything locally with your own private Obsidian vault.
+
+## What Problem It Solves
+
+AI agents are getting better at doing work, but they still lose the thread when the conversation window changes. Existing memory solutions usually live inside one tool, require infrastructure, or produce a search index that humans cannot comfortably maintain.
+
+This repository adds an AI-readable operating convention to Obsidian, a place many people already use as their local knowledge filesystem.
+
+| Approach | What it is | Limitation |
+|---|---|---|
+| Claude Code memory files | Tool-specific memory | Tied to one tool and one workflow |
+| Cursor Rules | Project-level instructions | Mostly code-focused, weak for sources, lessons, and vault maintenance |
+| Vector memory systems | Embedded memory storage | Requires infrastructure and is hard to inspect or edit manually |
+| Plain Obsidian / Notion notes | Human notes | AI does not know the entry point, priority, or write-back rules |
+| RAG plugins | Full-text retrieval | Recall can be noisy, with weak task mapping and priority control |
+| This kit | AI-readable Obsidian operating convention | Local files, human editable, tool agnostic, task mapped |
 
 ## Quick Start
 
@@ -51,6 +69,28 @@ This kit adds a lightweight operating layer on top of Obsidian:
 | Useful knowledge is hard to recall | `03-Recall-System/` for task-to-context maps and recall fields |
 | Project context is scattered | Project bridge cards in `10-Projects/` |
 | External sources get copied blindly | Analysis cards in `40-ExternalSources/` |
+
+## Architecture
+
+```mermaid
+flowchart LR
+    User["User gives one startup instruction"] --> Start["START-HERE.md"]
+    Start --> Map["Task-to-context map"]
+    Map --> Project["Project bridge cards"]
+    Map --> Pipeline["Knowledge pipeline"]
+    Map --> Sources["Source analysis cards"]
+    Project --> Governance["Agent governance"]
+    Pipeline --> Governance
+    Sources --> Governance
+    Governance --> Writeback["Structured write-back"]
+    Writeback --> Projects["10-Projects"]
+    Writeback --> Assets["20-SharedAssets"]
+    Writeback --> Recall["03-Recall-System"]
+    Assets --> Map
+    Recall --> Map
+```
+
+The daily loop is intentionally small: the agent reads the startup file, follows the task map, opens only the required context, writes results back to the right place, and promotes reusable lessons so future sessions can recall them.
 
 ## Scope
 
@@ -214,4 +254,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.4.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.4.2`. See [CHANGELOG.md](CHANGELOG.md).

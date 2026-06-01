@@ -2,19 +2,37 @@
 
 中文 | [English](README.md)
 
-让 AI 把你电脑上的资料整理成可治理、可召回、可维护的 Obsidian 知识库。
+让每个新的 AI 对话窗口，都能快速接上你的项目上下文。
 
-很多人的资料已经散落在本地文件夹、Obsidian 笔记、网页剪藏、项目文档和聊天记录里。真正的问题不是没有保存，而是 AI 不知道怎么分类、怎么治理、怎么召回、怎么持续维护。
+你打开一个新的 Claude Code、Cursor、Codex 或 ChatGPT 会话。它又问你：这个项目是什么？关键资料在哪？上次做到哪？哪些内容不能乱改？
 
-Obsidian AI Memory Kit 给 AI 一套本地知识库工作方法：把资料整理成清晰结构，按规则写回，按任务召回，并持续维护。
+Obsidian AI Memory Kit 解决的就是这个接手问题：在本地 Obsidian vault 上加一层 AI 能执行的操作约定，包括唯一开工入口、写回规则、任务到上下文的映射、资料分流、审查门和经验升舱机制。
+
+它不是 App、插件、云端记忆服务，也不是 RAG 系统。它是一套文件系统层的约定：人能直接读写，任何能读取本地文件的 AI Agent 都能执行。
 
 它能帮你：
 
+- 不再每次换 AI 对话窗口都重复解释项目背景。
 - 把本地文件、网页剪藏、笔记、聊天结论分流成正确的知识类型。
 - 让 AI 知道哪些能写、写到哪里、写入前要验证什么。
 - 让项目状态、决策、资料摘要、经验资产能被后续任务召回。
 - 用巡检、审查门和写回规则持续维护知识库。
 - 在自己的本地 Obsidian vault 里使用，不依赖云端服务。
+
+## 它解决什么问题
+
+AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案大多绑在某个工具里，要么需要额外基础设施，要么只是全文检索，人和 AI 都很难共同维护。
+
+这个仓库做的事，是在 Obsidian 这个本地知识文件系统上，加一层 AI 可读、可执行、可维护的操作约定。
+
+| 方案 | 本质 | 缺陷 |
+|---|---|---|
+| Claude Code memory files | 工具内置记忆 | 绑定单一工具和工作流 |
+| Cursor Rules | 项目级指令 | 更偏代码项目，不覆盖资料、经验和知识库维护 |
+| 向量记忆系统 | 嵌入式记忆存储 | 需要基础设施，不透明，不方便人工编辑 |
+| 普通 Obsidian / Notion 笔记 | 人类笔记 | AI 不知道入口、优先级和写回规则 |
+| RAG 插件 | 全文检索 | 召回容易噪声大，缺少任务映射和优先级 |
+| 这个仓库 | AI 可执行的 Obsidian 操作约定 | 本地文件、人类可编辑、工具无关、按任务召回 |
 
 ## Quick Start
 
@@ -67,6 +85,28 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | 有用知识难召回 | 用 `03-Recall-System/` 管任务到上下文的映射 |
 | 项目上下文散落各处 | 用 `10-Projects/` 里的项目桥接卡串起来 |
 | 外部资料容易整篇复制进库 | 用 `40-ExternalSources/` 做资料分析卡 |
+
+## 架构
+
+```mermaid
+flowchart LR
+    User["用户发出一句开工指令"] --> Start["START-HERE.md"]
+    Start --> Map["任务到上下文映射"]
+    Map --> Project["项目桥接卡"]
+    Map --> Pipeline["资料整理流水线"]
+    Map --> Sources["资料分析卡"]
+    Project --> Governance["AI 治理规则"]
+    Pipeline --> Governance
+    Sources --> Governance
+    Governance --> Writeback["结构化写回"]
+    Writeback --> Projects["10-Projects"]
+    Writeback --> Assets["20-SharedAssets"]
+    Writeback --> Recall["03-Recall-System"]
+    Assets --> Map
+    Recall --> Map
+```
+
+日常使用时，AI 不需要扫描完整 vault：先读开工入口，再按任务映射读取必要上下文，最后把结果写回项目、共享资产或召回系统。
 
 ## 范围边界
 
@@ -230,4 +270,4 @@ python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" 
 
 ## Version
 
-当前版本：`0.4.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.4.2`。见 [CHANGELOG.md](CHANGELOG.md)。

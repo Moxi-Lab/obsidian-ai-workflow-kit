@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.2 - 2026-06-01
+
+- Rewrote the README opening around the repeated AI session handoff problem.
+- Added comparison tables explaining why this is different from tool-specific memory, rules files, vector memory, plain notes, and RAG plugins.
+- Added a Mermaid architecture diagram for the pipeline, governance, recall, and maintenance loop.
+- Synced the same positioning to the Chinese README.
+
 ## 0.4.1 - 2026-06-01
 
 - Removed the stale project-area metadata field from public metadata standards and templates.
