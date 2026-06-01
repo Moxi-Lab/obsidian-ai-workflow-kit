@@ -313,13 +313,15 @@ To be filled by AI after reading the source.
 
 ## Write-back Target
 
-- Project:
-- Shared asset:
-- Recall map:
+- Keep this source card in `40-ExternalSources/` as evidence.
+- If it changes project state, update `10-Projects/<project>/current-state.md`.
+- If it creates a stable decision, update `10-Projects/<project>/decisions.md`.
+- If it becomes reusable knowledge, create a question knowledge card / experience asset or write to `20-SharedAssets/02-modules/`.
+- If it must be recalled before future tasks, update the matching project bridge card or `03-Recall-System/task-to-context-map.md`.
 
 ## Next AI Action
 
-Read the source, summarize it without copying the full text, then decide whether it should stay as source analysis or be promoted into a question knowledge card / experience asset.
+Read the source, summarize it without copying the full text, then decide whether it should stay as source analysis or be promoted. Do not move this source card when promoting; keep it as non-canonical evidence and create or update the promoted target separately.
 """
 
     if not args.dry_run:

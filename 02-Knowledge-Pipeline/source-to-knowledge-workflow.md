@@ -36,10 +36,18 @@ status: active
 - 能变成检查清单、模板或判断规则。
 - 已经第二次出现。
 
-升舱后写入：
+升舱时不要移动或覆盖原资料分析卡。原卡继续留在 `40-ExternalSources/` 作为来源证据，保持 `canonical: false`。
 
-- `90-Templates/TPL-问题知识卡-经验资产卡.md`
-- 或 `20-SharedAssets/02-modules/`
+升舱后的写入位置：
+
+| 价值类型 | 写入位置 |
+|---|---|
+| 影响某个项目状态 | `10-Projects/<project>/current-state.md` |
+| 形成稳定项目决策 | `10-Projects/<project>/decisions.md` |
+| 可被多个项目复用 | 用 `90-Templates/TPL-问题知识卡-经验资产卡.md` 新建卡片，或写入 `20-SharedAssets/02-modules/` |
+| 以后任务开始前必须召回 | 更新对应项目桥接卡，或更新 `03-Recall-System/task-to-context-map.md` |
+
+只有升舱后的权威卡或共享资产才设置 `canonical: true`。
 
 ## 4. 召回挂载
 
@@ -49,4 +57,3 @@ status: active
 - `03-Recall-System/task-to-context-map.md`。
 
 否则它只是“保存了”，不是“可召回”。
-

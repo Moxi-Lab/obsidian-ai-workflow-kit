@@ -47,8 +47,8 @@ tags:
 - `one_liner`
 - `key_insight`
 - `related_project`
-- `related_moc`
 - `related_notes`
+- `themes`
 
 如果已有相近资料，优先合并或互链，不重复新建同类页面。
 
@@ -93,7 +93,7 @@ tags:
 按《AI知识库复利维护SOP v1》处理这条输入：
 1) 判断它属于哪个项目或主题；
 2) 提炼 one_liner 和 key_insight；
-3) 标出 related_project / related_moc / related_notes；
+3) 标出 related_project / related_notes / themes；
 4) 判断是否需要回写到项目、共享资产或经验资产；
 5) 只做必要沉淀，不新增重复目录。
 ```

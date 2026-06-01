@@ -5,7 +5,6 @@ updated: {{date}}
 source_agent: ""
 source_role: "" # maintainer / reviewer / researcher / writer / developer
 rule_version: "" # 例如 v2.1.0
-pillar: "" # product / research / content / ops
 handoff_type: "" # end-of-session / mid-sync / incident
 status: open # open / blocked / done
 tl_dr: ""

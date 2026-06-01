@@ -5,7 +5,6 @@ updated: {{date}}
 task_id: ""
 title: ""
 project: ""
-pillar: "" # product / research / content / ops
 priority: "" # low / medium / high
 owner_role: "" # maintainer / reviewer / researcher / writer / developer
 owner_agent: ""

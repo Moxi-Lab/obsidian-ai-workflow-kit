@@ -13,7 +13,6 @@ type: codex-project-bridge
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 status: active # active / waiting / paused / archived
-pillar:
 project:
 local_root:
 kb_project:
@@ -44,7 +43,6 @@ last_verified:
 
 | 项目 | 内容 |
 |---|---|
-| 项目区域 | `<pillar>` |
 | 知识库项目页 | `<Obsidian 链接>` |
 | 开工必读 | `<START-HERE / 项目状态页 / 决策页>` |
 | 交接卡位置 | `01-Inbox/agent-handoffs/` |

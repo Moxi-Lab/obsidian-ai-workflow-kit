@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.1 - 2026-06-01
+
+- Removed the stale project-area metadata field from public metadata standards and templates.
+- Added English agent-facing instructions to `AGENTS.md` and `00-Agent-Governance/README.md`.
+- Clarified that filled examples are read-only and real projects live under `10-Projects/`.
+- Replaced Inbox child placeholder README files with `.gitkeep` files and clarified Inbox routing.
+- Clarified the `intake-source` promotion path from source card to project state, shared asset, or recall map.
+- Added an English quick index for Shared Assets files with Chinese filenames.
+
 ## 0.4.0 - 2026-06-01
 
 - Reframed the project around local knowledge organization, AI governance, recall, and maintenance.

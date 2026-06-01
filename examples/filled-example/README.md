@@ -6,6 +6,8 @@ project: Launch Notes
 
 # Filled Example | Launch Notes
 
+This is a read-only demo. When you create real projects, use `python3 scripts/kb.py new-project`; real projects live under `10-Projects/`.
+
 This example shows how a filled project workspace can look after a few AI-assisted sessions.
 
 ## Files

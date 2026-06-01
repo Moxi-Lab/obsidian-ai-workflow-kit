@@ -16,7 +16,6 @@ id: QST-YYYYMMDD-001
 type: question-knowledge-card # question-knowledge-card / experience-asset / topic-card
 title: ""
 status: draft # draft / active / archived
-pillar: ""
 project: ""
 created: YYYY-MM-DD
 updated: YYYY-MM-DD

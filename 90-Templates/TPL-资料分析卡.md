@@ -5,7 +5,6 @@ updated: {{date}}
 status: draft
 source_note: ""
 source_url: ""
-pillar: ""
 decision: "" # reference-only / action / asset / review / skip
 writeback_target: ""
 ---
