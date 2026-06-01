@@ -1,15 +1,18 @@
 # Source Sync Policy
 
-This file is for maintainers. It prevents a working vault and the public kit from drifting into two unrelated systems.
+This file is for maintainers. It prevents the public kit, a working vault, and a private backup remote from drifting into mixed responsibilities.
 
-Core rule: **do not mirror vaults. Promote reusable patterns.**
+Core rule: **the public kit is the architecture authority, the working vault is the live work record, and a private backup remote is only a backup.**
 
 ## Source Roles
 
 | Source | Owns | Does not own |
 |---|---|---|
-| Working vault | Real project memory, private project state, user preferences, incidents, next actions | Public distribution, generic examples, installer UX |
-| Public kit | Reusable structure, generic templates, public examples, scripts, release docs | Private project state, raw handoffs, personal context |
+| Public kit | Reusable architecture, generic templates, public examples, scripts, release docs | Private project state, raw handoffs, personal context, backup duties |
+| Working vault | Real project memory, private project state, user preferences, incidents, next actions | Public distribution, architecture authority, installer UX |
+| Private backup remote | Backup and restore point for a working vault | Architecture authority, public upstream, manual rule maintenance |
+
+A private backup remote must not be treated as an upstream source for this kit. If a reusable pattern is found in a backup, inspect it in the working vault, remove private context, and write the public version here.
 
 ## Allowed From A Working Vault To This Kit
 

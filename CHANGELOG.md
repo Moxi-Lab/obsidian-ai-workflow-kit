@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.4 - 2026-06-02
+
+- Clarified the three-place responsibility model: public kit as architecture authority, working vault as live work record, and private backup remote as backup only.
+- Updated the maintainer source sync policy to forbid treating private backups as public-kit upstream sources.
+
 ## 0.6.3 - 2026-06-02
 
 - Added a managed install manifest at `.obsidian-ai-workflow-kit/manifest.json`.
