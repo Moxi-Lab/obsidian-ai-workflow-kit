@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.7 - 2026-06-01
+
+- Added `barebone` install mode for a smaller first-time setup.
+- Added `--mode full|barebone` to `install.sh`, `install-core`, and `health-check`.
+- Added tests for barebone install scope, non-overwrite behavior, and barebone health checks.
+- Documented easy mode vs full mode in README files and script docs.
+
 ## 0.5.6 - 2026-06-01
 
 - Added Python unit tests under `tests/` and made CI run them.

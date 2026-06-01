@@ -7,14 +7,22 @@ These scripts are optional. The vault works without them.
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
 ```
 
 The remote installer downloads the current repository archive and delegates to `install-core`.
+
+Modes:
+
+- `full` is the default and installs the complete workflow kit.
+- `barebone` installs the smallest usable layer: startup entry, governance, project registry, project bridge template, and `scripts/kb.py`.
 
 ## Health Check
 
 ```bash
 python3 scripts/kb.py health-check
+python3 scripts/kb.py health-check --mode barebone
 ```
 
 Checks:
@@ -24,13 +32,19 @@ Checks:
 - Markdown relative links point to existing files.
 - The English README does not contain visible Chinese text.
 
+Use `--mode barebone` when checking a minimal install.
+
 ## Install Core
 
 ```bash
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 scripts/kb.py install-core "/path/to/your-vault"
+python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
+python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone
 bash install.sh --dry-run "/path/to/your-vault"
 bash install.sh "/path/to/your-vault"
+bash install.sh --mode barebone --dry-run "/path/to/your-vault"
+bash install.sh --mode barebone "/path/to/your-vault"
 ```
 
 Copies the core kit into an existing Obsidian vault.

@@ -1,4 +1,5 @@
 import importlib.util
+import argparse
 import tempfile
 import unittest
 from pathlib import Path
@@ -14,6 +15,76 @@ class CorePathTests(unittest.TestCase):
     def test_health_check_requires_license_files(self):
         self.assertIn("LICENSE", kb.CORE_PATHS)
         self.assertIn("CONTENT-LICENSE.md", kb.CORE_PATHS)
+
+
+class InstallModeTests(unittest.TestCase):
+    def test_barebone_install_paths_are_minimal(self):
+        self.assertEqual(
+            kb.install_paths_for_mode("barebone"),
+            [
+                "START-HERE.md",
+                "AGENTS.md",
+                "00-Agent-Governance",
+                "10-Projects/README.md",
+                "10-Projects/PROJECTS-REGISTRY.md",
+                "90-Templates/TPL-Codex项目桥接卡.md",
+                "scripts/kb.py",
+            ],
+        )
+
+    def test_barebone_install_excludes_full_mode_directories(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            self.assertTrue((target / "START-HERE.md").exists())
+            self.assertTrue((target / "AGENTS.md").exists())
+            self.assertTrue((target / "00-Agent-Governance").is_dir())
+            self.assertTrue((target / "10-Projects" / "README.md").exists())
+            self.assertTrue((target / "90-Templates" / "TPL-Codex项目桥接卡.md").exists())
+            self.assertTrue((target / "scripts" / "kb.py").exists())
+            self.assertFalse((target / "02-Knowledge-Pipeline").exists())
+            self.assertFalse((target / "03-Recall-System").exists())
+            self.assertFalse((target / "docs").exists())
+
+    def test_barebone_install_does_not_overwrite_existing_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            target.mkdir()
+            start_here = target / "START-HERE.md"
+            start_here.write_text("CUSTOM SENTINEL\n", encoding="utf-8")
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            self.assertEqual(start_here.read_text(encoding="utf-8"), "CUSTOM SENTINEL\n")
+
+    def test_barebone_health_check_allows_optional_full_mode_files_to_be_absent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            health_args = argparse.Namespace(vault=str(target), mode="barebone")
+            self.assertEqual(kb.health_check(health_args), 0)
 
 
 class FolderIntakeTests(unittest.TestCase):

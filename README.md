@@ -93,22 +93,39 @@ python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" -
 
 Use this if you already have an Obsidian vault and want to add the AI-ready operating layer without rebuilding your notes.
 
+Choose an install mode:
+
+- `full` is the default. It installs the complete starter vault: pipeline, recall system, templates, examples, docs, and scripts.
+- `barebone` installs only the startup entry, agent governance, project registry, project bridge template, and `scripts/kb.py`. Use it when you want the smallest first step inside an existing vault.
+
 Preview first:
 
 ```bash
+# Full mode, default
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+
+# Barebone mode
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
 ```
 
 Install:
 
 ```bash
+# Full mode, default
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+
+# Barebone mode
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
 ```
 
 Then check the installed vault:
 
 ```bash
+# Full mode
 python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault"
+
+# Barebone mode
+python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
 `install-core` does not overwrite existing files unless you pass `--overwrite`.
@@ -120,6 +137,8 @@ If you are working from a cloned copy, use:
 ```bash
 bash install.sh --dry-run "/path/to/your-vault"
 bash install.sh "/path/to/your-vault"
+bash install.sh --mode barebone --dry-run "/path/to/your-vault"
+bash install.sh --mode barebone "/path/to/your-vault"
 ```
 
 ## Why This Exists
@@ -276,14 +295,16 @@ The vault works without scripts. If you want a faster setup loop:
 ```bash
 python3 scripts/kb.py health-check
 bash install.sh --dry-run "/path/to/your-vault"
+bash install.sh --mode barebone --dry-run "/path/to/your-vault"
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
 python3 scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
 python3 scripts/kb.py audit-vault --write-report
 ```
 
-`health-check` verifies the core files, common stale concepts, and Markdown links. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine. `intake-folder` creates a folder inventory card without moving original files. `audit-vault` checks entry points, Inbox files, project bridge coverage, stale concepts, and links.
+`health-check` verifies the core files, common stale concepts, and Markdown links. Use `--mode barebone` when checking a minimal install. `install.sh` gives users a one-line install path. `install-core` copies the kit into an existing vault without overwriting by default. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine. `intake-folder` creates a folder inventory card without moving original files. `audit-vault` checks entry points, Inbox files, project bridge coverage, stale concepts, and links.
 
 ## Tests And CI
 
@@ -320,4 +341,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.5.6`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.7`. See [CHANGELOG.md](CHANGELOG.md).

@@ -56,7 +56,7 @@ STALE_PATTERNS = [
     "00-Agent" + "\u534f\u4f5c",
 ]
 
-INSTALL_CORE_PATHS = [
+FULL_INSTALL_PATHS = [
     "README.md",
     "README.zh-CN.md",
     "RELEASE_CHECKLIST.md",
@@ -83,6 +83,16 @@ INSTALL_CORE_PATHS = [
     "examples/source-to-knowledge",
     "docs",
     "scripts/README.md",
+    "scripts/kb.py",
+]
+
+BAREBONE_INSTALL_PATHS = [
+    "START-HERE.md",
+    "AGENTS.md",
+    "00-Agent-Governance",
+    "10-Projects/README.md",
+    "10-Projects/PROJECTS-REGISTRY.md",
+    "90-Templates/TPL-Codex项目桥接卡.md",
     "scripts/kb.py",
 ]
 
@@ -116,9 +126,25 @@ def has_chinese(text: str) -> bool:
     return re.search(r"[\u4e00-\u9fff]", text) is not None
 
 
-def check_required_paths(root: Path) -> list[str]:
+def install_paths_for_mode(mode: str) -> list[str]:
+    if mode == "full":
+        return FULL_INSTALL_PATHS
+    if mode == "barebone":
+        return BAREBONE_INSTALL_PATHS
+    raise SystemExit("mode must be full or barebone")
+
+
+def required_paths_for_mode(mode: str) -> list[str]:
+    if mode == "full":
+        return CORE_PATHS
+    if mode == "barebone":
+        return BAREBONE_INSTALL_PATHS
+    raise SystemExit("mode must be full or barebone")
+
+
+def check_required_paths(root: Path, mode: str = "full") -> list[str]:
     errors = []
-    for rel in CORE_PATHS:
+    for rel in required_paths_for_mode(mode):
         if not (root / rel).exists():
             errors.append(f"missing required path: {rel}")
     return errors
@@ -169,12 +195,14 @@ def check_english_readme(root: Path) -> list[str]:
 
 def health_check(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
+    mode = getattr(args, "mode", "full")
     checks = [
-        ("required paths", check_required_paths(root)),
+        ("required paths", check_required_paths(root, mode)),
         ("stale concepts", check_stale_patterns(root)),
         ("markdown links", check_markdown_links(root)),
-        ("english README", check_english_readme(root)),
     ]
+    if mode == "full":
+        checks.append(("english README", check_english_readme(root)))
 
     failed = False
     for name, errors in checks:
@@ -258,6 +286,7 @@ def iter_install_files(source_root: Path, rel: str):
 def install_core(args: argparse.Namespace) -> int:
     source_root = repo_root()
     target_root = Path(args.target).expanduser().resolve()
+    mode = getattr(args, "mode", "full")
     if target_root == source_root:
         raise SystemExit("target is already this kit repository; choose your own Obsidian vault path")
     try:
@@ -272,7 +301,7 @@ def install_core(args: argparse.Namespace) -> int:
     else:
         target_root.mkdir(parents=True, exist_ok=True)
 
-    for rel in INSTALL_CORE_PATHS:
+    for rel in install_paths_for_mode(mode):
         for source, relative in iter_install_files(source_root, rel):
             target = target_root / relative
             display = str(relative)
@@ -716,6 +745,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     health = subparsers.add_parser("health-check", help="Run repository checks")
     health.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    health.add_argument("--mode", choices=["full", "barebone"], default="full", help="Required path set to check")
     health.set_defaults(func=health_check)
 
     new = subparsers.add_parser("new-project", help="Create a project workspace")
@@ -756,6 +786,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")
+    install.add_argument("--mode", choices=["full", "barebone"], default="full", help="Install full kit or minimal barebone kit")
     install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
     install.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     install.set_defaults(func=install_core)

@@ -7,6 +7,7 @@ ARCHIVE_URL="${OBSIDIAN_AI_WORKFLOW_KIT_ARCHIVE_URL:-https://github.com/${REPO}/
 SOURCE="${OBSIDIAN_AI_WORKFLOW_KIT_SOURCE:-}"
 DRY_RUN=0
 OVERWRITE=0
+MODE="full"
 TARGET=""
 TMP_DIR=""
 
@@ -15,11 +16,12 @@ usage() {
 Install Obsidian AI Workflow Kit into an existing Obsidian vault.
 
 Usage:
-  bash install.sh [--dry-run] [--overwrite] [--branch main] [--source /path/to/repo] <vault-path>
+  bash install.sh [--dry-run] [--overwrite] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
 
 Examples:
   bash install.sh --dry-run "/path/to/your-vault"
   bash install.sh "/path/to/your-vault"
+  bash install.sh --mode barebone "/path/to/your-vault"
 
 Remote one-line form:
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
@@ -29,6 +31,7 @@ Default behavior:
   - Creates missing files and directories.
   - Skips existing files.
   - Does not overwrite unless --overwrite is passed.
+  - Uses --mode full unless --mode barebone is passed.
 USAGE
 }
 
@@ -48,6 +51,18 @@ while [[ $# -gt 0 ]]; do
     --overwrite)
       OVERWRITE=1
       shift
+      ;;
+    --mode)
+      if [[ $# -lt 2 ]]; then
+        echo "missing value for --mode" >&2
+        exit 2
+      fi
+      if [[ "$2" != "full" && "$2" != "barebone" ]]; then
+        echo "mode must be full or barebone" >&2
+        exit 2
+      fi
+      MODE="$2"
+      shift 2
       ;;
     --branch)
       if [[ $# -lt 2 ]]; then
@@ -127,6 +142,7 @@ if [[ ! -f "$SOURCE/scripts/kb.py" ]]; then
 fi
 
 ARGS=()
+ARGS+=(--mode "$MODE")
 if [[ "$DRY_RUN" -eq 1 ]]; then
   ARGS+=(--dry-run)
 fi
@@ -134,17 +150,13 @@ if [[ "$OVERWRITE" -eq 1 ]]; then
   ARGS+=(--overwrite)
 fi
 
-if [[ "${#ARGS[@]}" -gt 0 ]]; then
-  python3 "$SOURCE/scripts/kb.py" install-core "$TARGET" "${ARGS[@]}"
-else
-  python3 "$SOURCE/scripts/kb.py" install-core "$TARGET"
-fi
+python3 "$SOURCE/scripts/kb.py" install-core "$TARGET" "${ARGS[@]}"
 
 if [[ "$DRY_RUN" -eq 0 ]]; then
   cat <<NEXT
 
 Next:
-  python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET"
+  python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" --mode "$MODE"
 
 Then send your AI agent:
   You are the knowledge base maintenance agent. Read START-HERE.md in this vault and follow its startup workflow.

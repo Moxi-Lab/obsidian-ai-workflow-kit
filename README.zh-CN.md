@@ -109,22 +109,39 @@ python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" -
 
 如果你已经有自己的 Obsidian vault，不需要重建。可以把这套 AI 操作层安装进去。
 
+先选择安装模式：
+
+- `full` 是默认模式，会安装完整 starter vault：资料流水线、召回系统、模板、示例、文档和脚本。
+- `barebone` 是最小模式，只安装开工入口、AI 治理、项目登记、项目桥接模板和 `scripts/kb.py`。适合想先小范围试用的人。
+
 先预览：
 
 ```bash
+# full 模式，默认
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+
+# barebone 模式
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
 ```
 
 确认后安装：
 
 ```bash
+# full 模式，默认
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+
+# barebone 模式
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
 ```
 
 再检查安装后的 vault：
 
 ```bash
+# full 模式
 python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault"
+
+# barebone 模式
+python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
 `install-core` 默认不会覆盖已有文件；只有显式加 `--overwrite` 才会覆盖。
@@ -136,6 +153,8 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```bash
 bash install.sh --dry-run "/path/to/your-vault"
 bash install.sh "/path/to/your-vault"
+bash install.sh --mode barebone --dry-run "/path/to/your-vault"
+bash install.sh --mode barebone "/path/to/your-vault"
 ```
 
 ## 为什么需要它
@@ -292,14 +311,16 @@ examples/source-to-knowledge/
 ```bash
 python3 scripts/kb.py health-check
 bash install.sh --dry-run "/path/to/your-vault"
+bash install.sh --mode barebone --dry-run "/path/to/your-vault"
 python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
+python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" --project my-project
 python3 scripts/kb.py intake-folder "/path/to/materials" --title "资料导入清单" --project my-project
 python3 scripts/kb.py audit-vault --write-report
 ```
 
-`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`install.sh` 提供远程一行安装入口。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。`intake-folder` 会生成目录清单，不移动原文件。`audit-vault` 会检查入口、Inbox 堆积、项目桥接覆盖、旧概念残留和链接。
+`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。检查最小安装时使用 `--mode barebone`。`install.sh` 提供远程一行安装入口。`install-core` 会把核心结构复制到已有 vault，默认不覆盖已有文件。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。`intake-folder` 会生成目录清单，不移动原文件。`audit-vault` 会检查入口、Inbox 堆积、项目桥接覆盖、旧概念残留和链接。
 
 ## 测试和 CI
 
@@ -336,4 +357,4 @@ CI 会运行脚本语法检查、`health-check`、安装测试、工具行为测
 
 ## Version
 
-当前版本：`0.5.6`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.7`。见 [CHANGELOG.md](CHANGELOG.md)。
