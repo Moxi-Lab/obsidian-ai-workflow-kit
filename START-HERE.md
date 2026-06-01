@@ -42,9 +42,10 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 
 ```text
 已读取 START-HERE.md
-任务类型：<接手项目 / 整理外部资料 / 沉淀经验 / 维护知识库 / 写交接 / 待确认>
+任务类型：<整理本机资料 / 接手项目 / 整理外部资料 / 沉淀经验 / 维护知识库 / 写交接 / 待确认>
 下一步先读：<具体文件>
 结果写回：<具体目录或文件>
+不会做：<本轮明确不做的事>
 ```
 
 ## 开工三步
@@ -53,15 +54,18 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 
 | 任务类型 | 先读 |
 |---|---|
+| 整理本机资料 | `02-Knowledge-Pipeline/README.md`、`02-Knowledge-Pipeline/local-material-intake.md` |
 | 接手项目 | `10-Projects/<项目>/CODEX-BRIDGE-*.md` |
 | 整理外部资料 | `40-ExternalSources/README.md`、`90-Templates/TPL-资料分析卡.md` |
 | 沉淀经验 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md` |
-| 维护知识库 | `20-SharedAssets/02-modules/知识库巡检清单-v1.md` |
+| 维护知识库 | `00-Agent-Governance/maintenance-loop.md`、`20-SharedAssets/02-modules/知识库巡检清单-v1.md` |
 | 写交接 | `90-Templates/TPL-Agent交接卡.md` |
 
 ### 第 2 步：只加载必要上下文
 
 - 先读 `index.md` 和本文件。
+- 需要治理规则时读 `00-Agent-Governance/README.md`。
+- 需要召回规则时读 `03-Recall-System/task-to-context-map.md`。
 - 有项目任务时，只读对应项目桥接卡。
 - 有外部资料时，只读资料分析模板和相关项目页。
 - 不要一上来扫描整个 vault。
@@ -75,6 +79,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
 | 复用经验 | `20-SharedAssets/02-modules/` |
+| 召回规则 | `03-Recall-System/` |
 | 标准模板 | `90-Templates/` |
 
 ## 当前示例项目

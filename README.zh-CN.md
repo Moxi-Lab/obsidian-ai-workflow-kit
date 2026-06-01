@@ -2,19 +2,19 @@
 
 中文 | [English](README.md)
 
-别再每次都重新给 AI 解释你的项目。
+让 AI 把你电脑上的资料整理成可治理、可召回、可维护的 Obsidian 知识库。
 
-如果你真的用 Obsidian 工作，你的 vault 里已经有 AI 需要的东西：项目上下文、关键决策、参考资料、踩坑经验、未完成线索。问题是，它们通常不是按“AI 接手”来组织的，所以每个新会话还是从零开始。
+很多人的资料已经散落在本地文件夹、Obsidian 笔记、网页剪藏、项目文档和聊天记录里。真正的问题不是没有保存，而是 AI 不知道怎么分类、怎么治理、怎么召回、怎么持续维护。
 
-Obsidian AI Memory Kit 把这些私人知识整理成一层可复用的工作记忆，让 AI 不再像第一次来的临时助手，而更像一直跟着项目走的长期同事。
+Obsidian AI Memory Kit 给 AI 一套本地知识库工作方法：把资料整理成清晰结构，按规则写回，按任务召回，并持续维护。
 
 它能帮你：
 
-- 少花时间给每次 AI 会话重新补上下文。
-- 把项目决策、当前状态、下一步动作放到 AI 能稳定找到的位置。
-- 把反复出现的解决方案和经验沉淀成可复用资产，而不是丢在聊天记录里。
-- 下载后直接在自己的本地 Obsidian vault 里使用。
-- 让 Obsidian 不只是笔记归档，而是人和 AI 长期协作的工作空间。
+- 把本地文件、网页剪藏、笔记、聊天结论分流成正确的知识类型。
+- 让 AI 知道哪些能写、写到哪里、写入前要验证什么。
+- 让项目状态、决策、资料摘要、经验资产能被后续任务召回。
+- 用巡检、审查门和写回规则持续维护知识库。
+- 在自己的本地 Obsidian vault 里使用，不依赖云端服务。
 
 ## Quick Start
 
@@ -51,32 +51,33 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 可以发给能读取本地文件的工具，比如 Claude Code、Cursor、Codex CLI，或者上传/暴露 vault 文件后的 ChatGPT 会话。如果工具不能直接读取本地文件，就使用上面带路径的版本。
 
-用内置示例项目测试时，AI 应该能根据入口找到项目桥接卡，读取当前状态，完成任务，并把结果写回正确位置。
+如果要整理本机资料，在 AI 读完 `START-HERE.md` 后，再给它一个文件夹路径或文件清单。AI 应该先走资料整理流水线，而不是盲目扫描整个电脑。
 
 ## 为什么需要它
 
-大多数笔记是给人看的，但不一定适合 AI 稳定接手项目工作。
+大多数笔记是给人看的，但不一定适合 AI 稳定整理、治理、召回和维护。
 
 这套结构是在 Obsidian 上加一层轻量工作规则：
 
 | 问题 | 这套结构提供什么 |
 |---|---|
 | AI 不知道从哪里开始 | 用 `START-HERE.md` 作为唯一开工入口 |
+| 本机资料混在一起 | 用 `02-Knowledge-Pipeline/` 做进入、分类、提炼和升舱 |
+| AI 写入太随意 | 用 `00-Agent-Governance/` 管写回、审查和维护 |
+| 有用知识难召回 | 用 `03-Recall-System/` 管任务到上下文的映射 |
 | 项目上下文散落各处 | 用 `10-Projects/` 里的项目桥接卡串起来 |
-| 有用经验停留在聊天记录里 | 沉淀到 `20-SharedAssets/` |
-| 临时资料越来越乱 | 用 `01-Inbox/` 做临时分流 |
 | 外部资料容易整篇复制进库 | 用 `40-ExternalSources/` 做资料分析卡 |
-| 每个 Agent 做法不一致 | 用 `AGENTS.md` 和 `START-HERE.md` 统一规则 |
 
 ## 范围边界
 
-这套结构只聚焦三件事：
+这套结构只聚焦四件事：
 
-- 项目记忆：让 AI 稳定找到当前状态、关键决策和下一步动作。
-- 经验复用：把反复出现的解决方案沉淀成资产，而不是留在聊天记录里。
-- 资料分流：整理外部资料的结论和来源，不复制第三方全文。
+- 资料流水线：把本地资料整理成结构化笔记。
+- AI 治理：约束 AI 读什么、写什么、验证什么、避免什么。
+- 召回系统：让 AI 按任务找到该读的上下文。
+- 维护循环：让知识库持续保持健康。
 
-知识库维护规则只是为了保证这三件事能持续运转。它不是完整个人知识管理系统，不是 RAG 系统，也不是任务管理器。
+它不是 RAG 系统，不是云服务，也不是任务管理器。它是一套本地优先的 Obsidian + AI 工作方法。
 
 ## 仓库结构
 
@@ -85,7 +86,10 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 ├── START-HERE.md
 ├── index.md
 ├── AGENTS.md
+├── 00-Agent-Governance/
 ├── 01-Inbox/
+├── 02-Knowledge-Pipeline/
+├── 03-Recall-System/
 ├── 10-Projects/
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
@@ -99,7 +103,10 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | [`START-HERE.md`](START-HERE.md) | AI Agent 第一个应该读的文件 |
 | [`index.md`](index.md) | 给人看的 vault 首页 |
 | [`AGENTS.md`](AGENTS.md) | 给 Codex、Claude Code 等 coding agent 的规则 |
+| [`00-Agent-Governance/`](00-Agent-Governance/) | 开工契约、审查门、写回规则、维护循环 |
 | [`01-Inbox/`](01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
+| [`02-Knowledge-Pipeline/`](02-Knowledge-Pipeline/) | AI 如何把本机资料整理成结构化知识 |
+| [`03-Recall-System/`](03-Recall-System/) | 任务到上下文的召回地图和召回字段 |
 | [`10-Projects/`](10-Projects/) | 项目工作区和项目桥接卡 |
 | [`20-SharedAssets/`](20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
@@ -113,7 +120,19 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 `START-HERE.md` 会告诉 AI 当前是什么任务、先读哪些文件、结果应该写回哪里。
 
-### 2. 项目桥接卡
+### 2. 资料整理流水线
+
+`02-Knowledge-Pipeline/` 告诉 AI 如何进入本机资料、分类、提炼、连接、升舱和维护。
+
+### 3. AI 治理层
+
+`00-Agent-Governance/` 告诉 AI 哪些能写、写入前要验证什么、什么时候应该停止猜测。
+
+### 4. 召回系统
+
+`03-Recall-System/` 把任务类型映射到 AI 应该先读的文件。
+
+### 5. 项目桥接卡
 
 每个重要项目都有一张桥接卡，记录项目路径、当前状态、最近决策、下一步动作和写回规则。
 
@@ -123,15 +142,15 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 10-Projects/01-example-project/CODEX-BRIDGE-example.md
 ```
 
-### 3. Inbox 只是临时区
+### 6. Inbox 只是临时区
 
 `01-Inbox/` 用来接收交接卡、任务卡和网页剪藏，不作为长期保存目录。
 
-### 4. 经验要变成资产
+### 7. 经验要变成资产
 
 重复出现的经验应该进入 `20-SharedAssets/`，并写清楚触发条件、处理动作和验证方式。
 
-### 5. 默认本地优先
+### 8. 默认本地优先
 
 这套结构适合复制到你自己的本地 Obsidian vault 中使用。真实项目状态、个人笔记、交接历史和私有资料都留在你自己的机器上。
 
@@ -140,11 +159,11 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 ```text
 用户指令
   -> START-HERE.md
-  -> 项目桥接卡
-  -> 当前状态 / 决策记录
-  -> 执行任务
-  -> 写回项目或 Inbox
-  -> 可复用经验进入 SharedAssets
+  -> 召回地图
+  -> 治理规则
+  -> 资料流水线或项目桥接卡
+  -> 结构化写回
+  -> 可复用经验进入召回系统
 ```
 
 可以查看演示：
@@ -159,6 +178,12 @@ examples/ai-handoff-demo/README.md
 examples/filled-example/
 ```
 
+想看一条资料如何从原始输入变成可召回知识：
+
+```text
+examples/source-to-knowledge/
+```
+
 日常使用不需要读完整仓库：初始化之后，大多数 AI 会话只需要读 `START-HERE.md`、一个项目桥接卡，以及该项目的 `current-state.md` / `decisions.md`。
 
 如果你已经有自己的 Obsidian vault，先看 [MIGRATION.md](MIGRATION.md)。不要重建整个 vault，先加一张项目桥接卡。
@@ -170,9 +195,10 @@ examples/filled-example/
 ```bash
 python3 scripts/kb.py health-check
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+python3 scripts/kb.py intake-source "/path/to/source.md" --title "资料标题" --project my-project
 ```
 
-`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。
+`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。`intake-source` 会生成一张待 AI 继续提炼的资料分析卡。
 
 ## 内置模板
 
@@ -204,4 +230,4 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 
 ## Version
 
-当前版本：`0.3.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.4.0`。见 [CHANGELOG.md](CHANGELOG.md)。

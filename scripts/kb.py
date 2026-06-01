@@ -15,10 +15,21 @@ CORE_PATHS = [
     "START-HERE.md",
     "index.md",
     "AGENTS.md",
+    "00-Agent-Governance/README.md",
+    "00-Agent-Governance/startup-contract.md",
+    "00-Agent-Governance/write-back-rules.md",
+    "00-Agent-Governance/review-gates.md",
+    "00-Agent-Governance/maintenance-loop.md",
     "CHANGELOG.md",
     "MIGRATION.md",
     "VERSION",
     "01-Inbox/README.md",
+    "02-Knowledge-Pipeline/README.md",
+    "02-Knowledge-Pipeline/local-material-intake.md",
+    "02-Knowledge-Pipeline/source-to-knowledge-workflow.md",
+    "03-Recall-System/README.md",
+    "03-Recall-System/task-to-context-map.md",
+    "03-Recall-System/recall-fields.md",
     "10-Projects/PROJECTS-REGISTRY.md",
     "10-Projects/README.md",
     "20-SharedAssets/README.md",
@@ -129,6 +140,11 @@ def health_check(args: argparse.Namespace) -> int:
 def validate_slug(slug: str) -> None:
     if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", slug):
         raise SystemExit("slug must use lowercase letters, numbers, and hyphens")
+
+
+def make_slug(value: str) -> str:
+    slug = re.sub(r"[^a-zA-Z0-9]+", "-", value.lower()).strip("-")
+    return slug or "source"
 
 
 def write_file(path: Path, content: str, dry_run: bool) -> None:
@@ -253,6 +269,65 @@ No stable decisions recorded yet.
     return 0
 
 
+def intake_source(args: argparse.Namespace) -> int:
+    root = vault_root(args.vault)
+    title = args.title or Path(args.source).stem or "Untitled Source"
+    slug = make_slug(args.slug or title)
+    target_dir = root / "40-ExternalSources" / "01-samples"
+    target = target_dir / f"{slug}.md"
+    if target.exists() and not args.force:
+        raise SystemExit(f"source card already exists: {target}")
+
+    today = dt.date.today().isoformat()
+    project = args.project or ""
+    content = f"""---
+type: source-analysis
+status: inbox
+title: "{title}"
+source: "{args.source}"
+captured: {today}
+related_project: "{project}"
+themes: []
+canonical: false
+---
+
+# Source Analysis | {title}
+
+## Source
+
+- Source: `{args.source}`
+- Related project: `{project}`
+- Captured: {today}
+
+## One-line Summary
+
+To be filled by AI after reading the source.
+
+## Key Points
+
+-
+
+## Useful For
+
+-
+
+## Write-back Target
+
+- Project:
+- Shared asset:
+- Recall map:
+
+## Next AI Action
+
+Read the source, summarize it without copying the full text, then decide whether it should stay as source analysis or be promoted into a question knowledge card / experience asset.
+"""
+
+    if not args.dry_run:
+        target_dir.mkdir(parents=True, exist_ok=True)
+    write_file(target, content, args.dry_run)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Obsidian AI Memory Kit helper")
     parser.add_argument("--vault", help="Vault root. Defaults to current directory.")
@@ -269,6 +344,16 @@ def build_parser() -> argparse.ArgumentParser:
     new.add_argument("--root", help="Local project path to record in the bridge card")
     new.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     new.set_defaults(func=new_project)
+
+    intake = subparsers.add_parser("intake-source", help="Create a source analysis card")
+    intake.add_argument("source", help="Local file path, folder path, or URL")
+    intake.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    intake.add_argument("--title", help="Source title. Defaults to source filename.")
+    intake.add_argument("--project", help="Related project slug or name")
+    intake.add_argument("--slug", help="Output filename slug")
+    intake.add_argument("--force", action="store_true", help="Overwrite an existing source card")
+    intake.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
+    intake.set_defaults(func=intake_source)
 
     return parser
 

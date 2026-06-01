@@ -10,11 +10,14 @@
 
 1. `START-HERE.md`
 2. `index.md`
-3. 与任务直接相关的项目桥接卡或模板
+3. 与任务直接相关的治理规则、项目桥接卡或模板
 
 ## Rules
 
 - 只加载必要上下文，不扫描整个 vault。
+- 整理本机资料前，先读 `02-Knowledge-Pipeline/local-material-intake.md`。
+- 写入长期知识前，先过 `00-Agent-Governance/review-gates.md`。
+- 需要召回上下文时，优先读 `03-Recall-System/task-to-context-map.md`。
 - 不保存密钥、Token、Cookie、验证码、私钥和账号凭据。
 - 不把完整聊天记录写入长期记忆。
 - 不直接复制第三方原文全文。

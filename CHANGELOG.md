@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0 - 2026-06-01
+
+- Reframed the project around local knowledge organization, AI governance, recall, and maintenance.
+- Added `00-Agent-Governance/` with startup contract, write-back rules, review gates, and maintenance loop.
+- Added `02-Knowledge-Pipeline/` for local material intake and source-to-knowledge workflow.
+- Added `03-Recall-System/` for task-to-context maps and recall fields.
+- Added `scripts/kb.py intake-source` to create source analysis cards from local paths or URLs.
+- Added `examples/source-to-knowledge/` as an end-to-end source organization example.
+
 ## 0.3.0 - 2026-06-01
 
 - Removed the thin extra startup layer. Startup rules now live in `START-HERE.md` and `AGENTS.md`.

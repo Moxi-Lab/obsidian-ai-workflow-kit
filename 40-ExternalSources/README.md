@@ -9,10 +9,11 @@ status: active
 
 ## 处理流程
 
-1. 外部资料先进入 `01-Inbox/web-clips/`。
-2. 用 `90-Templates/TPL-资料分析卡.md` 判断资料价值。
-3. 只保留摘要、来源链接、可复用点和写回去向。
-4. 有长期价值的内容，写回项目或共享资产。
+1. 本机资料先按 `02-Knowledge-Pipeline/local-material-intake.md` 判断范围和类型。
+2. 外部资料先进入 `01-Inbox/web-clips/` 或用 `scripts/kb.py intake-source` 创建资料分析卡。
+3. 用 `90-Templates/TPL-资料分析卡.md` 判断资料价值。
+4. 只保留摘要、来源链接、可复用点和写回去向。
+5. 有长期价值的内容，写回项目、共享资产或召回地图。
 
 ## Web Clipper 标签口径
 

@@ -2,19 +2,19 @@
 
 [Chinese](README.zh-CN.md) | English
 
-Stop re-explaining your projects to AI.
+Turn local materials into an AI-maintained Obsidian knowledge base.
 
-If you use Obsidian for real work, your vault already contains what an AI agent needs: project context, decisions, references, lessons, and unfinished threads. The problem is that most of it is not arranged for handoff. Every new AI session still starts cold.
+Most people already have useful knowledge scattered across local folders, notes, web clips, project documents, and chat history. The problem is not storage. The problem is that AI does not know how to sort it, govern it, recall it, or keep it healthy over time.
 
-Obsidian AI Memory Kit turns that private knowledge into a reusable working memory layer, so an AI agent can behave less like a first-time assistant and more like someone who has been following the project.
+Obsidian AI Memory Kit gives your AI agent a working system for organizing your local materials into a clear Obsidian vault with governance rules, recall maps, project memory, source triage, and maintenance loops.
 
 It helps you:
 
-- Spend less time reloading context for every AI session.
-- Keep project decisions, current state, and next actions in places AI can reliably find.
-- Turn repeated fixes and lessons into reusable assets instead of losing them in chat history.
-- Use it locally with your own private Obsidian vault.
-- Make Obsidian feel like a long-term workspace for human + AI collaboration, not just a note archive.
+- Sort local files, web clips, notes, and chat conclusions into the right knowledge types.
+- Give AI rules for what it may write, where it should write, and what must be verified first.
+- Make project state, decisions, source summaries, and reusable lessons easy to recall.
+- Keep the vault maintainable with health checks, review gates, and write-back rules.
+- Use everything locally with your own private Obsidian vault.
 
 ## Quick Start
 
@@ -35,32 +35,33 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 
 You can send it to tools that can read local files, such as Claude Code, Cursor, Codex CLI, or a ChatGPT session where you upload or expose the vault files. If the tool cannot read your local folder directly, use the path-based instruction above.
 
-With the demo project, the agent should be able to find the project card, read the current state, complete a task, and write the result back to the right place.
+To organize local materials, give the AI a folder path or a short file list after it reads `START-HERE.md`. It should use the knowledge pipeline instead of scanning everything blindly.
 
 ## Why This Exists
 
-Most notes are readable by humans, but not structured enough for AI agents to resume project work reliably.
+Most notes are readable by humans, but not structured enough for AI agents to organize, govern, recall, and maintain reliably.
 
 This kit adds a lightweight operating layer on top of Obsidian:
 
 | Problem | This kit provides |
 |---|---|
-| AI does not know where to start | `START-HERE.md` as the single entry point |
+| AI does not know how to start | `START-HERE.md` as the single entry point |
+| Local materials are mixed together | `02-Knowledge-Pipeline/` for intake, classification, extraction, and promotion |
+| AI writes too freely | `00-Agent-Governance/` for review gates and write-back rules |
+| Useful knowledge is hard to recall | `03-Recall-System/` for task-to-context maps and recall fields |
 | Project context is scattered | Project bridge cards in `10-Projects/` |
-| Useful lessons stay in chat history | Reusable assets in `20-SharedAssets/` |
-| Temporary notes become clutter | Inbox flow in `01-Inbox/` |
 | External sources get copied blindly | Analysis cards in `40-ExternalSources/` |
-| Every agent works differently | Shared rules in `AGENTS.md` and `START-HERE.md` |
 
 ## Scope
 
-The kit focuses on three jobs:
+The kit focuses on four jobs:
 
-- Project memory: keep current state, decisions, and next actions easy for AI to find.
-- Reusable lessons: turn repeated fixes into assets instead of chat history.
-- Source triage: summarize external material without copying full third-party content.
+- Knowledge pipeline: turn local materials into structured notes.
+- Agent governance: control what AI reads, writes, verifies, and avoids.
+- Recall system: help AI find the right context for each task.
+- Maintenance loop: keep the vault healthy over time.
 
-Maintenance rules only exist to keep those three jobs usable. This is not a full personal knowledge management system, a RAG stack, or a task manager.
+This is not a RAG stack, a cloud service, or a task manager. It is a local-first operating method for Obsidian plus AI.
 
 ## Repository Layout
 
@@ -69,7 +70,10 @@ Maintenance rules only exist to keep those three jobs usable. This is not a full
 ├── START-HERE.md
 ├── index.md
 ├── AGENTS.md
+├── 00-Agent-Governance/
 ├── 01-Inbox/
+├── 02-Knowledge-Pipeline/
+├── 03-Recall-System/
 ├── 10-Projects/
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
@@ -83,7 +87,10 @@ Maintenance rules only exist to keep those three jobs usable. This is not a full
 | [`START-HERE.md`](START-HERE.md) | The first file an AI agent should read |
 | [`index.md`](index.md) | Human-facing vault homepage |
 | [`AGENTS.md`](AGENTS.md) | Rules for Codex, Claude Code, and other coding agents |
+| [`00-Agent-Governance/`](00-Agent-Governance/) | Startup contract, review gates, write-back rules, maintenance loop |
 | [`01-Inbox/`](01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
+| [`02-Knowledge-Pipeline/`](02-Knowledge-Pipeline/) | How AI turns local materials into structured knowledge |
+| [`03-Recall-System/`](03-Recall-System/) | Task-to-context maps and recall fields |
 | [`10-Projects/`](10-Projects/) | Project workspaces and bridge cards |
 | [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
@@ -97,7 +104,19 @@ Maintenance rules only exist to keep those three jobs usable. This is not a full
 
 `START-HERE.md` tells the agent what kind of task it is handling, which files to read first, and where results should be written.
 
-### 2. Project Bridge Cards
+### 2. Knowledge Pipeline
+
+`02-Knowledge-Pipeline/` tells AI how to intake local materials, classify them, extract value, connect them, promote reusable knowledge, and maintain the result.
+
+### 3. Agent Governance
+
+`00-Agent-Governance/` tells AI what it may write, what it must verify, and when it should stop instead of guessing.
+
+### 4. Recall System
+
+`03-Recall-System/` maps tasks to the files AI should read first.
+
+### 5. Project Bridge Cards
 
 Each important project gets a bridge card with the project path, current state, recent decisions, next action, and write-back rules.
 
@@ -107,15 +126,15 @@ Start with:
 10-Projects/01-example-project/CODEX-BRIDGE-example.md
 ```
 
-### 3. Inbox Is Temporary
+### 6. Inbox Is Temporary
 
 `01-Inbox/` is for incoming handoffs, task cards, and web clips. It is not a permanent storage area.
 
-### 4. Lessons Become Assets
+### 7. Lessons Become Assets
 
 Repeated lessons should move into `20-SharedAssets/` with a clear trigger, action, and verification method.
 
-### 5. Local-first by Default
+### 8. Local-first by Default
 
 This kit is designed to be copied into your own local Obsidian vault. Your real project states, personal notes, handoff history, and private source material stay on your machine.
 
@@ -124,11 +143,11 @@ This kit is designed to be copied into your own local Obsidian vault. Your real 
 ```text
 User instruction
   -> START-HERE.md
-  -> project bridge card
-  -> current state / decisions
-  -> task execution
-  -> write back to project or Inbox
-  -> reusable lesson goes to SharedAssets
+  -> task-to-context map
+  -> governance rules
+  -> knowledge pipeline or project bridge card
+  -> structured write-back
+  -> reusable lesson enters Recall System
 ```
 
 Try the demo:
@@ -143,6 +162,12 @@ For a more realistic filled example, see:
 examples/filled-example/
 ```
 
+For a source-to-knowledge example, see:
+
+```text
+examples/source-to-knowledge/
+```
+
 Daily use should stay small: after the first setup, most agent sessions only need `START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
 
 If you already have an Obsidian vault, start with [MIGRATION.md](MIGRATION.md). Do not rebuild your vault; add one project bridge card first.
@@ -154,9 +179,10 @@ The vault works without scripts. If you want a faster setup loop:
 ```bash
 python3 scripts/kb.py health-check
 python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
 ```
 
-`health-check` verifies the core files, common stale concepts, and Markdown links. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`.
+`health-check` verifies the core files, common stale concepts, and Markdown links. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`. `intake-source` creates a source analysis card that AI can refine.
 
 ## Included Templates
 
@@ -188,4 +214,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.3.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.4.0`. See [CHANGELOG.md](CHANGELOG.md).

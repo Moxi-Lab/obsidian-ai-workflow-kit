@@ -11,12 +11,16 @@ status: active
 
 - `START-HERE.md`：AI 唯一开工入口。
 - `AGENTS.md`：Agent 通用规则。
+- `00-Agent-Governance/README.md`：AI 治理规则。
+- `02-Knowledge-Pipeline/README.md`：本机资料整理流水线。
+- `03-Recall-System/README.md`：召回系统。
 - `10-Projects/PROJECTS-REGISTRY.md`：项目登记表。
 - `10-Projects/01-example-project/CODEX-BRIDGE-example.md`：项目接续示例。
 
 ## 工作流入口
 
 - 项目接续：`10-Projects/01-example-project/README.md`
+- 本机资料整理：`02-Knowledge-Pipeline/local-material-intake.md`
 - 资料整理：`40-ExternalSources/README.md`
 - 经验沉淀：`20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md`
 - 知识库巡检：`20-SharedAssets/02-modules/知识库巡检清单-v1.md`

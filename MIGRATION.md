@@ -25,6 +25,9 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 
 - `START-HERE.md`
 - `AGENTS.md`
+- `00-Agent-Governance/`
+- `02-Knowledge-Pipeline/`
+- `03-Recall-System/`
 - `10-Projects/`
 - `20-SharedAssets/`
 - `40-ExternalSources/`
@@ -35,6 +38,20 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 3. Pick one active project.
 4. Create one bridge card for that project.
 5. Link existing notes from the bridge card instead of reorganizing them.
+
+## If You Want AI To Organize Existing Local Materials
+
+1. Pick one folder, not your whole computer.
+2. Ask AI to read `02-Knowledge-Pipeline/local-material-intake.md`.
+3. Let AI classify the folder into:
+
+- project memory
+- external source analysis
+- reusable lessons
+- temporary Inbox items
+
+4. Move or summarize only the high-value material.
+5. Add recall entries only after the material becomes useful for future tasks.
 
 ## First Project Bridge Card
 
