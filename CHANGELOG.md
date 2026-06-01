@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.3 - 2026-06-01
+
+- Replaced the mixed `LICENSE.md` file with a standard root `LICENSE` for MIT-licensed code and scripts.
+- Added `CONTENT-LICENSE.md` for CC BY 4.0 licensing of written content, templates, examples, and documentation.
+- Removed private-repository install warnings from README files before public beta.
+- Updated release checklist wording for public beta readiness.
+
 ## 0.5.2 - 2026-06-01
 
 - Added CI status badges to the English and Chinese README files.

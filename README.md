@@ -37,7 +37,7 @@ It helps you:
 
 ## Maturity
 
-This is a `0.x` private-beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
+This is a `0.x` beta starter kit. It is ready for controlled trials, small vaults, and feedback. It does not promise compatibility with every existing Obsidian vault layout.
 
 ## What Problem It Solves
 
@@ -108,8 +108,6 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` does not overwrite existing files unless you pass `--overwrite`.
-
-If the repository is still private, the remote `curl` command requires GitHub access and may not work for external users. Use a cloned copy until the repository is public.
 
 If you are working from a cloned copy, use:
 
@@ -317,10 +315,10 @@ This repository intentionally excludes:
 
 ## License
 
-- Original written content: CC BY 4.0.
-- Code, scripts, and executable snippets: MIT.
+- Code, scripts, and executable snippets: [MIT](LICENSE).
+- Original written content, templates, examples, and documentation: [CC BY 4.0](CONTENT-LICENSE.md).
 - Third-party content is not covered by this repository license.
 
 ## Version
 
-Current version: `0.5.2`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.3`. See [CHANGELOG.md](CHANGELOG.md).

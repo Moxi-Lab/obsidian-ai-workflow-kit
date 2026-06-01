@@ -37,7 +37,7 @@ Obsidian AI Workflow Kit 解决的就是这个接手问题：在本地 Obsidian 
 
 ## 成熟度
 
-当前是 `0.x` private beta starter kit，适合受控试用、小范围 vault 和反馈验证；不承诺兼容所有已有 Obsidian vault 结构。
+当前是 `0.x` beta starter kit，适合受控试用、小范围 vault 和反馈验证；不承诺兼容所有已有 Obsidian vault 结构。
 
 ## 它解决什么问题
 
@@ -124,8 +124,6 @@ python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-
 ```
 
 `install-core` 默认不会覆盖已有文件；只有显式加 `--overwrite` 才会覆盖。
-
-如果仓库仍是 private，远程 `curl` 命令需要 GitHub 访问权限，外部用户可能无法使用。仓库公开前请使用克隆后的本地脚本。
 
 如果你已经克隆了本仓库，也可以用本地脚本：
 
@@ -333,10 +331,10 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## License
 
-- 原创文字内容：CC BY 4.0。
-- 代码、脚本和可执行片段：MIT。
+- 代码、脚本和可执行片段：[MIT](LICENSE)。
+- 原创文字内容、模板、示例和文档：[CC BY 4.0](CONTENT-LICENSE.md)。
 - 第三方内容不包含在本仓库授权范围内。
 
 ## Version
 
-当前版本：`0.5.2`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.3`。见 [CHANGELOG.md](CHANGELOG.md)。

@@ -13,9 +13,9 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] GitHub Actions CI passes on `main`.
 - [ ] `VERSION` matches the intended release tag.
 - [ ] `CHANGELOG.md` has an entry for the release.
-- [ ] License scope is clear: written content is CC BY 4.0; code and scripts are MIT.
+- [ ] Root `LICENSE` is standard MIT and `CONTENT-LICENSE.md` explains CC BY 4.0 content licensing.
 
-## Private Beta Checks
+## Beta Trial Checks
 
 - [ ] Install into at least one empty test vault.
 - [ ] Install into at least one existing Obsidian vault with `--dry-run` first.
