@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2 - 2026-06-01
+
+- Added CI status badges to the English and Chinese README files.
+- Documented the `docs/` directory in the repository layout.
+- Aligned the repository version with the latest release tag after documentation updates.
+
 ## 0.5.1 - 2026-06-01
 
 - Renamed the project to Obsidian AI Workflow Kit.

@@ -339,4 +339,4 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## Version
 
-当前版本：`0.5.1`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.2`。见 [CHANGELOG.md](CHANGELOG.md)。
