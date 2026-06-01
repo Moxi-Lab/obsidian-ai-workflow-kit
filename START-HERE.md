@@ -57,7 +57,8 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 整理本机资料 | `02-Knowledge-Pipeline/README.md`、`02-Knowledge-Pipeline/local-material-intake.md` |
 | 接手项目 | `10-Projects/<项目>/CODEX-BRIDGE-*.md` |
 | 整理外部资料 | `40-ExternalSources/README.md`、`90-Templates/TPL-资料分析卡.md` |
-| 沉淀经验 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md` |
+| 沉淀经验 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md`、`90-Templates/TPL-问题知识卡-经验资产卡.md` |
+| 复盘问题/事故 | `20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md`、`90-Templates/TPL-问题事故经验卡.md` |
 | 维护知识库 | `00-Agent-Governance/maintenance-loop.md`、`20-SharedAssets/02-modules/知识库巡检清单-v1.md` |
 | 写交接 | `90-Templates/TPL-Agent交接卡.md` |
 
@@ -79,6 +80,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
 | 复用经验 | `20-SharedAssets/02-modules/` |
+| 问题/事故经验 | `90-Templates/TPL-问题事故经验卡.md` 复制后写入对应项目或 `20-SharedAssets/02-modules/` |
 | 召回规则 | `03-Recall-System/` |
 | 标准模板 | `90-Templates/` |
 
@@ -101,4 +103,5 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 - 是否更新了项目桥接卡。
 - 是否把临时资料移出 Inbox 或标明下一步。
 - 是否有经验值得上浮到共享资产。
+- 是否有失败、误判、返工、用户纠正或工具异常值得写成问题事故经验。
 - 是否留下了下一次 AI 可以接手的入口。

@@ -237,6 +237,8 @@ bash install.sh "/path/to/your-vault"
 
 重复出现的经验应该进入 `20-SharedAssets/`，并写清楚触发条件、处理动作和验证方式。
 
+失败、误判、返工、测试失败、用户纠正和工具异常，如果能避免下次重复踩坑，就应该沉淀成问题事故经验。
+
 ### 8. 默认本地优先
 
 这套结构适合复制到你自己的本地 Obsidian vault 中使用。真实项目状态、个人笔记、交接历史和私有资料都留在你自己的机器上。
@@ -301,6 +303,7 @@ python3 scripts/kb.py audit-vault --write-report
 | [`TPL-任务状态卡.md`](90-Templates/TPL-任务状态卡.md) | 任务状态跟踪 |
 | [`TPL-验收记录.md`](90-Templates/TPL-验收记录.md) | 验收记录 |
 | [`TPL-问题知识卡-经验资产卡.md`](90-Templates/TPL-问题知识卡-经验资产卡.md) | 高复用问题和经验资产 |
+| [`TPL-问题事故经验卡.md`](90-Templates/TPL-问题事故经验卡.md) | 失败、返工、误判和工具异常复盘 |
 | [`TPL-WebClip-最简模板.md`](90-Templates/TPL-WebClip-最简模板.md) | Web Clipper 原始剪藏 |
 
 ## 不包含什么

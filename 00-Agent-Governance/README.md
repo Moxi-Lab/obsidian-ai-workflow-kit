@@ -24,6 +24,7 @@ status: active
 - AI 不把原始聊天记录当长期知识。
 - AI 不复制第三方全文。
 - AI 写入长期知识前，要分清事实、判断和下一步动作。
+- AI 遇到失败、误判、返工、用户纠正或工具异常时，要判断是否沉淀成问题事故经验。
 - AI 结束任务前，要留下下一次能接手的入口。
 
 ## English
@@ -45,4 +46,5 @@ It is not a role system or an organization chart. It defines four rules AI must 
 - AI does not treat raw chat transcripts as long-term knowledge.
 - AI does not copy full third-party source text.
 - Before writing long-term knowledge, AI separates facts, judgment, and next actions.
+- When AI hits failure, wrong assumptions, rework, user correction, or tool incidents, it checks whether an incident lesson should be promoted.
 - Before ending a task, AI leaves an entry point that the next session can resume from.

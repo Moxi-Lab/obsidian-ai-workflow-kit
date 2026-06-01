@@ -221,6 +221,8 @@ Start with:
 
 Repeated lessons should move into `20-SharedAssets/` with a clear trigger, action, and verification method.
 
+Failures, wrong assumptions, rework, failed tests, user corrections, and tool incidents should become incident lessons when they can prevent the same mistake later.
+
 ### 8. Local-first by Default
 
 This kit is designed to be copied into your own local Obsidian vault. Your real project states, personal notes, handoff history, and private source material stay on your machine.
@@ -285,6 +287,7 @@ python3 scripts/kb.py audit-vault --write-report
 | [Task State Card](90-Templates/TPL-%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81%E5%8D%A1.md) | Task state tracking |
 | [Acceptance Record](90-Templates/TPL-%E9%AA%8C%E6%94%B6%E8%AE%B0%E5%BD%95.md) | Acceptance record |
 | [Question Knowledge / Experience Asset Card](90-Templates/TPL-%E9%97%AE%E9%A2%98%E7%9F%A5%E8%AF%86%E5%8D%A1-%E7%BB%8F%E9%AA%8C%E8%B5%84%E4%BA%A7%E5%8D%A1.md) | Reusable question and experience asset |
+| [Incident Experience Card](90-Templates/TPL-%E9%97%AE%E9%A2%98%E4%BA%8B%E6%95%85%E7%BB%8F%E9%AA%8C%E5%8D%A1.md) | Failure, rework, wrong-assumption, and tool-incident lesson |
 | [Web Clip Minimal Template](90-Templates/TPL-WebClip-%E6%9C%80%E7%AE%80%E6%A8%A1%E6%9D%BF.md) | Raw Web Clipper capture |
 
 ## Not Included

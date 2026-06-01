@@ -38,6 +38,7 @@ CORE_PATHS = [
     "20-SharedAssets/README.md",
     "40-ExternalSources/README.md",
     "90-Templates/TPL-Codex项目桥接卡.md",
+    "90-Templates/TPL-问题事故经验卡.md",
 ]
 
 STALE_PATTERNS = [

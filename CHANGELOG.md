@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.5 - 2026-06-01
+
+- Added `TPL-问题事故经验卡.md` for failure, rework, wrong-assumption, user-correction, and tool-incident lessons.
+- Updated startup, recall, governance, and write-back rules so agents check whether incidents should be promoted before ending a task.
+- Added the incident template to health-check required paths and README template lists.
+
 ## 0.5.4 - 2026-06-01
 
 - Replaced the README Mermaid architecture diagram with a generated PNG image.
