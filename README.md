@@ -18,9 +18,10 @@ It helps you:
 
 ## Quick Start
 
-1. Copy this repository as a new Obsidian vault.
-2. Open `START-HERE.md`.
-3. Send this instruction to your AI agent:
+1. Clone or download this repository.
+2. In Obsidian, choose **Open folder as vault** and select the repository folder. No community plugins are required. Obsidian will create its local `.obsidian/` config when you open the folder.
+3. Open `START-HERE.md`.
+4. Send this instruction to your AI agent:
 
 ```text
 You are the knowledge base maintenance agent. Read START-HERE.md in the current vault and follow its startup workflow.
@@ -31,6 +32,8 @@ If your agent is not running from the vault root, include the vault path:
 ```text
 You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read START-HERE.md in that directory, then follow its startup workflow.
 ```
+
+You can send it to tools that can read local files, such as Claude Code, Cursor, Codex CLI, or a ChatGPT session where you upload or expose the vault files. If the tool cannot read your local folder directly, use the path-based instruction above.
 
 With the demo project, the agent should be able to find the project card, read the current state, complete a task, and write the result back to the right place.
 
@@ -47,7 +50,7 @@ This kit adds a lightweight operating layer on top of Obsidian:
 | Useful lessons stay in chat history | Reusable assets in `20-SharedAssets/` |
 | Temporary notes become clutter | Inbox flow in `01-Inbox/` |
 | External sources get copied blindly | Analysis cards in `40-ExternalSources/` |
-| Every agent works differently | Shared rules in `AGENTS.md` and `00-Agent-OS-Lite/` |
+| Every agent works differently | Shared rules in `AGENTS.md` and `START-HERE.md` |
 
 ## Scope
 
@@ -66,9 +69,7 @@ Maintenance rules only exist to keep those three jobs usable. This is not a full
 ├── START-HERE.md
 ├── index.md
 ├── AGENTS.md
-├── 00-Agent-OS-Lite/
 ├── 01-Inbox/
-├── 02-MOCs/
 ├── 10-Projects/
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
@@ -82,9 +83,7 @@ Maintenance rules only exist to keep those three jobs usable. This is not a full
 | [`START-HERE.md`](START-HERE.md) | The first file an AI agent should read |
 | [`index.md`](index.md) | Human-facing vault homepage |
 | [`AGENTS.md`](AGENTS.md) | Rules for Codex, Claude Code, and other coding agents |
-| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | Minimal startup rules, registry, and health-check sample |
 | [`01-Inbox/`](01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
-| [`02-MOCs/`](02-MOCs/) | Optional human-readable maps of content |
 | [`10-Projects/`](10-Projects/) | Project workspaces and bridge cards |
 | [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
@@ -138,6 +137,16 @@ Try the demo:
 examples/ai-handoff-demo/README.md
 ```
 
+For a more realistic filled example, see:
+
+```text
+examples/filled-example/
+```
+
+Daily use should stay small: after the first setup, most agent sessions only need `START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
+
+If you already have an Obsidian vault, start with [MIGRATION.md](MIGRATION.md). Do not rebuild your vault; add one project bridge card first.
+
 ## Optional Scripts
 
 The vault works without scripts. If you want a faster setup loop:
@@ -176,3 +185,7 @@ This repository intentionally excludes:
 - Original written content: CC BY 4.0.
 - Code, scripts, and executable snippets: MIT.
 - Third-party content is not covered by this repository license.
+
+## Version
+
+Current version: `0.3.0`. See [CHANGELOG.md](CHANGELOG.md).

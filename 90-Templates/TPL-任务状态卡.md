@@ -5,9 +5,9 @@ updated: {{date}}
 task_id: ""
 title: ""
 project: ""
-pillar: "" # vibe coding / 自媒体创作 / 数字货币交易 / AI探索与学习
+pillar: "" # product / research / content / ops
 priority: "" # low / medium / high
-owner_role: "" # 技术总监 / 测试总监 / 运营总监 / 市场总监 / CEO
+owner_role: "" # maintainer / reviewer / researcher / writer / developer
 owner_agent: ""
 status: "todo" # todo / claimed / doing / review / blocked / done
 estimate: "" # 30m / 60m / 90m

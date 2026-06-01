@@ -2,9 +2,7 @@
 .DS_Store
 
 # Obsidian local state
-.obsidian/cache/
-.obsidian/workspace*.json
-.obsidian/workspace-mobile*.json
+.obsidian/
 
 # Local secrets and temp files
 .env

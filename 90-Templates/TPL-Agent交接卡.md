@@ -3,9 +3,9 @@ type: agent-handoff
 created: {{date}}
 updated: {{date}}
 source_agent: ""
-source_role: "" # CEO / 市场总监 / 技术总监 / 测试总监 / 运营总监（建议填写）
+source_role: "" # maintainer / reviewer / researcher / writer / developer
 rule_version: "" # 例如 v2.1.0
-pillar: "" # vibe coding / 自媒体创作 / 数字货币交易 / AI探索与学习
+pillar: "" # product / research / content / ops
 handoff_type: "" # end-of-session / mid-sync / incident
 status: open # open / blocked / done
 tl_dr: ""

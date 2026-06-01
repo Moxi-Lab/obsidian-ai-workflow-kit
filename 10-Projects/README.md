@@ -7,6 +7,10 @@ status: active
 
 这里放需要 AI 多次接手的项目。
 
+## 项目登记
+
+- `PROJECTS-REGISTRY.md`：登记需要 AI 多次接手的项目。
+
 每个项目至少包含：
 
 - `README.md`：人类看的项目入口。

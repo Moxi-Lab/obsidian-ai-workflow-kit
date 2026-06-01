@@ -18,9 +18,10 @@ Obsidian AI Memory Kit 把这些私人知识整理成一层可复用的工作记
 
 ## Quick Start
 
-1. 把这个仓库复制成一个新的 Obsidian vault。
-2. 打开 `START-HERE.md`。
-3. 把下面这句话发给你的 AI Agent：
+1. 克隆或下载这个仓库。
+2. 在 Obsidian 里选择 **Open folder as vault**，打开这个仓库目录。不需要社区插件。Obsidian 会在你打开目录时自动创建本地 `.obsidian/` 配置。
+3. 打开 `START-HERE.md`。
+4. 把下面这句话发给你的 AI Agent：
 
 中文：
 
@@ -48,6 +49,8 @@ English:
 You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read START-HERE.md in that directory, then follow its startup workflow.
 ```
 
+可以发给能读取本地文件的工具，比如 Claude Code、Cursor、Codex CLI，或者上传/暴露 vault 文件后的 ChatGPT 会话。如果工具不能直接读取本地文件，就使用上面带路径的版本。
+
 用内置示例项目测试时，AI 应该能根据入口找到项目桥接卡，读取当前状态，完成任务，并把结果写回正确位置。
 
 ## 为什么需要它
@@ -63,7 +66,7 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | 有用经验停留在聊天记录里 | 沉淀到 `20-SharedAssets/` |
 | 临时资料越来越乱 | 用 `01-Inbox/` 做临时分流 |
 | 外部资料容易整篇复制进库 | 用 `40-ExternalSources/` 做资料分析卡 |
-| 每个 Agent 做法不一致 | 用 `AGENTS.md` 和 `00-Agent-OS-Lite/` 统一规则 |
+| 每个 Agent 做法不一致 | 用 `AGENTS.md` 和 `START-HERE.md` 统一规则 |
 
 ## 范围边界
 
@@ -82,9 +85,7 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 ├── START-HERE.md
 ├── index.md
 ├── AGENTS.md
-├── 00-Agent-OS-Lite/
 ├── 01-Inbox/
-├── 02-MOCs/
 ├── 10-Projects/
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
@@ -98,9 +99,7 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | [`START-HERE.md`](START-HERE.md) | AI Agent 第一个应该读的文件 |
 | [`index.md`](index.md) | 给人看的 vault 首页 |
 | [`AGENTS.md`](AGENTS.md) | 给 Codex、Claude Code 等 coding agent 的规则 |
-| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | 最小开工规则、项目登记表和巡检样例 |
 | [`01-Inbox/`](01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
-| [`02-MOCs/`](02-MOCs/) | 可选主题地图 |
 | [`10-Projects/`](10-Projects/) | 项目工作区和项目桥接卡 |
 | [`20-SharedAssets/`](20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
@@ -154,6 +153,16 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 examples/ai-handoff-demo/README.md
 ```
 
+想看更接近真实使用状态的填充示例：
+
+```text
+examples/filled-example/
+```
+
+日常使用不需要读完整仓库：初始化之后，大多数 AI 会话只需要读 `START-HERE.md`、一个项目桥接卡，以及该项目的 `current-state.md` / `decisions.md`。
+
+如果你已经有自己的 Obsidian vault，先看 [MIGRATION.md](MIGRATION.md)。不要重建整个 vault，先加一张项目桥接卡。
+
 ## 可选脚本
 
 不用脚本也能使用这套结构。如果想更快初始化和检查：
@@ -192,3 +201,7 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 - 原创文字内容：CC BY 4.0。
 - 代码、脚本和可执行片段：MIT。
 - 第三方内容不包含在本仓库授权范围内。
+
+## Version
+
+当前版本：`0.3.0`。见 [CHANGELOG.md](CHANGELOG.md)。
