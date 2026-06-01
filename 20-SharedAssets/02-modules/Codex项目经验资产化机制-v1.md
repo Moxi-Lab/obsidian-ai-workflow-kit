@@ -23,7 +23,7 @@ owner: maintainer
   -> 经验速记
   -> 经验资产卡
   -> 项目桥接卡召回
-  -> Context Pack / 检查清单 / 模板
+  -> 开工必读 / 检查清单 / 模板
   -> 下一次任务使用
 ```
 
@@ -68,10 +68,10 @@ owner: maintainer
 
 | 经验类型 | 写入位置 |
 |---|---|
-| 跨项目规则、检查清单、SOP | `20-共享资产SharedAssets/02-通用模块/` |
-| 反复踩坑的解决方案 | `00-Agent协作Agent-OS/00-公司通用规范/经验库/<主题>/README.md` |
+| 跨项目规则、检查清单、SOP | `20-SharedAssets/02-modules/` |
+| 反复踩坑的解决方案 | `20-SharedAssets/02-modules/` 或问题知识卡 / 经验资产卡 |
 | 某个项目专属状态和边界 | 对应 Codex 项目桥接卡 |
-| 某次任务的短期交接 | `01-收件箱Inbox/Agent交接卡/` |
+| 某次任务的短期交接 | `01-Inbox/agent-handoffs/` |
 
 ## 桥接卡召回规则
 

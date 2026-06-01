@@ -4,7 +4,7 @@ asset_group: 规则资产
 asset_label: AI知识库复利维护SOP
 type: sop
 created: 2026-04-12
-updated: 2026-05-31
+updated: 2026-06-01
 scope: cross-project
 owner: maintainer
 status: active
@@ -31,14 +31,14 @@ tags:
 
 ### 1. 导入
 
-外部资料先进 `01-收件箱Inbox/网页剪藏WebClippings/00-Inbox/` 或直接进入 `40-外部资料/` 对应主线。
+外部资料先进 `01-Inbox/web-clips/`，或直接进入 `40-ExternalSources/` 的资料分析卡。
 
 导入时必须判断：
 
-- 归属哪条主线。
+- 归属哪个项目或主题。
 - 是否影响当前项目。
 - 是否有可执行动作。
-- 是否值得上浮为共享资产或经验库。
+- 是否值得上浮为共享资产或经验资产。
 
 ### 2. 串联
 
@@ -58,12 +58,12 @@ tags:
 
 | 结论类型 | 回写位置 |
 |---|---|
-| 只用于理解来源 | `40-外部资料/` |
-| 影响某个主线动作 | `10-项目Projects/<主线>/` |
-| 多个项目可复用 | `20-共享资产SharedAssets/` |
-| 反复踩坑或稳定经验 | 对应岗位经验库或公司经验库 |
+| 只用于理解来源 | `40-ExternalSources/` |
+| 影响某个项目动作 | `10-Projects/<project>/` |
+| 多个项目可复用 | `20-SharedAssets/` |
+| 反复踩坑或稳定经验 | `90-Templates/TPL-问题知识卡-经验资产卡.md` 或 `20-SharedAssets/02-modules/` |
 | 旧项目经验需要被 AI 复用 | [Codex项目经验资产化机制-v1](./Codex项目经验资产化机制-v1.md) + 对应项目桥接卡 |
-| 影响当前优先级 | `当前关注-CURRENT-FOCUS.md` 或活跃项目索引 |
+| 影响当前优先级 | 对应项目桥接卡或 `10-Projects/README.md` |
 
 没有回写去向的学习卡，只算收录，不算完成吸收。
 
@@ -91,10 +91,10 @@ tags:
 
 ```text
 按《AI知识库复利维护SOP v1》处理这条输入：
-1) 判断它属于哪条主线；
+1) 判断它属于哪个项目或主题；
 2) 提炼 one_liner 和 key_insight；
 3) 标出 related_project / related_moc / related_notes；
-4) 判断是否需要回写到项目、共享资产或经验库；
+4) 判断是否需要回写到项目、共享资产或经验资产；
 5) 只做必要沉淀，不新增重复目录。
 ```
 
@@ -103,5 +103,5 @@ tags:
 - 原文或来源可追溯。
 - 学习卡能从 MOC 或 README 找到。
 - 有明确回写去向，或明确标注“仅参考”。
-- 可复用内容已上浮到共享资产或经验库。
+- 可复用内容已上浮到共享资产或经验资产。
 - 处理后的原始剪藏不继续滞留在 Inbox。

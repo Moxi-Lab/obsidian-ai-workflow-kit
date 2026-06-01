@@ -49,6 +49,16 @@ This kit adds a lightweight operating layer on top of Obsidian:
 | External sources get copied blindly | Analysis cards in `40-ExternalSources/` |
 | Every agent works differently | Shared rules in `AGENTS.md` and `00-Agent-OS-Lite/` |
 
+## Scope
+
+The kit focuses on three jobs:
+
+- Project memory: keep current state, decisions, and next actions easy for AI to find.
+- Reusable lessons: turn repeated fixes into assets instead of chat history.
+- Source triage: summarize external material without copying full third-party content.
+
+Maintenance rules only exist to keep those three jobs usable. This is not a full personal knowledge management system, a RAG stack, or a task manager.
+
 ## Repository Layout
 
 ```text
@@ -63,6 +73,7 @@ This kit adds a lightweight operating layer on top of Obsidian:
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
 ├── 90-Templates/
+├── scripts/
 └── examples/
 ```
 
@@ -71,13 +82,14 @@ This kit adds a lightweight operating layer on top of Obsidian:
 | [`START-HERE.md`](START-HERE.md) | The first file an AI agent should read |
 | [`index.md`](index.md) | Human-facing vault homepage |
 | [`AGENTS.md`](AGENTS.md) | Rules for Codex, Claude Code, and other coding agents |
-| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | Minimal agent operating rules and registries |
+| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | Minimal startup rules, registry, and health-check sample |
 | [`01-Inbox/`](01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
-| [`02-MOCs/`](02-MOCs/) | Human-readable maps of content |
+| [`02-MOCs/`](02-MOCs/) | Optional human-readable maps of content |
 | [`10-Projects/`](10-Projects/) | Project workspaces and bridge cards |
 | [`20-SharedAssets/`](20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](40-ExternalSources/) | Source analysis cards, not copied third-party articles |
 | [`90-Templates/`](90-Templates/) | Standard templates |
+| [`scripts/`](scripts/) | Small helper scripts for project cards and health checks |
 | [`examples/`](examples/) | End-to-end handoff demo |
 
 ## Core Ideas
@@ -125,6 +137,17 @@ Try the demo:
 ```text
 examples/ai-handoff-demo/README.md
 ```
+
+## Optional Scripts
+
+The vault works without scripts. If you want a faster setup loop:
+
+```bash
+python3 scripts/kb.py health-check
+python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+```
+
+`health-check` verifies the core files, common stale concepts, and Markdown links. `new-project` creates a minimal project workspace and bridge card under `10-Projects/`.
 
 ## Included Templates
 

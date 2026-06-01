@@ -31,4 +31,4 @@ status: active
 
 如果任务完成，写交接卡到：
 
-`01-Inbox/agent-handoffs/00-Inbox/`
+`01-Inbox/agent-handoffs/`

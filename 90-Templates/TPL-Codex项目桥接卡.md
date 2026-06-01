@@ -17,7 +17,7 @@ pillar:
 project:
 local_root:
 kb_project:
-context_pack:
+startup_files:
 owner:
 kb_bridge_status: kb-only # kb-only / project-linked / paused
 last_verified:
@@ -28,7 +28,7 @@ last_verified:
 
 ## 一句话定位
 
-这个本地 Codex 项目对应知识库中的哪条业务主线，以及当前为什么需要接入。
+这个本地 Codex 项目对应知识库中的哪个项目区域，以及当前为什么需要接入。
 
 ## 本地项目
 
@@ -44,15 +44,15 @@ last_verified:
 
 | 项目 | 内容 |
 |---|---|
-| 主线 | `<pillar>` |
+| 项目区域 | `<pillar>` |
 | 知识库项目页 | `<Obsidian 链接>` |
-| Context Pack | `<Obsidian 链接>` |
-| 交接卡位置 | `01-收件箱Inbox/Agent交接卡/` |
+| 开工必读 | `<START-HERE / 项目状态页 / 决策页>` |
+| 交接卡位置 | `01-Inbox/agent-handoffs/` |
 
 ## 开工必读
 
 1. 项目根 `AGENTS.md`
-2. 对应 context pack
+2. `START-HERE.md`
 3. 知识库项目页
 4. 项目 docs 中的当前任务文档
 
@@ -80,7 +80,7 @@ last_verified:
 
 - 项目状态变化：更新知识库项目页和本桥接卡。
 - 重要实现 / 验收：更新项目 docs，并在交接卡摘要。
-- 可复用经验：上浮到共享资产或经验库。
+- 可复用经验：上浮到共享资产或经验资产卡。
 - 重要、持续或跨项目任务结束时，至少检查本卡“当前状态 / 最近决策 / 下次开工 / 可沉淀经验”四项；有变化才更新。
 - 未闭环事项写入交接卡或项目页，不散落在聊天里。
 

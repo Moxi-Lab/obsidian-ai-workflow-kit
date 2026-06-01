@@ -9,7 +9,7 @@ status: active
 
 ## 处理流程
 
-1. 外部资料先进入 `01-Inbox/web-clips/00-Inbox/`。
+1. 外部资料先进入 `01-Inbox/web-clips/`。
 2. 用 `90-Templates/TPL-资料分析卡.md` 判断资料价值。
 3. 只保留摘要、来源链接、可复用点和写回去向。
 4. 有长期价值的内容，写回项目或共享资产。

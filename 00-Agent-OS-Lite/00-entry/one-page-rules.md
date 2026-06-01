@@ -24,7 +24,7 @@ status: active
 | 情况 | 写回位置 |
 |---|---|
 | 项目状态变化 | 项目桥接卡 |
-| 任务短期交接 | `01-Inbox/agent-handoffs/00-Inbox/` |
+| 任务短期交接 | `01-Inbox/agent-handoffs/` |
 | 可复用经验 | `20-SharedAssets/02-modules/` |
 | 外部资料分析 | `40-ExternalSources/` |
 | 模板变化 | `90-Templates/` |

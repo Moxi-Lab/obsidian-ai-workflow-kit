@@ -65,6 +65,16 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | 外部资料容易整篇复制进库 | 用 `40-ExternalSources/` 做资料分析卡 |
 | 每个 Agent 做法不一致 | 用 `AGENTS.md` 和 `00-Agent-OS-Lite/` 统一规则 |
 
+## 范围边界
+
+这套结构只聚焦三件事：
+
+- 项目记忆：让 AI 稳定找到当前状态、关键决策和下一步动作。
+- 经验复用：把反复出现的解决方案沉淀成资产，而不是留在聊天记录里。
+- 资料分流：整理外部资料的结论和来源，不复制第三方全文。
+
+知识库维护规则只是为了保证这三件事能持续运转。它不是完整个人知识管理系统，不是 RAG 系统，也不是任务管理器。
+
 ## 仓库结构
 
 ```text
@@ -79,6 +89,7 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 ├── 20-SharedAssets/
 ├── 40-ExternalSources/
 ├── 90-Templates/
+├── scripts/
 └── examples/
 ```
 
@@ -87,13 +98,14 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 | [`START-HERE.md`](START-HERE.md) | AI Agent 第一个应该读的文件 |
 | [`index.md`](index.md) | 给人看的 vault 首页 |
 | [`AGENTS.md`](AGENTS.md) | 给 Codex、Claude Code 等 coding agent 的规则 |
-| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | 精简版 Agent 工作规则和登记表 |
+| [`00-Agent-OS-Lite/`](00-Agent-OS-Lite/) | 最小开工规则、项目登记表和巡检样例 |
 | [`01-Inbox/`](01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
-| [`02-MOCs/`](02-MOCs/) | 给人看的主题地图 |
+| [`02-MOCs/`](02-MOCs/) | 可选主题地图 |
 | [`10-Projects/`](10-Projects/) | 项目工作区和项目桥接卡 |
 | [`20-SharedAssets/`](20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
 | [`90-Templates/`](90-Templates/) | 标准模板 |
+| [`scripts/`](scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](examples/) | 从开工到交接的完整示例 |
 
 ## 核心思路
@@ -141,6 +153,17 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 ```text
 examples/ai-handoff-demo/README.md
 ```
+
+## 可选脚本
+
+不用脚本也能使用这套结构。如果想更快初始化和检查：
+
+```bash
+python3 scripts/kb.py health-check
+python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+```
+
+`health-check` 会检查核心文件、常见概念残留和 Markdown 链接。`new-project` 会在 `10-Projects/` 下创建最小项目工作区和桥接卡。
 
 ## 内置模板
 

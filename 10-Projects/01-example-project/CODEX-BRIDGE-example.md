@@ -4,7 +4,10 @@ status: active
 project: Example Project
 local_root: "<your-project-path>"
 kb_project: "10-Projects/01-example-project/README.md"
-context_pack: "START-HERE.md"
+startup_files:
+  - "START-HERE.md"
+  - "10-Projects/01-example-project/current-state.md"
+  - "10-Projects/01-example-project/decisions.md"
 ---
 
 # Codex 项目桥接卡｜Example Project
@@ -57,5 +60,5 @@ context_pack: "START-HERE.md"
 |---|---|
 | 项目长期状态 | 本桥接卡或 `current-state.md` |
 | 稳定决策 | `decisions.md` |
-| 临时交接 | `01-Inbox/agent-handoffs/00-Inbox/` |
+| 临时交接 | `01-Inbox/agent-handoffs/` |
 | 可复用经验 | `20-SharedAssets/02-modules/` |

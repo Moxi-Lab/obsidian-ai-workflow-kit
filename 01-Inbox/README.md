@@ -11,9 +11,9 @@ Inbox 是临时流转区，不是长期知识库。
 
 | 路径 | 用途 |
 |---|---|
-| `agent-handoffs/00-Inbox/` | Agent 交接卡 |
-| `dispatch-cards/00-Inbox/` | 派工卡、任务卡 |
-| `web-clips/00-Inbox/` | 网页剪藏、外部资料临时入口 |
+| `agent-handoffs/` | Agent 交接卡 |
+| `dispatch-cards/` | 派工卡、任务卡 |
+| `web-clips/` | 网页剪藏、外部资料临时入口 |
 
 ## 处理原则
 

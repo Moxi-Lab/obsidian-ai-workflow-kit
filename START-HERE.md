@@ -70,8 +70,8 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 
 | 内容 | 写到哪里 |
 |---|---|
-| 临时交接 | `01-Inbox/agent-handoffs/00-Inbox/` |
-| 临时派工 | `01-Inbox/dispatch-cards/00-Inbox/` |
+| 临时交接 | `01-Inbox/agent-handoffs/` |
+| 临时派工 | `01-Inbox/dispatch-cards/` |
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
 | 复用经验 | `20-SharedAssets/02-modules/` |

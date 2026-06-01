@@ -20,7 +20,7 @@
 - 不直接复制第三方原文全文。
 - 有项目状态变化时，更新对应项目桥接卡。
 - 有复用价值的经验，写到 `20-SharedAssets/02-modules/`。
-- 临时交接写到 `01-Inbox/agent-handoffs/00-Inbox/`。
+- 临时交接写到 `01-Inbox/agent-handoffs/`。
 
 ## Completion
 

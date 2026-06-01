@@ -11,7 +11,7 @@ status: active
 
 - `START-HERE.md`：AI 唯一开工入口。
 - `00-Agent-OS-Lite/00-entry/one-page-rules.md`：精简规则。
-- `02-MOCs/MOC-INDEX.md`：主题地图总览。
+- `02-MOCs/MOC-INDEX.md`：可选主题地图总览。
 - `10-Projects/01-example-project/CODEX-BRIDGE-example.md`：项目接续示例。
 
 ## 工作流入口
