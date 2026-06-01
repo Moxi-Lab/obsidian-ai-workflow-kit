@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small helpers for Obsidian AI Memory Kit."""
+"""Small helpers for Obsidian AI Workflow Kit."""
 
 from __future__ import annotations
 
@@ -706,7 +706,7 @@ def audit_vault(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Obsidian AI Memory Kit helper")
+    parser = argparse.ArgumentParser(description="Obsidian AI Workflow Kit helper")
     parser.add_argument("--vault", help="Vault root. Defaults to current directory.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 

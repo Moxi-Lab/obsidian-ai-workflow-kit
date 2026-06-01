@@ -35,4 +35,4 @@ status: active
 
 ## 可选高级模块
 
-`04-optional-advanced/跨项目多窗口协作写作规范-v2.1.md` 只适合多人或多 Agent 并行开发。单人使用 Obsidian AI Memory Kit 时可以跳过。
+`04-optional-advanced/跨项目多窗口协作写作规范-v2.1.md` 只适合多人或多 Agent 并行开发。单人使用 Obsidian AI Workflow Kit 时可以跳过。

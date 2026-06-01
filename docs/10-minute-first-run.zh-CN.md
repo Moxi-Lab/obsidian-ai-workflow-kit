@@ -7,7 +7,7 @@
 先用空目录或一个很小的测试 vault。不要一开始就拿完整个人 vault 测试。
 
 ```bash
-mkdir -p ~/obsidian-ai-memory-test
+mkdir -p ~/obsidian-ai-workflow-test
 ```
 
 ## 1. 预览安装
@@ -15,13 +15,13 @@ mkdir -p ~/obsidian-ai-memory-test
 如果仓库已经 public：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-memory-test
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-workflow-test
 ```
 
 如果你已经克隆仓库：
 
 ```bash
-bash install.sh --dry-run ~/obsidian-ai-memory-test
+bash install.sh --dry-run ~/obsidian-ai-workflow-test
 ```
 
 ## 2. 安装
@@ -29,13 +29,13 @@ bash install.sh --dry-run ~/obsidian-ai-memory-test
 如果仓库已经 public：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- ~/obsidian-ai-memory-test
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- ~/obsidian-ai-workflow-test
 ```
 
 如果你已经克隆仓库：
 
 ```bash
-bash install.sh ~/obsidian-ai-memory-test
+bash install.sh ~/obsidian-ai-workflow-test
 ```
 
 安装脚本默认跳过已有文件。
@@ -43,14 +43,14 @@ bash install.sh ~/obsidian-ai-memory-test
 ## 3. 验证
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py health-check --vault ~/obsidian-ai-memory-test
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
 ```
 
 ## 4. 创建项目桥接卡
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py new-project demo-project \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
+  --vault ~/obsidian-ai-workflow-test \
   --name "Demo Project" \
   --root ~/demo-project
 ```
@@ -60,8 +60,8 @@ python3 ~/obsidian-ai-memory-test/scripts/kb.py new-project demo-project \
 把它指向一个只有少量文件的测试资料夹：
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py intake-folder ~/demo-materials \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials \
+  --vault ~/obsidian-ai-workflow-test \
   --title "Demo Materials" \
   --project demo-project
 ```
@@ -73,7 +73,7 @@ python3 ~/obsidian-ai-memory-test/scripts/kb.py intake-folder ~/demo-materials \
 把这句话发给能读取本地文件的 AI 工具：
 
 ```text
-你是知识库维护 Agent。这个 Obsidian vault 的根目录是：~/obsidian-ai-memory-test。请先读取该目录下的 START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent。这个 Obsidian vault 的根目录是：~/obsidian-ai-workflow-test。请先读取该目录下的 START-HERE.md，并按里面的开工流程执行。
 ```
 
 预期第一条回复应包含：
@@ -89,8 +89,8 @@ python3 ~/obsidian-ai-memory-test/scripts/kb.py intake-folder ~/demo-materials \
 ## 7. 运行 vault 审计
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py audit-vault \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py audit-vault \
+  --vault ~/obsidian-ai-workflow-test \
   --write-report
 ```
 

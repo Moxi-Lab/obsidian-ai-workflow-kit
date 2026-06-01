@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="Moxi-Lab/obsidian-ai-memory-kit"
-BRANCH="${OBSIDIAN_AI_MEMORY_KIT_BRANCH:-main}"
-ARCHIVE_URL="${OBSIDIAN_AI_MEMORY_KIT_ARCHIVE_URL:-https://github.com/${REPO}/archive/refs/heads/${BRANCH}.tar.gz}"
-SOURCE="${OBSIDIAN_AI_MEMORY_KIT_SOURCE:-}"
+REPO="Moxi-Lab/obsidian-ai-workflow-kit"
+BRANCH="${OBSIDIAN_AI_WORKFLOW_KIT_BRANCH:-main}"
+ARCHIVE_URL="${OBSIDIAN_AI_WORKFLOW_KIT_ARCHIVE_URL:-https://github.com/${REPO}/archive/refs/heads/${BRANCH}.tar.gz}"
+SOURCE="${OBSIDIAN_AI_WORKFLOW_KIT_SOURCE:-}"
 DRY_RUN=0
 OVERWRITE=0
 TARGET=""
@@ -12,7 +12,7 @@ TMP_DIR=""
 
 usage() {
   cat <<'USAGE'
-Install Obsidian AI Memory Kit into an existing Obsidian vault.
+Install Obsidian AI Workflow Kit into an existing Obsidian vault.
 
 Usage:
   bash install.sh [--dry-run] [--overwrite] [--branch main] [--source /path/to/repo] <vault-path>
@@ -22,8 +22,8 @@ Examples:
   bash install.sh "/path/to/your-vault"
 
 Remote one-line form:
-  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
-  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 
 Default behavior:
   - Creates missing files and directories.

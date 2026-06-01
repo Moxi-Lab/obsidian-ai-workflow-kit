@@ -7,7 +7,7 @@ This path is for a new user who wants to see value quickly without rebuilding an
 Use an empty folder or a small existing vault. Do not start with your full personal vault.
 
 ```bash
-mkdir -p ~/obsidian-ai-memory-test
+mkdir -p ~/obsidian-ai-workflow-test
 ```
 
 ## 1. Preview Installation
@@ -15,13 +15,13 @@ mkdir -p ~/obsidian-ai-memory-test
 If this repository is public:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-memory-test
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-workflow-test
 ```
 
 If you cloned the repository:
 
 ```bash
-bash install.sh --dry-run ~/obsidian-ai-memory-test
+bash install.sh --dry-run ~/obsidian-ai-workflow-test
 ```
 
 ## 2. Install
@@ -29,13 +29,13 @@ bash install.sh --dry-run ~/obsidian-ai-memory-test
 If this repository is public:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- ~/obsidian-ai-memory-test
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- ~/obsidian-ai-workflow-test
 ```
 
 If you cloned the repository:
 
 ```bash
-bash install.sh ~/obsidian-ai-memory-test
+bash install.sh ~/obsidian-ai-workflow-test
 ```
 
 The installer skips existing files by default.
@@ -43,14 +43,14 @@ The installer skips existing files by default.
 ## 3. Verify
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py health-check --vault ~/obsidian-ai-memory-test
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
 ```
 
 ## 4. Create A Project Bridge
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py new-project demo-project \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
+  --vault ~/obsidian-ai-workflow-test \
   --name "Demo Project" \
   --root ~/demo-project
 ```
@@ -60,8 +60,8 @@ python3 ~/obsidian-ai-memory-test/scripts/kb.py new-project demo-project \
 Point this at a small folder with a few documents:
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py intake-folder ~/demo-materials \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials \
+  --vault ~/obsidian-ai-workflow-test \
   --title "Demo Materials" \
   --project demo-project
 ```
@@ -73,7 +73,7 @@ This creates a manifest only. It does not move or edit original files.
 Send this to any AI tool that can read local files:
 
 ```text
-You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: ~/obsidian-ai-memory-test. First read START-HERE.md in that directory, then follow its startup workflow.
+You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: ~/obsidian-ai-workflow-test. First read START-HERE.md in that directory, then follow its startup workflow.
 ```
 
 Expected first response:
@@ -89,8 +89,8 @@ Will not do: <...>
 ## 7. Run A Vault Audit
 
 ```bash
-python3 ~/obsidian-ai-memory-test/scripts/kb.py audit-vault \
-  --vault ~/obsidian-ai-memory-test \
+python3 ~/obsidian-ai-workflow-test/scripts/kb.py audit-vault \
+  --vault ~/obsidian-ai-workflow-test \
   --write-report
 ```
 

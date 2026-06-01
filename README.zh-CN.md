@@ -1,4 +1,4 @@
-# Obsidian AI Memory Kit
+# Obsidian AI Workflow Kit
 
 中文 | [English](README.md)
 
@@ -6,7 +6,7 @@
 
 你打开一个新的 Claude Code、Cursor、Codex 或 ChatGPT 会话。它又问你：这个项目是什么？关键资料在哪？上次做到哪？哪些内容不能乱改？
 
-Obsidian AI Memory Kit 解决的就是这个接手问题：在本地 Obsidian vault 上加一层 AI 能执行的操作约定，包括唯一开工入口、写回规则、任务到上下文的映射、资料分流、审查门和经验升舱机制。
+Obsidian AI Workflow Kit 解决的就是这个接手问题：在本地 Obsidian vault 上加一层 AI 能执行的操作约定，包括唯一开工入口、写回规则、任务到上下文的映射、资料分流、审查门和经验升舱机制。
 
 它不是 App、插件、云端记忆服务，也不是 RAG 系统。它是一套文件系统层的约定：人能直接读写，任何能读取本地文件的 AI Agent 都能执行。
 
@@ -106,13 +106,13 @@ python3 "/path/to/your-vault/scripts/kb.py" intake-folder "/path/to/materials" -
 先预览：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
 ```
 
 确认后安装：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 ```
 
 再检查安装后的 vault：
@@ -335,4 +335,4 @@ python3 scripts/kb.py audit-vault --write-report
 
 ## Version
 
-当前版本：`0.5.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.5.1`。见 [CHANGELOG.md](CHANGELOG.md)。

@@ -5,7 +5,7 @@ status: active
 
 # 公开边界
 
-本仓库是 Obsidian AI Memory Kit 的公开版，不是完整个人知识库。
+本仓库是 Obsidian AI Workflow Kit 的公开版，不是完整个人知识库。
 
 ## 已保留
 

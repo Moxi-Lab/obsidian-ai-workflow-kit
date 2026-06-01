@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 - 2026-06-01
+
+- Renamed the project to Obsidian AI Workflow Kit.
+- Updated repository slug references, installer URLs, script wording, and documentation wording.
+- Kept the workflow focused on Obsidian-based AI handoff, local knowledge organization, governance, and recall.
+
 ## 0.5.0 - 2026-06-01
 
 - Added GitHub Actions CI for health checks, installer tests, and tool tests.
@@ -70,5 +76,5 @@
 
 ## 0.1.0 - 2026-06-01
 
-- Initial private release of Obsidian AI Memory Kit.
+- Initial private release of Obsidian AI Workflow Kit.
 - Added startup entry, project bridge card, templates, source triage, shared assets, and bilingual README files.

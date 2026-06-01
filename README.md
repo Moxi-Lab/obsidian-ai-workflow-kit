@@ -1,4 +1,4 @@
-# Obsidian AI Memory Kit
+# Obsidian AI Workflow Kit
 
 [Chinese](README.zh-CN.md) | English
 
@@ -6,7 +6,7 @@ AI-ready vault structure for agents that keep forgetting your project context.
 
 You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this project is, where the important context lives, and what changed last time. Again.
 
-Obsidian AI Memory Kit fixes the handoff problem by turning your local Obsidian vault into a readable operating layer for AI agents: one startup entry, explicit write-back rules, task-to-context maps, source triage, review gates, and reusable lesson promotion.
+Obsidian AI Workflow Kit fixes the handoff problem by turning your local Obsidian vault into a readable operating layer for AI agents: one startup entry, explicit write-back rules, task-to-context maps, source triage, review gates, and reusable lesson promotion.
 
 It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level convention that humans can edit and any AI agent with file access can execute.
 
@@ -90,13 +90,13 @@ Use this if you already have an Obsidian vault and want to add the AI-ready oper
 Preview first:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
 ```
 
 Install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-memory-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 ```
 
 Then check the installed vault:
@@ -319,4 +319,4 @@ This repository intentionally excludes:
 
 ## Version
 
-Current version: `0.5.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.5.1`. See [CHANGELOG.md](CHANGELOG.md).

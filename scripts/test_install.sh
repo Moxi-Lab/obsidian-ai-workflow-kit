@@ -7,23 +7,23 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 TARGET="$TMP_DIR/vault"
 
-OBSIDIAN_AI_MEMORY_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --dry-run "$TARGET" >/tmp/obsidian-ai-memory-kit-dry-run.log
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --dry-run "$TARGET" >/tmp/obsidian-ai-workflow-kit-dry-run.log
 test ! -e "$TARGET"
 
-OBSIDIAN_AI_MEMORY_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-memory-kit-install.log
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-install.log
 test -f "$TARGET/START-HERE.md"
 test -f "$TARGET/scripts/kb.py"
-python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" >/tmp/obsidian-ai-memory-kit-health.log
+python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" >/tmp/obsidian-ai-workflow-kit-health.log
 
 printf 'CUSTOM SENTINEL\n' > "$TARGET/START-HERE.md"
-OBSIDIAN_AI_MEMORY_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-memory-kit-skip.log
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-skip.log
 grep -q 'CUSTOM SENTINEL' "$TARGET/START-HERE.md"
 
-OBSIDIAN_AI_MEMORY_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --overwrite "$TARGET" >/tmp/obsidian-ai-memory-kit-overwrite.log
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --overwrite "$TARGET" >/tmp/obsidian-ai-workflow-kit-overwrite.log
 ! grep -q 'CUSTOM SENTINEL' "$TARGET/START-HERE.md"
 
-rm -f /tmp/obsidian-ai-memory-kit-dry-run.log \
-  /tmp/obsidian-ai-memory-kit-install.log \
-  /tmp/obsidian-ai-memory-kit-health.log \
-  /tmp/obsidian-ai-memory-kit-skip.log \
-  /tmp/obsidian-ai-memory-kit-overwrite.log
+rm -f /tmp/obsidian-ai-workflow-kit-dry-run.log \
+  /tmp/obsidian-ai-workflow-kit-install.log \
+  /tmp/obsidian-ai-workflow-kit-health.log \
+  /tmp/obsidian-ai-workflow-kit-skip.log \
+  /tmp/obsidian-ai-workflow-kit-overwrite.log
