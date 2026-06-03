@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.7.1 - 2026-06-04
+
+- Split `00-AI/scripts/kb.py` into a small CLI entry point plus focused modules under `00-AI/scripts/kb/`.
+- Kept the public CLI unchanged: `python3 00-AI/scripts/kb.py <command>`.
+- Moved stale concept patterns out of Python code into `00-AI/config/stale-patterns.txt`.
+- Added support for per-vault stale pattern overrides at `.obsidian-ai-workflow-kit/stale-patterns.txt`.
+- Updated install manifests, tests, and CI so module files and stale pattern config are installed and checked.
+
 ## 0.7.0 - 2026-06-04
 
 - Moved the AI-facing system into one top-level `00-AI/` directory.

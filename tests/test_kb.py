@@ -7,12 +7,24 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("kb", ROOT / "00-AI" / "scripts" / "kb.py")
+SPEC = importlib.util.spec_from_file_location("kb_entry", ROOT / "00-AI" / "scripts" / "kb.py")
 kb = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(kb)
 
 
 class CorePathTests(unittest.TestCase):
+    def test_cli_entrypoint_stays_thin_after_module_split(self):
+        cli_path = ROOT / "00-AI" / "scripts" / "kb.py"
+        line_count = len(cli_path.read_text(encoding="utf-8").splitlines())
+        self.assertLessEqual(line_count, 120)
+
+    def test_default_stale_patterns_are_configured_outside_python(self):
+        patterns = kb.load_stale_patterns(ROOT)
+        self.assertIn("KB-MANIFEST", patterns)
+        self.assertNotIn("四大主线", patterns)
+        self.assertNotIn("01-收件箱", patterns)
+        self.assertNotIn("20-共享资产", patterns)
+
     def test_health_check_requires_license_files(self):
         self.assertIn("LICENSE", kb.CORE_PATHS)
         self.assertIn("docs/legal/content-license.md", kb.CORE_PATHS)
@@ -39,7 +51,9 @@ class InstallModeTests(unittest.TestCase):
                 "10-Projects/README.md",
                 "10-Projects/PROJECTS-REGISTRY.md",
                 "00-AI/templates/TPL-project-bridge-card.md",
+                "00-AI/config/stale-patterns.txt",
                 "00-AI/scripts/kb.py",
+                "00-AI/scripts/kb",
             ],
         )
 
@@ -60,7 +74,9 @@ class InstallModeTests(unittest.TestCase):
             self.assertTrue((target / "00-AI" / "governance").is_dir())
             self.assertTrue((target / "10-Projects" / "README.md").exists())
             self.assertTrue((target / "00-AI" / "templates" / "TPL-project-bridge-card.md").exists())
+            self.assertTrue((target / "00-AI" / "config" / "stale-patterns.txt").exists())
             self.assertTrue((target / "00-AI" / "scripts" / "kb.py").exists())
+            self.assertTrue((target / "00-AI" / "scripts" / "kb" / "__init__.py").exists())
             self.assertFalse((target / "02-Knowledge-Pipeline").exists())
             self.assertFalse((target / "03-Recall-System").exists())
             self.assertFalse((target / "90-Templates").exists())
@@ -116,6 +132,8 @@ class InstallModeTests(unittest.TestCase):
             self.assertEqual(manifest["mode"], "barebone")
             self.assertIn("00-AI/START-HERE.md", manifest["files"])
             self.assertIn("00-AI/scripts/kb.py", manifest["files"])
+            self.assertIn("00-AI/scripts/kb/__init__.py", manifest["files"])
+            self.assertIn("00-AI/config/stale-patterns.txt", manifest["files"])
 
     def test_install_core_refuses_protected_local_adapter(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -484,6 +502,33 @@ status: active
             self.assertIn("current state", report)
             self.assertIn("recent decisions", report)
             self.assertIn("next startup action", report)
+
+    def test_stale_patterns_are_loaded_from_kit_config(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config_dir = root / "00-AI" / "config"
+            config_dir.mkdir(parents=True)
+            (config_dir / "stale-patterns.txt").write_text("private-marker\n", encoding="utf-8")
+            (root / "note.md").write_text("This has private-marker.\n", encoding="utf-8")
+
+            errors = kb.check_stale_patterns(root)
+
+            self.assertEqual(errors, ["stale concept in note.md: private-marker"])
+
+    def test_vault_stale_patterns_override_kit_defaults(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config_dir = root / "00-AI" / "config"
+            config_dir.mkdir(parents=True)
+            (config_dir / "stale-patterns.txt").write_text("default-marker\n", encoding="utf-8")
+            override_dir = root / ".obsidian-ai-workflow-kit"
+            override_dir.mkdir()
+            (override_dir / "stale-patterns.txt").write_text("custom-marker\n", encoding="utf-8")
+            (root / "note.md").write_text("default-marker custom-marker\n", encoding="utf-8")
+
+            errors = kb.check_stale_patterns(root)
+
+            self.assertEqual(errors, ["stale concept in note.md: custom-marker"])
 
 
 class SlugTests(unittest.TestCase):

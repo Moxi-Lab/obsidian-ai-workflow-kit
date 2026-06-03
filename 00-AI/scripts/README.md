@@ -85,6 +85,20 @@ python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault" --max-age-
 
 Reports project bridge cards with old or missing `updated` dates and Inbox folders that exceed the file threshold. Use `--fail-on-findings` for hooks or CI jobs that should stop when review items exist.
 
+Stale concept patterns are loaded from:
+
+```text
+00-AI/config/stale-patterns.txt
+```
+
+To override them in your own vault, create:
+
+```text
+.obsidian-ai-workflow-kit/stale-patterns.txt
+```
+
+The override file replaces the kit defaults.
+
 ## Migrate Legacy Codex Names
 
 ```bash
