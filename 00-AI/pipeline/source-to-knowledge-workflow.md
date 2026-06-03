@@ -19,7 +19,7 @@ status: active
 
 ## 2. 资料分析卡
 
-使用 `90-Templates/TPL-source-analysis-card.md`，只保留：
+使用 `00-AI/templates/TPL-source-analysis-card.md`，只保留：
 
 - 一句话摘要。
 - 关键结论。
@@ -44,8 +44,8 @@ status: active
 |---|---|
 | 影响某个项目状态 | `10-Projects/<project>/current-state.md` |
 | 形成稳定项目决策 | `10-Projects/<project>/decisions.md` |
-| 可被多个项目复用 | 用 `90-Templates/TPL-question-knowledge-experience-asset-card.md` 新建卡片，或写入 `20-SharedAssets/02-modules/` |
-| 以后任务开始前必须召回 | 更新对应项目桥接卡，或更新 `03-Recall-System/task-to-context-map.md` |
+| 可被多个项目复用 | 用 `00-AI/templates/TPL-question-knowledge-experience-asset-card.md` 新建卡片，或写入 `20-SharedAssets/02-modules/` |
+| 以后任务开始前必须召回 | 更新对应项目桥接卡，或更新 `00-AI/recall/task-to-context-map.md` |
 
 只有升舱后的权威卡或共享资产才设置 `canonical: true`。
 
@@ -54,6 +54,6 @@ status: active
 高价值内容必须挂到：
 
 - 对应项目桥接卡。
-- `03-Recall-System/task-to-context-map.md`。
+- `00-AI/recall/task-to-context-map.md`。
 
 否则它只是“保存了”，不是“可召回”。

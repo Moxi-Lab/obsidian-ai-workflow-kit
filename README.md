@@ -35,13 +35,13 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 Check:
 
 ```bash
-python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
+python3 "/path/to/your-vault/00-AI/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
 Then send this to your AI agent:
 
 ```text
-You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read START-HERE.md in that directory, then follow its startup workflow.
+You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: <your-vault-path>. First read 00-AI/START-HERE.md in that directory, then follow its startup workflow.
 ```
 
 Use full mode when you want the complete starter vault, including pipeline, recall system, docs, examples, and templates:
@@ -75,11 +75,11 @@ The demo shows an AI agent reading the startup entry, finding a filled project b
 
 | Need | Included layer |
 |---|---|
-| AI needs a clear start point | `START-HERE.md` |
+| AI needs a clear start point | `00-AI/START-HERE.md` |
 | Project context is scattered | project bridge cards in `10-Projects/` |
-| AI writes too freely | governance rules in `00-Agent-Governance/` |
-| Local materials need sorting | knowledge pipeline in `02-Knowledge-Pipeline/` |
-| Useful lessons are hard to recall | task maps and recall fields in `03-Recall-System/` |
+| AI writes too freely | governance rules in `00-AI/governance/` |
+| Local materials need sorting | knowledge pipeline in `00-AI/pipeline/` |
+| Useful lessons are hard to recall | task maps and recall fields in `00-AI/recall/` |
 | The vault slowly gets messy | health checks and maintenance rules |
 
 ## How It Works
@@ -90,7 +90,7 @@ Daily use stays small:
 
 ```text
 User task
-  -> START-HERE.md
+  -> 00-AI/START-HERE.md
   -> relevant project bridge card or task map
   -> required context only
   -> structured write-back
@@ -103,7 +103,7 @@ The agent should not scan your whole vault by default. It should read the startu
 
 | Mode | Best for | What it installs |
 |---|---|---|
-| `barebone` | First step inside an existing vault | startup entry, governance, project registry, project bridge template, `scripts/kb.py` |
+| `barebone` | First step inside an existing vault | startup entry, governance, project registry, project bridge template, `00-AI/scripts/kb.py` |
 | `full` | New starter vault or complete trial | all workflow folders, examples, docs, templates, scripts |
 
 Security-sensitive users can skip the remote `curl` form and run the installer from a local clone:
@@ -138,21 +138,21 @@ Not a good fit:
 - [Migration Guide](docs/migration.md)
 - [Concepts](docs/concepts.md)
 - [Templates](docs/templates.md)
-- [Scripts](scripts/README.md)
+- [Scripts](00-AI/scripts/README.md)
 
 ## Repository Layout
 
 ```text
-START-HERE.md              AI startup entry
-00-Agent-Governance/       write-back, review, and maintenance rules
-02-Knowledge-Pipeline/     local material intake and promotion
-03-Recall-System/          task-to-context maps and recall fields
+00-AI/START-HERE.md              AI startup entry
+00-AI/governance/       write-back, review, and maintenance rules
+00-AI/pipeline/     local material intake and promotion
+00-AI/recall/          task-to-context maps and recall fields
 10-Projects/               project workspaces and bridge cards
 20-SharedAssets/           reusable methods and lessons
 40-ExternalSources/        source analysis cards
-90-Templates/              reusable note templates
+00-AI/templates/              reusable note templates
 docs/                      guides, diagrams, and walkthroughs
-scripts/                   optional helper scripts
+00-AI/scripts/                   optional helper scripts
 examples/                  demo project and source workflows
 ```
 
@@ -172,4 +172,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.6.5`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.7.0`. See [CHANGELOG.md](CHANGELOG.md).

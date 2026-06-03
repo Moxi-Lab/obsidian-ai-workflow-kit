@@ -35,7 +35,7 @@ status: active
 | 文章、网页、论文、帖子 | 写入 `40-ExternalSources/` 的资料分析卡 |
 | 反复出现的问题和解决方案 | 写入问题知识卡 / 经验资产卡 |
 | 临时想法和未判断资料 | 写入 `01-Inbox/` |
-| 模板、流程、检查清单 | 写入 `20-SharedAssets/` 或 `90-Templates/` |
+| 模板、流程、检查清单 | 写入 `20-SharedAssets/` 或 `00-AI/templates/` |
 
 ## 整理原则
 

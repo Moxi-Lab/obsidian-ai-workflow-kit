@@ -62,7 +62,7 @@ tags:
 | 只用于理解来源 | `40-ExternalSources/` |
 | 影响某个项目动作 | `10-Projects/<project>/` |
 | 多个项目可复用 | `20-SharedAssets/` |
-| 反复踩坑或稳定经验 | `90-Templates/TPL-question-knowledge-experience-asset-card.md` 或 `20-SharedAssets/02-modules/` |
+| 反复踩坑或稳定经验 | `00-AI/templates/TPL-question-knowledge-experience-asset-card.md` 或 `20-SharedAssets/02-modules/` |
 | 旧项目经验需要被 AI 复用 | [project-lesson-promotion-v1](./project-lesson-promotion-v1.md) + 对应项目桥接卡 |
 | 影响当前优先级 | 对应项目桥接卡或 `10-Projects/README.md` |
 

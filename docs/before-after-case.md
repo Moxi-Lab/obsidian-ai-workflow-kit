@@ -27,7 +27,7 @@ The folder has useful material, but a new AI session does not know:
 The user starts with an inventory instead of asking AI to read everything:
 
 ```bash
-python3 scripts/kb.py intake-folder ~/Downloads/product-launch \
+python3 00-AI/scripts/kb.py intake-folder ~/Downloads/product-launch \
   --title "Product Launch Materials" \
   --project product-launch
 ```
@@ -42,7 +42,7 @@ The intake card lists files, keeps originals in place, and tells AI to process a
 
 ## AI Triage
 
-After reading `START-HERE.md`, the AI should route the material like this:
+After reading `00-AI/START-HERE.md`, the AI should route the material like this:
 
 | Input | Knowledge type | Write-back target |
 |---|---|---|
@@ -64,7 +64,7 @@ After reading `START-HERE.md`, the AI should route the material like this:
 ├── 01-samples/onboarding-research.md
 └── 02-folder-intakes/product-launch-materials.md
 
-03-Recall-System/task-to-context-map.md
+00-AI/recall/task-to-context-map.md
 20-SharedAssets/02-modules/<reusable-lesson>.md
 ```
 

@@ -8,9 +8,9 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] `README.md` explains who this is for, who it is not for, and current maturity.
 - [ ] If the release promotes a pattern from a working vault, `docs/release/source-sync-policy.md` has been checked.
 - [ ] One-line installer has been tested from a clean environment.
-- [ ] `python3 scripts/kb.py health-check` passes.
-- [ ] `bash scripts/test_install.sh` passes.
-- [ ] `bash scripts/test_tools.sh` passes.
+- [ ] `python3 00-AI/scripts/kb.py health-check` passes.
+- [ ] `bash 00-AI/scripts/test_install.sh` passes.
+- [ ] `bash 00-AI/scripts/test_tools.sh` passes.
 - [ ] GitHub Actions CI passes on `main`.
 - [ ] `VERSION` matches the intended release tag.
 - [ ] `CHANGELOG.md` has an entry for the release.
@@ -23,7 +23,7 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] Create one project bridge card using `new-project`.
 - [ ] Create one folder intake using `intake-folder`.
 - [ ] Run `audit-vault --write-report`.
-- [ ] Ask an AI agent to read `START-HERE.md` and confirm it returns the expected startup receipt.
+- [ ] Ask an AI agent to read `00-AI/START-HERE.md` and confirm it returns the expected startup receipt.
 
 ## Public Release Checks
 

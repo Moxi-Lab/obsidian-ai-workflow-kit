@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
@@ -12,29 +12,29 @@ OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --dry-run "$TARG
 test ! -e "$TARGET"
 
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-install.log
-test -f "$TARGET/START-HERE.md"
-test -f "$TARGET/scripts/kb.py"
+test -f "$TARGET/00-AI/START-HERE.md"
+test -f "$TARGET/00-AI/scripts/kb.py"
 test -f "$TARGET/.obsidian-ai-workflow-kit/manifest.json"
-python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" >/tmp/obsidian-ai-workflow-kit-health.log
+python3 "$TARGET/00-AI/scripts/kb.py" health-check --vault "$TARGET" >/tmp/obsidian-ai-workflow-kit-health.log
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --update --dry-run "$TARGET" >/tmp/obsidian-ai-workflow-kit-update-dry-run.log
 grep -q "would upgrade core files" /tmp/obsidian-ai-workflow-kit-update-dry-run.log
 
-printf 'CUSTOM SENTINEL\n' > "$TARGET/START-HERE.md"
+printf 'CUSTOM SENTINEL\n' > "$TARGET/00-AI/START-HERE.md"
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" "$TARGET" >/tmp/obsidian-ai-workflow-kit-skip.log
-grep -q 'CUSTOM SENTINEL' "$TARGET/START-HERE.md"
+grep -q 'CUSTOM SENTINEL' "$TARGET/00-AI/START-HERE.md"
 
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --overwrite "$TARGET" >/tmp/obsidian-ai-workflow-kit-overwrite.log
-! grep -q 'CUSTOM SENTINEL' "$TARGET/START-HERE.md"
+! grep -q 'CUSTOM SENTINEL' "$TARGET/00-AI/START-HERE.md"
 
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --mode barebone "$BAREBONE_TARGET" >/tmp/obsidian-ai-workflow-kit-barebone.log
-test -f "$BAREBONE_TARGET/START-HERE.md"
-test -f "$BAREBONE_TARGET/AGENTS.md"
-test -d "$BAREBONE_TARGET/00-Agent-Governance"
+test -f "$BAREBONE_TARGET/00-AI/START-HERE.md"
+test -f "$BAREBONE_TARGET/00-AI/AGENTS.md"
+test -d "$BAREBONE_TARGET/00-AI/governance"
 test -f "$BAREBONE_TARGET/10-Projects/README.md"
-test -f "$BAREBONE_TARGET/90-Templates/TPL-project-bridge-card.md"
-test -f "$BAREBONE_TARGET/scripts/kb.py"
-test ! -d "$BAREBONE_TARGET/02-Knowledge-Pipeline"
-python3 "$BAREBONE_TARGET/scripts/kb.py" health-check --vault "$BAREBONE_TARGET" --mode barebone >/tmp/obsidian-ai-workflow-kit-barebone-health.log
+test -f "$BAREBONE_TARGET/00-AI/templates/TPL-project-bridge-card.md"
+test -f "$BAREBONE_TARGET/00-AI/scripts/kb.py"
+test ! -d "$BAREBONE_TARGET/00-AI/pipeline"
+python3 "$BAREBONE_TARGET/00-AI/scripts/kb.py" health-check --vault "$BAREBONE_TARGET" --mode barebone >/tmp/obsidian-ai-workflow-kit-barebone-health.log
 
 rm -f /tmp/obsidian-ai-workflow-kit-dry-run.log \
   /tmp/obsidian-ai-workflow-kit-install.log \

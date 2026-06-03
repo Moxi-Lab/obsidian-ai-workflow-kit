@@ -5,7 +5,7 @@ project: Launch Notes
 local_root: "<your-local-project-path>"
 kb_project: "examples/filled-example/README.md"
 startup_files:
-  - "START-HERE.md"
+  - "00-AI/START-HERE.md"
   - "examples/filled-example/current-state.md"
   - "examples/filled-example/decisions.md"
 updated: 2026-06-01
@@ -19,7 +19,7 @@ Launch Notes is a recurring writing project for turning product updates into cle
 
 ## Startup Files
 
-1. `START-HERE.md`
+1. `00-AI/START-HERE.md`
 2. This bridge card
 3. `current-state.md`
 4. `decisions.md`

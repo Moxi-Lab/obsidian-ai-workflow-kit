@@ -21,7 +21,7 @@ def read_hook_payload() -> dict:
 def main() -> int:
     payload = read_hook_payload()
     root = Path(payload.get("cwd") or ".").resolve()
-    kb_script = root / "scripts" / "kb.py"
+    kb_script = root / "00-AI" / "scripts" / "kb.py"
     if not kb_script.exists():
         return 0
 

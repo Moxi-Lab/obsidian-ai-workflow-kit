@@ -12,7 +12,7 @@ status: active
 1. 运行：
 
 ```bash
-python3 scripts/kb.py health-check
+python3 00-AI/scripts/kb.py health-check
 ```
 
 2. 检查 `01-Inbox/` 是否有长期滞留。
@@ -24,6 +24,6 @@ python3 scripts/kb.py health-check
 
 - 合并重复资料卡。
 - 标注过时结论。
-- 把高复用经验挂到 `03-Recall-System/task-to-context-map.md`。
+- 把高复用经验挂到 `00-AI/recall/task-to-context-map.md`。
 - 清理没有来源、没有结论、没有使用场景的临时内容。
 

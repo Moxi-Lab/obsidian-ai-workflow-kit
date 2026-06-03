@@ -43,13 +43,13 @@ The installer skips existing files by default.
 ## 3. Verify
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
 ```
 
 ## 4. Create A Project Bridge
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py new-project demo-project \
   --vault ~/obsidian-ai-workflow-test \
   --name "Demo Project" \
   --root ~/demo-project
@@ -60,7 +60,7 @@ python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
 Point this at a small folder with a few documents:
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py intake-folder ~/demo-materials \
   --vault ~/obsidian-ai-workflow-test \
   --title "Demo Materials" \
   --project demo-project
@@ -73,13 +73,13 @@ This creates a manifest only. It does not move or edit original files.
 Send this to any AI tool that can read local files:
 
 ```text
-You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: ~/obsidian-ai-workflow-test. First read START-HERE.md in that directory, then follow its startup workflow.
+You are the knowledge base maintenance agent. The root directory of this Obsidian vault is: ~/obsidian-ai-workflow-test. First read 00-AI/START-HERE.md in that directory, then follow its startup workflow.
 ```
 
 Expected first response:
 
 ```text
-Read START-HERE.md
+Read 00-AI/START-HERE.md
 Task type: <...>
 Next files to read: <...>
 Write-back target: <...>
@@ -89,7 +89,7 @@ Will not do: <...>
 ## 7. Run A Vault Audit
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py audit-vault \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py audit-vault \
   --vault ~/obsidian-ai-workflow-test \
   --write-report
 ```

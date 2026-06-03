@@ -129,7 +129,7 @@ fi
 
 if [[ -z "$SOURCE" && -n "${BASH_SOURCE[0]:-}" && -f "${BASH_SOURCE[0]}" ]]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  if [[ -f "$SCRIPT_DIR/scripts/kb.py" ]]; then
+  if [[ -f "$SCRIPT_DIR/00-AI/scripts/kb.py" ]]; then
     SOURCE="$SCRIPT_DIR"
   fi
 fi
@@ -152,7 +152,7 @@ if [[ -z "$SOURCE" ]]; then
   tar -xzf "$ARCHIVE" -C "$SOURCE" --strip-components=1
 fi
 
-if [[ ! -f "$SOURCE/scripts/kb.py" ]]; then
+if [[ ! -f "$SOURCE/00-AI/scripts/kb.py" ]]; then
   echo "invalid kit source: $SOURCE" >&2
   exit 1
 fi
@@ -174,15 +174,15 @@ if [[ "$ALLOW_PROTECTED_ADAPTER_WRITE" -eq 1 ]]; then
   ARGS+=(--allow-protected-adapter-write)
 fi
 
-python3 "$SOURCE/scripts/kb.py" "$COMMAND" "$TARGET" "${ARGS[@]}"
+python3 "$SOURCE/00-AI/scripts/kb.py" "$COMMAND" "$TARGET" "${ARGS[@]}"
 
 if [[ "$DRY_RUN" -eq 0 ]]; then
   cat <<NEXT
 
 Next:
-  python3 "$TARGET/scripts/kb.py" health-check --vault "$TARGET" --mode "$MODE"
+  python3 "$TARGET/00-AI/scripts/kb.py" health-check --vault "$TARGET" --mode "$MODE"
 
 Then send your AI agent:
-  You are the knowledge base maintenance agent. Read START-HERE.md in this vault and follow its startup workflow.
+  You are the knowledge base maintenance agent. Read 00-AI/START-HERE.md in this vault and follow its startup workflow.
 NEXT
 fi

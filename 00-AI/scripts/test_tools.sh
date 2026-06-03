@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
 VAULT="$TMP_DIR/vault"
 MATERIALS="$TMP_DIR/materials"
 
-python3 "$ROOT/scripts/kb.py" install-core "$VAULT" >/dev/null
-python3 "$ROOT/scripts/kb.py" upgrade-core "$VAULT" --dry-run >/tmp/kb-upgrade-dry-run.log
+python3 "$ROOT/00-AI/scripts/kb.py" install-core "$VAULT" >/dev/null
+python3 "$ROOT/00-AI/scripts/kb.py" upgrade-core "$VAULT" --dry-run >/tmp/kb-upgrade-dry-run.log
 grep -q "would upgrade core files" /tmp/kb-upgrade-dry-run.log
 
 mkdir -p "$MATERIALS/notes" "$MATERIALS/.hidden" "$MATERIALS/node_modules/pkg"
@@ -19,7 +19,7 @@ printf 'gamma\n' > "$MATERIALS/notes/c.pdf"
 printf 'hidden\n' > "$MATERIALS/.hidden/secret.md"
 printf 'package\n' > "$MATERIALS/node_modules/pkg/index.js"
 
-python3 "$VAULT/scripts/kb.py" intake-folder "$MATERIALS" \
+python3 "$VAULT/00-AI/scripts/kb.py" intake-folder "$MATERIALS" \
   --vault "$VAULT" \
   --title "Research Dump" \
   --project demo \
@@ -37,7 +37,7 @@ test -f "$MATERIALS/notes/a.md"
 ! grep -q ".hidden/secret.md" "$MANIFEST"
 ! grep -q "node_modules/pkg/index.js" "$MANIFEST"
 
-python3 "$VAULT/scripts/kb.py" intake-folder "$MATERIALS" \
+python3 "$VAULT/00-AI/scripts/kb.py" intake-folder "$MATERIALS" \
   --vault "$VAULT" \
   --slug dry-run-check \
   --dry-run >/tmp/kb-intake-folder-dry-run.log
@@ -46,19 +46,19 @@ test ! -f "$VAULT/40-ExternalSources/02-folder-intakes/dry-run-check.md"
 mkdir -p "$VAULT/10-Projects/no-bridge" "$VAULT/01-Inbox/agent-handoffs"
 printf 'handoff\n' > "$VAULT/01-Inbox/agent-handoffs/stale.md"
 
-python3 "$VAULT/scripts/kb.py" audit-vault --vault "$VAULT" >/tmp/kb-audit.log
+python3 "$VAULT/00-AI/scripts/kb.py" audit-vault --vault "$VAULT" >/tmp/kb-audit.log
 grep -q "Inbox files" /tmp/kb-audit.log
 grep -q "Project directories without bridge" /tmp/kb-audit.log
 grep -q "no-bridge" /tmp/kb-audit.log
 test ! -d "$VAULT/20-SharedAssets/05-audit-reports"
 
-python3 "$VAULT/scripts/kb.py" audit-vault --vault "$VAULT" --write-report >/tmp/kb-audit-write.log
+python3 "$VAULT/00-AI/scripts/kb.py" audit-vault --vault "$VAULT" --write-report >/tmp/kb-audit-write.log
 find "$VAULT/20-SharedAssets/05-audit-reports" -name 'AUDIT-*.md' -type f | grep -q .
 
-python3 "$VAULT/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 >/tmp/kb-stale.log
+python3 "$VAULT/00-AI/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 >/tmp/kb-stale.log
 grep -q "Stale Check" /tmp/kb-stale.log
 grep -q "agent-handoffs" /tmp/kb-stale.log
-if python3 "$VAULT/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 --fail-on-findings >/tmp/kb-stale-fail.log; then
+if python3 "$VAULT/00-AI/scripts/kb.py" stale-check --vault "$VAULT" --inbox-threshold 0 --fail-on-findings >/tmp/kb-stale-fail.log; then
   echo "stale-check --fail-on-findings should fail when findings exist" >&2
   exit 1
 fi

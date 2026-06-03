@@ -35,13 +35,13 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 检查：
 
 ```bash
-python3 "/path/to/your-vault/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
+python3 "/path/to/your-vault/00-AI/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
 然后把这句话发给你的 AI Agent：
 
 ```text
-你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<your-vault-path>。请先读取该目录下的 START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<your-vault-path>。请先读取该目录下的 00-AI/START-HERE.md，并按里面的开工流程执行。
 ```
 
 如果你想安装完整 starter vault，包括资料流水线、召回系统、文档、示例和模板，使用默认 full 模式：
@@ -75,11 +75,11 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 | 需求 | 对应结构 |
 |---|---|
-| AI 不知道从哪开始 | `START-HERE.md` |
+| AI 不知道从哪开始 | `00-AI/START-HERE.md` |
 | 项目上下文散落各处 | `10-Projects/` 里的项目桥接卡 |
-| AI 写入太随意 | `00-Agent-Governance/` 里的治理规则 |
-| 本机资料需要整理 | `02-Knowledge-Pipeline/` 里的资料流水线 |
-| 有用经验难召回 | `03-Recall-System/` 里的任务地图和召回字段 |
+| AI 写入太随意 | `00-AI/governance/` 里的治理规则 |
+| 本机资料需要整理 | `00-AI/pipeline/` 里的资料流水线 |
+| 有用经验难召回 | `00-AI/recall/` 里的任务地图和召回字段 |
 | vault 越用越乱 | 健康检查和维护规则 |
 
 ## 它怎么工作
@@ -90,7 +90,7 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 ```text
 用户任务
-  -> START-HERE.md
+  -> 00-AI/START-HERE.md
   -> 对应项目桥接卡或任务地图
   -> 只读取必要上下文
   -> 结构化写回
@@ -103,7 +103,7 @@ AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任�
 
 | 模式 | 适合场景 | 会安装什么 |
 |---|---|---|
-| `barebone` | 给已有 vault 加一个最小入口 | 开工入口、治理规则、项目登记、项目桥接模板、`scripts/kb.py` |
+| `barebone` | 给已有 vault 加一个最小入口 | 开工入口、治理规则、项目登记、项目桥接模板、`00-AI/scripts/kb.py` |
 | `full` | 新建 starter vault 或完整试用 | 全部工作流目录、示例、文档、模板、脚本 |
 
 如果你不想用远程 `curl` 安装，可以本地克隆后运行：
@@ -138,21 +138,21 @@ bash install.sh --mode barebone "/path/to/your-vault"
 - [迁移指南](docs/migration.md)
 - [核心概念](docs/concepts.zh-CN.md)
 - [模板说明](docs/templates.zh-CN.md)
-- [脚本说明](scripts/README.md)
+- [脚本说明](00-AI/scripts/README.md)
 
 ## 仓库结构
 
 ```text
-START-HERE.md              AI 开工入口
-00-Agent-Governance/       写回、审查和维护规则
-02-Knowledge-Pipeline/     本机资料进入和升舱
-03-Recall-System/          任务到上下文的召回地图
+00-AI/START-HERE.md              AI 开工入口
+00-AI/governance/       写回、审查和维护规则
+00-AI/pipeline/     本机资料进入和升舱
+00-AI/recall/          任务到上下文的召回地图
 10-Projects/               项目工作区和项目桥接卡
 20-SharedAssets/           可复用方法和经验
 40-ExternalSources/        资料分析卡
-90-Templates/              可复用笔记模板
+00-AI/templates/              可复用笔记模板
 docs/                      指南、架构图和案例
-scripts/                   可选辅助脚本
+00-AI/scripts/                   可选辅助脚本
 examples/                  演示项目和资料工作流
 ```
 
@@ -172,4 +172,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.6.5`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.7.0`。见 [CHANGELOG.md](CHANGELOG.md)。

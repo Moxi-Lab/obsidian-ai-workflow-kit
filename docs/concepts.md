@@ -21,19 +21,19 @@ This repository adds an AI-readable operating convention to Obsidian, a place ma
 
 ### 1. One Entry Point
 
-`START-HERE.md` tells the agent what kind of task it is handling, which files to read first, and where results should be written.
+`00-AI/START-HERE.md` tells the agent what kind of task it is handling, which files to read first, and where results should be written.
 
 ### 2. Knowledge Pipeline
 
-`02-Knowledge-Pipeline/` tells AI how to intake local materials, classify them, extract value, connect them, promote reusable knowledge, and maintain the result.
+`00-AI/pipeline/` tells AI how to intake local materials, classify them, extract value, connect them, promote reusable knowledge, and maintain the result.
 
 ### 3. Agent Governance
 
-`00-Agent-Governance/` tells AI what it may write, what it must verify, and when it should stop instead of guessing.
+`00-AI/governance/` tells AI what it may write, what it must verify, and when it should stop instead of guessing.
 
 ### 4. Recall System
 
-`03-Recall-System/` maps tasks to the files AI should read first.
+`00-AI/recall/` maps tasks to the files AI should read first.
 
 ### 5. Project Bridge Cards
 
@@ -74,7 +74,7 @@ This is not a RAG stack, a cloud service, or a task manager. It is a local-first
 
 ```text
 User instruction
-  -> START-HERE.md
+  -> 00-AI/START-HERE.md
   -> task-to-context map
   -> governance rules
   -> knowledge pipeline or project bridge card
@@ -100,7 +100,7 @@ For a source-to-knowledge example, see:
 examples/source-to-knowledge/
 ```
 
-Daily use should stay small: after the first setup, most agent sessions only need `START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
+Daily use should stay small: after the first setup, most agent sessions only need `00-AI/START-HERE.md`, one project bridge card, and that project's `current-state.md` / `decisions.md`.
 
 If you already have an Obsidian vault, start with [Migration Guide](migration.md). Do not rebuild your vault; add one project bridge card first.
 
@@ -108,19 +108,19 @@ If you already have an Obsidian vault, start with [Migration Guide](migration.md
 
 | Path | Purpose |
 |---|---|
-| [`START-HERE.md`](../START-HERE.md) | The first file an AI agent should read |
+| [`00-AI/START-HERE.md`](../00-AI/START-HERE.md) | The first file an AI agent should read |
 | [`index.md`](../index.md) | Human-facing vault homepage |
-| [`AGENTS.md`](../AGENTS.md) | Rules for AI agents such as Claude Code, Cursor, and Codex |
-| [`00-Agent-Governance/`](../00-Agent-Governance/) | Startup contract, review gates, write-back rules, maintenance loop |
+| [`00-AI/AGENTS.md`](../00-AI/AGENTS.md) | Rules for AI agents such as Claude Code, Cursor, and Codex |
+| [`00-AI/governance/`](../00-AI/governance/) | Startup contract, review gates, write-back rules, maintenance loop |
 | [`01-Inbox/`](../01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
-| [`02-Knowledge-Pipeline/`](../02-Knowledge-Pipeline/) | How AI turns local materials into structured knowledge |
-| [`03-Recall-System/`](../03-Recall-System/) | Task-to-context maps and recall fields |
+| [`00-AI/pipeline/`](../00-AI/pipeline/) | How AI turns local materials into structured knowledge |
+| [`00-AI/recall/`](../00-AI/recall/) | Task-to-context maps and recall fields |
 | [`10-Projects/`](../10-Projects/) | Project workspaces and bridge cards |
 | [`20-SharedAssets/`](../20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](../40-ExternalSources/) | Source analysis cards, not copied third-party articles |
-| [`90-Templates/`](../90-Templates/) | Standard templates |
+| [`00-AI/templates/`](../00-AI/templates/) | Standard templates |
 | [`docs/`](./) | First-run guides, diagrams, and user-facing walkthroughs |
-| [`scripts/`](../scripts/) | Small helper scripts for project cards and health checks |
+| [`00-AI/scripts/`](../00-AI/scripts/) | Small helper scripts for project cards and health checks |
 | [`examples/`](../examples/) | End-to-end handoff demo |
 
-Some source filenames are not English because they come from the original working method. The English README, `START-HERE.md`, `AGENTS.md`, and `index.md` provide English-facing entry points; the filenames do not affect how the workflow runs.
+Core filenames are English for agent readability. Some page titles and template body text still include Chinese because they preserve the original working method; this does not affect how the workflow runs.

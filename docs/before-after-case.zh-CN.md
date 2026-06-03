@@ -27,7 +27,7 @@
 用户先生成目录清单，而不是让 AI 直接读完整资料夹：
 
 ```bash
-python3 scripts/kb.py intake-folder ~/Downloads/product-launch \
+python3 00-AI/scripts/kb.py intake-folder ~/Downloads/product-launch \
   --title "Product Launch Materials" \
   --project product-launch
 ```
@@ -42,7 +42,7 @@ python3 scripts/kb.py intake-folder ~/Downloads/product-launch \
 
 ## AI 分流
 
-AI 读完 `START-HERE.md` 后，应该这样分流：
+AI 读完 `00-AI/START-HERE.md` 后，应该这样分流：
 
 | 输入 | 知识类型 | 写回位置 |
 |---|---|---|
@@ -64,7 +64,7 @@ AI 读完 `START-HERE.md` 后，应该这样分流：
 ├── 01-samples/onboarding-research.md
 └── 02-folder-intakes/product-launch-materials.md
 
-03-Recall-System/task-to-context-map.md
+00-AI/recall/task-to-context-map.md
 20-SharedAssets/02-modules/<reusable-lesson>.md
 ```
 

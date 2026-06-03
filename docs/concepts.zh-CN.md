@@ -21,19 +21,19 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 
 ### 1. 唯一入口
 
-`START-HERE.md` 会告诉 AI 当前是什么任务、先读哪些文件、结果应该写回哪里。
+`00-AI/START-HERE.md` 会告诉 AI 当前是什么任务、先读哪些文件、结果应该写回哪里。
 
 ### 2. 资料整理流水线
 
-`02-Knowledge-Pipeline/` 告诉 AI 如何进入本机资料、分类、提炼、连接、升舱和维护。
+`00-AI/pipeline/` 告诉 AI 如何进入本机资料、分类、提炼、连接、升舱和维护。
 
 ### 3. AI 治理层
 
-`00-Agent-Governance/` 告诉 AI 哪些能写、写入前要验证什么、什么时候应该停止猜测。
+`00-AI/governance/` 告诉 AI 哪些能写、写入前要验证什么、什么时候应该停止猜测。
 
 ### 4. 召回系统
 
-`03-Recall-System/` 把任务类型映射到 AI 应该先读的文件。
+`00-AI/recall/` 把任务类型映射到 AI 应该先读的文件。
 
 ### 5. 项目桥接卡
 
@@ -74,7 +74,7 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 
 ```text
 用户指令
-  -> START-HERE.md
+  -> 00-AI/START-HERE.md
   -> 召回地图
   -> 治理规则
   -> 资料流水线或项目桥接卡
@@ -100,7 +100,7 @@ examples/filled-example/
 examples/source-to-knowledge/
 ```
 
-日常使用不需要读完整仓库：初始化之后，大多数 AI 会话只需要读 `START-HERE.md`、一个项目桥接卡，以及该项目的 `current-state.md` / `decisions.md`。
+日常使用不需要读完整仓库：初始化之后，大多数 AI 会话只需要读 `00-AI/START-HERE.md`、一个项目桥接卡，以及该项目的 `current-state.md` / `decisions.md`。
 
 如果你已经有自己的 Obsidian vault，先看 [迁移指南](migration.md)。不要重建整个 vault，先加一张项目桥接卡。
 
@@ -108,19 +108,19 @@ examples/source-to-knowledge/
 
 | 路径 | 作用 |
 |---|---|
-| [`START-HERE.md`](../START-HERE.md) | AI Agent 第一个应该读的文件 |
+| [`00-AI/START-HERE.md`](../00-AI/START-HERE.md) | AI Agent 第一个应该读的文件 |
 | [`index.md`](../index.md) | 给人看的 vault 首页 |
-| [`AGENTS.md`](../AGENTS.md) | 给 Claude Code、Cursor、Codex 等 AI agent 的规则 |
-| [`00-Agent-Governance/`](../00-Agent-Governance/) | 开工契约、审查门、写回规则、维护循环 |
+| [`00-AI/AGENTS.md`](../00-AI/AGENTS.md) | 给 Claude Code、Cursor、Codex 等 AI agent 的规则 |
+| [`00-AI/governance/`](../00-AI/governance/) | 开工契约、审查门、写回规则、维护循环 |
 | [`01-Inbox/`](../01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
-| [`02-Knowledge-Pipeline/`](../02-Knowledge-Pipeline/) | AI 如何把本机资料整理成结构化知识 |
-| [`03-Recall-System/`](../03-Recall-System/) | 任务到上下文的召回地图和召回字段 |
+| [`00-AI/pipeline/`](../00-AI/pipeline/) | AI 如何把本机资料整理成结构化知识 |
+| [`00-AI/recall/`](../00-AI/recall/) | 任务到上下文的召回地图和召回字段 |
 | [`10-Projects/`](../10-Projects/) | 项目工作区和项目桥接卡 |
 | [`20-SharedAssets/`](../20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](../40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |
-| [`90-Templates/`](../90-Templates/) | 标准模板 |
+| [`00-AI/templates/`](../00-AI/templates/) | 标准模板 |
 | [`docs/`](./) | 首次体验指南、架构图和面向使用者的说明文档 |
-| [`scripts/`](../scripts/) | 创建项目卡和巡检的轻量脚本 |
+| [`00-AI/scripts/`](../00-AI/scripts/) | 创建项目卡和巡检的轻量脚本 |
 | [`examples/`](../examples/) | 从开工到交接的完整示例 |
 
 核心文件名已统一为英文，方便英文 AI Agent 按路径读取；页面标题和部分正文保留中文，用来保留原始工作方法。

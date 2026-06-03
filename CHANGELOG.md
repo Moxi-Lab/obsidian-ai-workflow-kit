@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0 - 2026-06-04
+
+- Moved the AI-facing system into one top-level `00-AI/` directory.
+- Updated startup instructions, governance, pipeline, recall, templates, docs, tests, and install paths to use the new layout.
+- Added `migrate-ai-layout` so older vaults can move legacy AI system files into `00-AI/` and update Markdown references.
+- Kept project workspaces, shared assets, external sources, docs, and examples outside `00-AI/` so the repository root is easier to scan.
+
 ## 0.6.5 - 2026-06-02
 
 - Added local adapter protection via `.obsidian-ai-workflow-kit/adoption-policy.json`.

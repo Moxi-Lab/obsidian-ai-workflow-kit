@@ -8,7 +8,7 @@ status: active
 ## 指令
 
 ```text
-你是知识库维护 Agent，请阅读当前 vault 的 START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent，请阅读当前 vault 的 00-AI/START-HERE.md，并按里面的开工流程执行。
 ```
 
 ## AI 应该做什么

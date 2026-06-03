@@ -43,13 +43,13 @@ bash install.sh ~/obsidian-ai-workflow-test
 ## 3. 验证
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
 ```
 
 ## 4. 创建项目桥接卡
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py new-project demo-project \
   --vault ~/obsidian-ai-workflow-test \
   --name "Demo Project" \
   --root ~/demo-project
@@ -60,7 +60,7 @@ python3 ~/obsidian-ai-workflow-test/scripts/kb.py new-project demo-project \
 把它指向一个只有少量文件的测试资料夹：
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py intake-folder ~/demo-materials \
   --vault ~/obsidian-ai-workflow-test \
   --title "Demo Materials" \
   --project demo-project
@@ -73,13 +73,13 @@ python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials
 把这句话发给能读取本地文件的 AI 工具：
 
 ```text
-你是知识库维护 Agent。这个 Obsidian vault 的根目录是：~/obsidian-ai-workflow-test。请先读取该目录下的 START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent。这个 Obsidian vault 的根目录是：~/obsidian-ai-workflow-test。请先读取该目录下的 00-AI/START-HERE.md，并按里面的开工流程执行。
 ```
 
 预期第一条回复应包含：
 
 ```text
-已读取 START-HERE.md
+已读取 00-AI/START-HERE.md
 任务类型：<...>
 下一步先读：<...>
 结果写回：<...>
@@ -89,7 +89,7 @@ python3 ~/obsidian-ai-workflow-test/scripts/kb.py intake-folder ~/demo-materials
 ## 7. 运行 vault 审计
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/scripts/kb.py audit-vault \
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py audit-vault \
   --vault ~/obsidian-ai-workflow-test \
   --write-report
 ```

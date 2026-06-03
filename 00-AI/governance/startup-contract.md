@@ -5,12 +5,12 @@ status: active
 
 # Startup Contract
 
-AI 每次开工先读 `START-HERE.md`，再按任务类型读取最少上下文。
+AI 每次开工先读 `00-AI/START-HERE.md`，再按任务类型读取最少上下文。
 
 ## 回执格式
 
 ```text
-已读取 START-HERE.md
+已读取 00-AI/START-HERE.md
 任务类型：<整理本机资料 / 接手项目 / 整理外部资料 / 沉淀经验 / 维护知识库 / 写交接 / 待确认>
 下一步先读：<具体文件>
 结果写回：<具体目录或文件>
@@ -21,8 +21,8 @@ AI 每次开工先读 `START-HERE.md`，再按任务类型读取最少上下文�
 
 | 任务 | 首轮最多读取 |
 |---|---|
-| 整理本机资料 | `START-HERE.md`、`02-Knowledge-Pipeline/README.md`、`02-Knowledge-Pipeline/local-material-intake.md` |
-| 接手项目 | `START-HERE.md`、项目桥接卡、`current-state.md`、`decisions.md` |
+| 整理本机资料 | `00-AI/START-HERE.md`、`00-AI/pipeline/README.md`、`00-AI/pipeline/local-material-intake.md` |
+| 接手项目 | `00-AI/START-HERE.md`、项目桥接卡、`current-state.md`、`decisions.md` |
 | 资料整理 | `40-ExternalSources/README.md`、资料分析模板 |
 | 经验沉淀 | 经验资产化机制、问题知识卡模板 |
 | 维护知识库 | 巡检清单、召回地图、健康检查结果 |

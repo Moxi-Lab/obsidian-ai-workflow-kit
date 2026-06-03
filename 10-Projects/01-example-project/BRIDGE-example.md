@@ -5,7 +5,7 @@ project: Example Project
 local_root: "<your-project-path>"
 kb_project: "10-Projects/01-example-project/README.md"
 startup_files:
-  - "START-HERE.md"
+  - "00-AI/START-HERE.md"
   - "10-Projects/01-example-project/current-state.md"
   - "10-Projects/01-example-project/decisions.md"
 updated: 2026-06-01
@@ -22,14 +22,14 @@ updated: 2026-06-01
 | 项目 | 内容 |
 |---|---|
 | 本地路径 | `<your-project-path>` |
-| 项目规则 | `AGENTS.md` 或项目 README |
+| 项目规则 | `<your-project-path>/AGENTS.md` 或项目 README |
 | 知识库入口 | `10-Projects/01-example-project/README.md` |
 | 当前状态 | `current-state.md` |
 | 稳定决策 | `decisions.md` |
 
 ## 开工必读
 
-1. `START-HERE.md`
+1. `00-AI/START-HERE.md`
 2. 本桥接卡
 3. `current-state.md`
 4. `decisions.md`

@@ -65,7 +65,7 @@ owner: maintainer
 4. 验证方式：怎么判断问题真的解决。
 5. 禁止事项：哪些动作会扩大损失或造成误判。
 
-模板：`90-Templates/TPL-incident-experience-card.md`
+模板：`00-AI/templates/TPL-incident-experience-card.md`
 
 ## 什么不升舱
 

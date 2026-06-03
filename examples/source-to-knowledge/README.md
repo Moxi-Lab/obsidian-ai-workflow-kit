@@ -23,9 +23,9 @@ status: active
 
 ## AI 应该怎么做
 
-1. 先读 `START-HERE.md`。
+1. 先读 `00-AI/START-HERE.md`。
 2. 判断任务类型是“整理本机资料”。
-3. 读取 `02-Knowledge-Pipeline/local-material-intake.md`。
+3. 读取 `00-AI/pipeline/local-material-intake.md`。
 4. 先创建资料分析卡，不直接复制全文。
 5. 判断是否影响项目、经验资产或召回地图。
 

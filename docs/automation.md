@@ -6,14 +6,14 @@ Start with reminders and checks:
 
 1. Run `stale-check` before or after AI sessions.
 2. Use a Claude Code Stop hook to remind the agent before a session ends.
-3. Let the agent write handoffs and project updates by following `START-HERE.md`.
+3. Let the agent write handoffs and project updates by following `00-AI/START-HERE.md`.
 
 Do not start with silent automatic rewrites. A local knowledge base is safer when humans can see what changed.
 
 ## Stale Check
 
 ```bash
-python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault"
 ```
 
 It reports:
@@ -25,7 +25,7 @@ It reports:
 Use stricter settings when you want the command to fail in hooks or CI:
 
 ```bash
-python3 scripts/kb.py stale-check \
+python3 00-AI/scripts/kb.py stale-check \
   --vault "/path/to/your-vault" \
   --max-age-days 7 \
   --inbox-threshold 10 \

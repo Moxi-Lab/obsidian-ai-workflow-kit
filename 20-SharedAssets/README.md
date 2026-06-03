@@ -43,7 +43,7 @@ status: active
 - 只放多个项目会重复用到的内容。
 - 一次性项目过程不放这里。
 - 经验进入这里前，要写清楚适用场景、触发条件和验证方式。
-- 失败、误判、返工、用户纠正和工具异常进入这里前，要先按 `90-Templates/TPL-incident-experience-card.md` 写清根因、处理动作、验证方式和禁止事项。
+- 失败、误判、返工、用户纠正和工具异常进入这里前，要先按 `00-AI/templates/TPL-incident-experience-card.md` 写清根因、处理动作、验证方式和禁止事项。
 
 ## 可选高级模块
 

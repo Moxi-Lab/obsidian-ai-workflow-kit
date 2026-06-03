@@ -16,7 +16,7 @@ The remote installer downloads the current repository archive and delegates to `
 Modes:
 
 - `full` is the default and installs the complete workflow kit.
-- `barebone` installs the smallest usable layer: startup entry, governance, project registry, project bridge template, and `scripts/kb.py`.
+- `barebone` installs the smallest usable layer: startup entry, governance, project registry, project bridge template, and `00-AI/scripts/kb.py`.
 
 ## Update Existing Install
 
@@ -38,7 +38,7 @@ Default behavior:
 Use `--conflict-copy` with `upgrade-core` when you want new versions written beside conflicted files for manual comparison:
 
 ```bash
-python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
 ```
 
 ## Local Adapter Protection
@@ -63,8 +63,8 @@ When this policy exists, `install-core` and `upgrade-core` refuse to write kit f
 ## Health Check
 
 ```bash
-python3 scripts/kb.py health-check
-python3 scripts/kb.py health-check --mode barebone
+python3 00-AI/scripts/kb.py health-check
+python3 00-AI/scripts/kb.py health-check --mode barebone
 ```
 
 Checks:
@@ -79,8 +79,8 @@ Use `--mode barebone` when checking a minimal install.
 ## Stale Check
 
 ```bash
-python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
-python3 scripts/kb.py stale-check --vault "/path/to/your-vault" --max-age-days 7 --inbox-threshold 10 --fail-on-findings
+python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault" --max-age-days 7 --inbox-threshold 10 --fail-on-findings
 ```
 
 Reports project bridge cards with old or missing `updated` dates and Inbox folders that exceed the file threshold. Use `--fail-on-findings` for hooks or CI jobs that should stop when review items exist.
@@ -88,8 +88,8 @@ Reports project bridge cards with old or missing `updated` dates and Inbox folde
 ## Migrate Legacy Codex Names
 
 ```bash
-python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
-python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
+python3 00-AI/scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
 ```
 
 Renames older Codex-specific files to the current agent-neutral names and updates Markdown references.
@@ -100,13 +100,31 @@ Examples:
 - `TPL-Codex项目桥接卡.md` -> `TPL-project-bridge-card.md`
 - `Codex项目经验资产化机制-v1.md` -> `project-lesson-promotion-v1.md`
 
+## Migrate Legacy AI Layout
+
+```bash
+python3 00-AI/scripts/kb.py migrate-ai-layout --vault "/path/to/your-vault" --dry-run
+python3 00-AI/scripts/kb.py migrate-ai-layout --vault "/path/to/your-vault"
+```
+
+Moves older scattered AI system files into `00-AI/` and updates Markdown references.
+
+Examples:
+
+- `START-HERE.md` -> `00-AI/START-HERE.md`
+- `00-Agent-Governance/` -> `00-AI/governance/`
+- `02-Knowledge-Pipeline/` -> `00-AI/pipeline/`
+- `03-Recall-System/` -> `00-AI/recall/`
+- `90-Templates/` -> `00-AI/templates/`
+- `scripts/` -> `00-AI/scripts/`
+
 ## Install Core
 
 ```bash
-python3 scripts/kb.py install-core "/path/to/your-vault" --dry-run
-python3 scripts/kb.py install-core "/path/to/your-vault"
-python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
-python3 scripts/kb.py install-core "/path/to/your-vault" --mode barebone
+python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --dry-run
+python3 00-AI/scripts/kb.py install-core "/path/to/your-vault"
+python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
+python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --mode barebone
 bash install.sh --dry-run "/path/to/your-vault"
 bash install.sh "/path/to/your-vault"
 bash install.sh --mode barebone --dry-run "/path/to/your-vault"
@@ -126,8 +144,8 @@ Default behavior:
 ## Upgrade Core
 
 ```bash
-python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --dry-run
-python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --dry-run
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone
 ```
 
 Use this when a vault already has the kit and you want to follow newer GitHub versions without replacing user-owned notes. It only updates files that are managed by the kit and still match the last installed checksum.
@@ -135,7 +153,7 @@ Use this when a vault already has the kit and you want to follow newer GitHub ve
 ## New Project
 
 ```bash
-python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+python3 00-AI/scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 ```
 
 Creates:
@@ -148,7 +166,7 @@ Creates:
 ## Intake Source
 
 ```bash
-python3 scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
+python3 00-AI/scripts/kb.py intake-source "/path/to/source.md" --title "Source Title" --project my-project
 ```
 
 Creates a source analysis card under `40-ExternalSources/01-samples/`.
@@ -158,7 +176,7 @@ Use this when a local file or URL should enter the knowledge pipeline before AI 
 ## Intake Folder
 
 ```bash
-python3 scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
+python3 00-AI/scripts/kb.py intake-folder "/path/to/materials" --title "Materials Intake" --project my-project
 ```
 
 Creates a folder inventory card under `40-ExternalSources/02-folder-intakes/`.
@@ -173,8 +191,8 @@ Default behavior:
 ## Audit Vault
 
 ```bash
-python3 scripts/kb.py audit-vault
-python3 scripts/kb.py audit-vault --write-report
+python3 00-AI/scripts/kb.py audit-vault
+python3 00-AI/scripts/kb.py audit-vault --write-report
 ```
 
 Checks core entry points, stale concepts, Markdown links, Inbox files, and project directories without bridge cards. `--write-report` writes a report under `20-SharedAssets/05-audit-reports/`.

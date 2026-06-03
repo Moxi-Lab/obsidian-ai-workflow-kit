@@ -18,9 +18,9 @@ Help me write launch notes for the new onboarding flow.
 
 ## Recall Path
 
-1. Read `START-HERE.md`.
+1. Read `00-AI/START-HERE.md`.
 2. Classify the task as launch writing and project continuation.
-3. Read `03-Recall-System/task-to-context-map.md`.
+3. Read `00-AI/recall/task-to-context-map.md`.
 4. Open the project bridge card:
    `examples/filled-example/BRIDGE-launch-notes.md`
 5. Read the project's startup files:

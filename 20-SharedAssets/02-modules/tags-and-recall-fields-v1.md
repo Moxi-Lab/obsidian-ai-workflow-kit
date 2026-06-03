@@ -40,7 +40,7 @@ owner: maintainer
 
 ## 召回字段
 
-用于 `90-Templates/TPL-question-knowledge-experience-asset-card.md`：
+用于 `00-AI/templates/TPL-question-knowledge-experience-asset-card.md`：
 
 ```yaml
 source_refs: []

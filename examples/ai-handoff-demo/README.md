@@ -10,12 +10,12 @@ status: active
 用户只给 AI 一句话：
 
 ```text
-你是知识库维护 Agent，请阅读当前 vault 的 START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent，请阅读当前 vault 的 00-AI/START-HERE.md，并按里面的开工流程执行。
 ```
 
 ## AI 应该读到
 
-1. `START-HERE.md`
+1. `00-AI/START-HERE.md`
 2. `index.md`
 3. `10-Projects/01-example-project/BRIDGE-example.md`
 4. `10-Projects/01-example-project/current-state.md`

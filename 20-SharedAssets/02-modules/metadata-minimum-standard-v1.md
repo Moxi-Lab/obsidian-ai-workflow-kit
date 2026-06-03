@@ -81,7 +81,7 @@ related_notes:
 
 ## Web Clipper 原始剪藏补充字段
 
-模板见 `90-Templates/TPL-web-clip-minimal.md`。原始剪藏只负责收进来和等待分拣，不直接承载长期结论。
+模板见 `00-AI/templates/TPL-web-clip-minimal.md`。原始剪藏只负责收进来和等待分拣，不直接承载长期结论。
 
 ```yaml
 type: web-clip
@@ -96,7 +96,7 @@ canonical: false
 
 ## 问题知识卡 / 经验资产补充字段
 
-用于高复用经验、外部资料提炼、内容选题沉淀、复杂项目关键经验。模板见 `90-Templates/TPL-question-knowledge-experience-asset-card.md`。
+用于高复用经验、外部资料提炼、内容选题沉淀、复杂项目关键经验。模板见 `00-AI/templates/TPL-question-knowledge-experience-asset-card.md`。
 
 ```yaml
 id:

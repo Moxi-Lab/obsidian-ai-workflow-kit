@@ -17,14 +17,14 @@ from pathlib import Path
 
 CORE_PATHS = [
     "install.sh",
-    "START-HERE.md",
     "index.md",
-    "AGENTS.md",
-    "00-Agent-Governance/README.md",
-    "00-Agent-Governance/startup-contract.md",
-    "00-Agent-Governance/write-back-rules.md",
-    "00-Agent-Governance/review-gates.md",
-    "00-Agent-Governance/maintenance-loop.md",
+    "00-AI/START-HERE.md",
+    "00-AI/AGENTS.md",
+    "00-AI/governance/README.md",
+    "00-AI/governance/startup-contract.md",
+    "00-AI/governance/write-back-rules.md",
+    "00-AI/governance/review-gates.md",
+    "00-AI/governance/maintenance-loop.md",
     "CHANGELOG.md",
     "LICENSE",
     "VERSION",
@@ -33,20 +33,22 @@ CORE_PATHS = [
     "docs/legal/content-license.md",
     "docs/migration.md",
     "01-Inbox/README.md",
-    "02-Knowledge-Pipeline/README.md",
-    "02-Knowledge-Pipeline/local-material-intake.md",
-    "02-Knowledge-Pipeline/source-to-knowledge-workflow.md",
-    "03-Recall-System/README.md",
-    "03-Recall-System/example-recall-chain.md",
-    "03-Recall-System/task-to-context-map.md",
-    "03-Recall-System/recall-fields.md",
+    "00-AI/pipeline/README.md",
+    "00-AI/pipeline/local-material-intake.md",
+    "00-AI/pipeline/source-to-knowledge-workflow.md",
+    "00-AI/recall/README.md",
+    "00-AI/recall/example-recall-chain.md",
+    "00-AI/recall/task-to-context-map.md",
+    "00-AI/recall/recall-fields.md",
     "10-Projects/PROJECTS-REGISTRY.md",
     "10-Projects/README.md",
     "20-SharedAssets/README.md",
     "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
     "40-ExternalSources/README.md",
-    "90-Templates/TPL-project-bridge-card.md",
-    "90-Templates/TPL-incident-experience-card.md",
+    "00-AI/templates/TPL-project-bridge-card.md",
+    "00-AI/templates/TPL-incident-experience-card.md",
+    "00-AI/scripts/README.md",
+    "00-AI/scripts/kb.py",
 ]
 
 STALE_PATTERNS = [
@@ -66,37 +68,37 @@ FULL_INSTALL_PATHS = [
     "README.md",
     "README.zh-CN.md",
     "install.sh",
-    "START-HERE.md",
     "index.md",
-    "AGENTS.md",
     "CHANGELOG.md",
     "LICENSE",
     "VERSION",
-    "00-Agent-Governance",
+    "00-AI/START-HERE.md",
+    "00-AI/AGENTS.md",
+    "00-AI/governance",
+    "00-AI/pipeline",
+    "00-AI/recall",
+    "00-AI/templates",
+    "00-AI/scripts/README.md",
+    "00-AI/scripts/kb.py",
     "01-Inbox",
-    "02-Knowledge-Pipeline",
-    "03-Recall-System",
     "10-Projects",
     "20-SharedAssets",
     "40-ExternalSources",
-    "90-Templates",
     "examples/ai-handoff-demo",
     "examples/claude-code-hooks",
     "examples/filled-example",
     "examples/source-to-knowledge",
     "docs",
-    "scripts/README.md",
-    "scripts/kb.py",
 ]
 
 BAREBONE_INSTALL_PATHS = [
-    "START-HERE.md",
-    "AGENTS.md",
-    "00-Agent-Governance",
+    "00-AI/START-HERE.md",
+    "00-AI/AGENTS.md",
+    "00-AI/governance",
     "10-Projects/README.md",
     "10-Projects/PROJECTS-REGISTRY.md",
-    "90-Templates/TPL-project-bridge-card.md",
-    "scripts/kb.py",
+    "00-AI/templates/TPL-project-bridge-card.md",
+    "00-AI/scripts/kb.py",
 ]
 
 LEGACY_STATIC_RENAMES = {
@@ -114,7 +116,36 @@ LEGACY_STATIC_RENAMES = {
     "90-Templates/TPL-问题事故经验卡.md": "90-Templates/TPL-incident-experience-card.md",
     "90-Templates/TPL-问题知识卡-经验资产卡.md": "90-Templates/TPL-question-knowledge-experience-asset-card.md",
     "90-Templates/TPL-验收记录.md": "90-Templates/TPL-acceptance-record.md",
+    "00-AI/templates/TPL-Agent交接卡.md": "00-AI/templates/TPL-agent-handoff-card.md",
+    "00-AI/templates/TPL-Codex项目桥接卡.md": "00-AI/templates/TPL-project-bridge-card.md",
+    "00-AI/templates/TPL-WebClip-最简模板.md": "00-AI/templates/TPL-web-clip-minimal.md",
+    "00-AI/templates/TPL-任务状态卡.md": "00-AI/templates/TPL-task-state-card.md",
+    "00-AI/templates/TPL-资料分析卡.md": "00-AI/templates/TPL-source-analysis-card.md",
+    "00-AI/templates/TPL-问题事故经验卡.md": "00-AI/templates/TPL-incident-experience-card.md",
+    "00-AI/templates/TPL-问题知识卡-经验资产卡.md": "00-AI/templates/TPL-question-knowledge-experience-asset-card.md",
+    "00-AI/templates/TPL-验收记录.md": "00-AI/templates/TPL-acceptance-record.md",
 }
+
+AI_LAYOUT_RENAMES = {
+    "START-HERE.md": "00-AI/START-HERE.md",
+    "AGENTS.md": "00-AI/AGENTS.md",
+    "00-Agent-Governance": "00-AI/governance",
+    "02-Knowledge-Pipeline": "00-AI/pipeline",
+    "03-Recall-System": "00-AI/recall",
+    "90-Templates": "00-AI/templates",
+    "scripts": "00-AI/scripts",
+}
+
+AI_LAYOUT_REFERENCE_REPLACEMENTS = [
+    ("00-Agent-Governance/", "00-AI/governance/"),
+    ("00-Agent-Governance", "00-AI/governance"),
+    ("02-Knowledge-Pipeline/", "00-AI/pipeline/"),
+    ("02-Knowledge-Pipeline", "00-AI/pipeline"),
+    ("03-Recall-System/", "00-AI/recall/"),
+    ("03-Recall-System", "00-AI/recall"),
+    ("90-Templates/", "00-AI/templates/"),
+    ("90-Templates", "00-AI/templates"),
+]
 
 SKIP_INSTALL_PARTS = {".git", "__pycache__"}
 FOLDER_INTAKE_IGNORE_DIRS = {
@@ -287,7 +318,11 @@ def write_file(path: Path, content: str, dry_run: bool) -> None:
 
 
 def repo_root() -> Path:
-    return Path(__file__).resolve().parents[1]
+    current = Path(__file__).resolve()
+    for parent in current.parents:
+        if (parent / "VERSION").exists() and (parent / "README.md").exists():
+            return parent
+    return current.parents[2]
 
 
 def file_sha256(path: Path) -> str:
@@ -574,7 +609,7 @@ project: {args.name}
 local_root: "{root_hint}"
 kb_project: "10-Projects/{args.slug}/README.md"
 startup_files:
-  - "START-HERE.md"
+  - "00-AI/START-HERE.md"
   - "10-Projects/{args.slug}/current-state.md"
   - "10-Projects/{args.slug}/decisions.md"
 updated: {today}
@@ -588,7 +623,7 @@ Explain how this local project maps to the vault and why it matters.
 
 ## Startup Files
 
-1. `START-HERE.md`
+1. `00-AI/START-HERE.md`
 2. This bridge card
 3. `current-state.md`
 4. `decisions.md`
@@ -696,7 +731,7 @@ To be filled by AI after reading the source.
 - If it changes project state, update `10-Projects/<project>/current-state.md`.
 - If it creates a stable decision, update `10-Projects/<project>/decisions.md`.
 - If it becomes reusable knowledge, create a question knowledge card / experience asset or write to `20-SharedAssets/02-modules/`.
-- If it must be recalled before future tasks, update the matching project bridge card or `03-Recall-System/task-to-context-map.md`.
+- If it must be recalled before future tasks, update the matching project bridge card or `00-AI/recall/task-to-context-map.md`.
 
 ## Next AI Action
 
@@ -827,7 +862,7 @@ canonical: false
 
 1. Review this manifest before reading file contents.
 2. Ask the user which subset should be processed first if the folder is broad.
-3. Use `02-Knowledge-Pipeline/local-material-intake.md` before creating long-term notes.
+3. Use `00-AI/pipeline/local-material-intake.md` before creating long-term notes.
 4. Keep original files in place; promote only stable summaries, decisions, or reusable lessons.
 """
 
@@ -988,6 +1023,55 @@ def collect_codex_name_migrations(root: Path) -> list[tuple[Path, Path]]:
         new = old.with_name(old.name.replace("CODEX-BRIDGE-", "BRIDGE-", 1))
         migrations.append((old, new))
     return migrations
+
+
+def collect_ai_layout_migrations(root: Path) -> list[tuple[Path, Path]]:
+    migrations = []
+    for old_rel, new_rel in AI_LAYOUT_RENAMES.items():
+        old = root / old_rel
+        if old.exists():
+            migrations.append((old, root / new_rel))
+    return migrations
+
+
+def rewrite_ai_layout_references(text: str) -> str:
+    updated = text
+    for old, new in AI_LAYOUT_REFERENCE_REPLACEMENTS:
+        updated = updated.replace(old, new)
+    updated = re.sub(r"(?<!00-AI/)scripts/", "00-AI/scripts/", updated)
+    updated = re.sub(r"(?<!00-AI/)START-HERE\.md", "00-AI/START-HERE.md", updated)
+    updated = re.sub(r"(?<!00-AI/)AGENTS\.md", "00-AI/AGENTS.md", updated)
+    return updated
+
+
+def migrate_ai_layout(args: argparse.Namespace) -> int:
+    root = vault_root(args.vault)
+    migrations = collect_ai_layout_migrations(root)
+    for old, new in migrations:
+        old_display = old.relative_to(root).as_posix()
+        new_display = new.relative_to(root).as_posix()
+        if new.exists():
+            print(f"skip move, target exists: {old_display} -> {new_display}")
+            continue
+        if args.dry_run:
+            print(f"would move {old_display} -> {new_display}")
+            continue
+        new.parent.mkdir(parents=True, exist_ok=True)
+        old.rename(new)
+        print(f"moved {old_display} -> {new_display}")
+
+    for path in iter_markdown_files(root):
+        text = path.read_text(encoding="utf-8")
+        updated = rewrite_ai_layout_references(text)
+        if updated == text:
+            continue
+        rel = path.relative_to(root).as_posix()
+        if args.dry_run:
+            print(f"would update references in {rel}")
+            continue
+        path.write_text(updated, encoding="utf-8")
+        print(f"updated references in {rel}")
+    return 0
 
 
 def migrate_codex_names(args: argparse.Namespace) -> int:
@@ -1182,6 +1266,11 @@ def build_parser() -> argparse.ArgumentParser:
     migrate.add_argument("--vault", help="Vault root. Defaults to current directory.")
     migrate.add_argument("--dry-run", action="store_true", help="Print actions without renaming files")
     migrate.set_defaults(func=migrate_codex_names)
+
+    migrate_layout = subparsers.add_parser("migrate-ai-layout", help="Move legacy AI system files into 00-AI")
+    migrate_layout.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    migrate_layout.add_argument("--dry-run", action="store_true", help="Print actions without moving files")
+    migrate_layout.set_defaults(func=migrate_ai_layout)
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")

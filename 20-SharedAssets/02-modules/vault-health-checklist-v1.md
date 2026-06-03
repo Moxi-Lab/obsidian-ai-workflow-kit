@@ -17,11 +17,11 @@ status: active
 ## 一、入口可信化（每周至少一次）
 
 - [ ] `index.md` 的主入口都能打开
-- [ ] `START-HERE.md` 的开工指令和任务类型仍然准确
-- [ ] `AGENTS.md` 与 `START-HERE.md` 的写回规则一致
-- [ ] `00-Agent-Governance/` 的治理规则能打开
-- [ ] `02-Knowledge-Pipeline/` 的资料整理流程能打开
-- [ ] `03-Recall-System/` 的召回地图能打开
+- [ ] `00-AI/START-HERE.md` 的开工指令和任务类型仍然准确
+- [ ] `00-AI/AGENTS.md` 与 `00-AI/START-HERE.md` 的写回规则一致
+- [ ] `00-AI/governance/` 的治理规则能打开
+- [ ] `00-AI/pipeline/` 的资料整理流程能打开
+- [ ] `00-AI/recall/` 的召回地图能打开
 - [ ] `index.md` 只列出真实存在的稳定入口
 - [ ] `10-Projects/` 中每个示例项目都有 README、桥接卡、当前状态和决策页
 - [ ] `10-Projects/PROJECTS-REGISTRY.md` 中列出的目录与实际目录一致
@@ -81,8 +81,8 @@ status:
 
 ## 七、Agent 可调用性检查（每周一次）
 
-- [ ] 高频任务是否能从 `START-HERE.md` 找到下一步
-- [ ] 新增规则是否已接入 `AGENTS.md`、`START-HERE.md`、`00-Agent-Governance/` 或 `20-SharedAssets/`
+- [ ] 高频任务是否能从 `00-AI/START-HERE.md` 找到下一步
+- [ ] 新增规则是否已接入 `00-AI/AGENTS.md`、`00-AI/START-HERE.md`、`00-AI/governance/` 或 `20-SharedAssets/`
 - [ ] 权威状态源是否少于 10 个，避免入口膨胀
 - [ ] 旧交接卡、旧剪藏、旧目标是否没有覆盖当前状态页
 - [ ] AI 生成内容是否经过人工确认后再写成长期规则
@@ -90,7 +90,7 @@ status:
 ## 八、推荐处理优先级
 
 1. 先修首页 / README / 项目桥接卡等高频入口
-2. 再修 `START-HERE.md`、`AGENTS.md` 和项目桥接卡
+2. 再修 `00-AI/START-HERE.md`、`00-AI/AGENTS.md` 和项目桥接卡
 3. 再修断链与旧链接
 4. 再清 Inbox 与状态字段
 5. 再查重复、矛盾、过时和孤立内容

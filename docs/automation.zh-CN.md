@@ -6,14 +6,14 @@
 
 1. 在 AI 会话前后运行 `stale-check`。
 2. 用 Claude Code Stop hook 在会话结束前提醒 Agent。
-3. 让 Agent 按 `START-HERE.md` 写交接、更新项目状态和沉淀经验。
+3. 让 Agent 按 `00-AI/START-HERE.md` 写交接、更新项目状态和沉淀经验。
 
 不要一开始就做静默自动改写。本地知识库更适合“人能看见变化”的自动化。
 
 ## Stale Check
 
 ```bash
-python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault"
 ```
 
 它会检查：
@@ -25,7 +25,7 @@ python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
 如果要在 hooks 或 CI 里使用，可以让它发现问题时返回失败：
 
 ```bash
-python3 scripts/kb.py stale-check \
+python3 00-AI/scripts/kb.py stale-check \
   --vault "/path/to/your-vault" \
   --max-age-days 7 \
   --inbox-threshold 10 \

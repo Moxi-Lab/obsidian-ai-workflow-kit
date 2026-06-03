@@ -36,7 +36,7 @@ last_verified:
 |---|---|
 | 本地路径 | `<local_root>` |
 | Git 状态 | `<clean / dirty / unknown>` |
-| 项目规则 | `AGENTS.md` |
+| 项目规则 | `<local_root>/AGENTS.md` 或项目 README |
 | KB Bridge | `<已加入 / 待加入 / 不适用>` |
 | 关键文档 | `docs/...` |
 
@@ -50,8 +50,8 @@ last_verified:
 
 ## 开工必读
 
-1. 项目根 `AGENTS.md`
-2. `START-HERE.md`
+1. 项目根 `AGENTS.md`（如果存在）
+2. `00-AI/START-HERE.md`
 3. 知识库项目页
 4. 项目 docs 中的当前任务文档
 
@@ -88,7 +88,7 @@ last_verified:
 ```md
 ## KB Bridge
 
-- 知识库入口：<你的知识库路径>/START-HERE.md
+- 知识库入口：<你的知识库路径>/00-AI/START-HERE.md
 - 项目登记：<你的知识库路径>/<项目登记文件>.md
 - 项目桥接卡：<本卡路径>
 - 项目状态变化后，更新项目桥接卡或知识库交接卡。

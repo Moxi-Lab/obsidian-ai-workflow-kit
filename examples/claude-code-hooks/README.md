@@ -5,7 +5,7 @@ This example shows a conservative Stop hook for Obsidian AI Workflow Kit.
 When Claude Code is about to end a session, the hook runs:
 
 ```bash
-python3 scripts/kb.py stale-check --vault .
+python3 00-AI/scripts/kb.py stale-check --vault .
 ```
 
 If stale items exist, the hook asks Claude Code to pause and review whether it should write a handoff, update a project bridge card, or clear Inbox items.

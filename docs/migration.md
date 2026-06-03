@@ -6,11 +6,11 @@ Use this kit gradually. Do not rebuild an existing Obsidian vault.
 
 1. Clone or download this repository.
 2. Open the folder in Obsidian with **Open folder as vault**.
-3. Read `START-HERE.md`.
+3. Read `00-AI/START-HERE.md`.
 4. Create your first real project bridge card:
 
 ```bash
-python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+python3 00-AI/scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
 ```
 
 5. Fill only three files first:
@@ -23,16 +23,16 @@ python3 scripts/kb.py new-project my-project --name "My Project" --root "/path/t
 
 1. Copy only these files and folders into your existing vault:
 
-- `START-HERE.md`
-- `AGENTS.md`
-- `00-Agent-Governance/`
-- `02-Knowledge-Pipeline/`
-- `03-Recall-System/`
+- `00-AI/START-HERE.md`
+- `00-AI/AGENTS.md`
+- `00-AI/governance/`
+- `00-AI/pipeline/`
+- `00-AI/recall/`
 - `10-Projects/`
 - `20-SharedAssets/`
 - `40-ExternalSources/`
-- `90-Templates/`
-- `scripts/`
+- `00-AI/templates/`
+- `00-AI/scripts/`
 
 2. Do not move all existing notes.
 3. Pick one active project.
@@ -46,22 +46,40 @@ Version `0.6.0` changed the public default naming from Codex-specific names to a
 Preview the rename first:
 
 ```bash
-python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
+python3 00-AI/scripts/kb.py migrate-codex-names --vault "/path/to/your-vault" --dry-run
 ```
 
 Apply it:
 
 ```bash
-python3 scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py migrate-codex-names --vault "/path/to/your-vault"
 ```
 
 This command renames legacy files such as `CODEX-BRIDGE-my-project.md` to `BRIDGE-my-project.md`, renames old Chinese/Codex-specific template filenames to English filenames, and updates Markdown references.
 
+## If You Used The Older Scattered AI Layout
+
+Version `0.7.0` moved AI-facing files into one top-level `00-AI/` directory.
+
+Preview the layout migration first:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-ai-layout --vault "/path/to/your-vault" --dry-run
+```
+
+Apply it:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-ai-layout --vault "/path/to/your-vault"
+```
+
+This command moves legacy paths such as `START-HERE.md`, `AGENTS.md`, `00-Agent-Governance/`, `02-Knowledge-Pipeline/`, `03-Recall-System/`, `90-Templates/`, and `scripts/` into `00-AI/`, then updates Markdown references.
+
 After migration, run:
 
 ```bash
-python3 scripts/kb.py health-check --vault "/path/to/your-vault"
-python3 scripts/kb.py stale-check --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py health-check --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py stale-check --vault "/path/to/your-vault"
 ```
 
 ## Keeping The Kit Updated
@@ -90,13 +108,13 @@ Update behavior:
 If you need to compare a skipped file with the new kit version:
 
 ```bash
-python3 scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/your-vault" --mode barebone --conflict-copy
 ```
 
 ## If You Want AI To Organize Existing Local Materials
 
 1. Pick one folder, not your whole computer.
-2. Ask AI to read `02-Knowledge-Pipeline/local-material-intake.md`.
+2. Ask AI to read `00-AI/pipeline/local-material-intake.md`.
 3. Let AI classify the folder into:
 
 - project memory
@@ -131,7 +149,7 @@ A useful first bridge card should answer:
 After migration, give an AI agent this instruction:
 
 ```text
-You are the knowledge base maintenance agent. Read START-HERE.md in the current vault and follow its startup workflow.
+You are the knowledge base maintenance agent. Read 00-AI/START-HERE.md in the current vault and follow its startup workflow.
 ```
 
 The agent should identify one project bridge card, read only the needed project files, and say where it will write results back.

@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("kb", ROOT / "scripts" / "kb.py")
+SPEC = importlib.util.spec_from_file_location("kb", ROOT / "00-AI" / "scripts" / "kb.py")
 kb = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(kb)
 
@@ -17,19 +17,29 @@ class CorePathTests(unittest.TestCase):
         self.assertIn("LICENSE", kb.CORE_PATHS)
         self.assertIn("docs/legal/content-license.md", kb.CORE_PATHS)
 
+    def test_health_check_uses_single_ai_system_directory(self):
+        self.assertIn("00-AI/START-HERE.md", kb.CORE_PATHS)
+        self.assertIn("00-AI/AGENTS.md", kb.CORE_PATHS)
+        self.assertIn("00-AI/governance/README.md", kb.CORE_PATHS)
+        self.assertIn("00-AI/pipeline/local-material-intake.md", kb.CORE_PATHS)
+        self.assertIn("00-AI/recall/task-to-context-map.md", kb.CORE_PATHS)
+        self.assertIn("00-AI/templates/TPL-project-bridge-card.md", kb.CORE_PATHS)
+        self.assertNotIn("START-HERE.md", kb.CORE_PATHS)
+        self.assertNotIn("00-Agent-Governance/README.md", kb.CORE_PATHS)
+
 
 class InstallModeTests(unittest.TestCase):
     def test_barebone_install_paths_are_minimal(self):
         self.assertEqual(
             kb.install_paths_for_mode("barebone"),
             [
-                "START-HERE.md",
-                "AGENTS.md",
-                "00-Agent-Governance",
+                "00-AI/START-HERE.md",
+                "00-AI/AGENTS.md",
+                "00-AI/governance",
                 "10-Projects/README.md",
                 "10-Projects/PROJECTS-REGISTRY.md",
-                "90-Templates/TPL-project-bridge-card.md",
-                "scripts/kb.py",
+                "00-AI/templates/TPL-project-bridge-card.md",
+                "00-AI/scripts/kb.py",
             ],
         )
 
@@ -45,21 +55,23 @@ class InstallModeTests(unittest.TestCase):
 
             kb.install_core(args)
 
-            self.assertTrue((target / "START-HERE.md").exists())
-            self.assertTrue((target / "AGENTS.md").exists())
-            self.assertTrue((target / "00-Agent-Governance").is_dir())
+            self.assertTrue((target / "00-AI" / "START-HERE.md").exists())
+            self.assertTrue((target / "00-AI" / "AGENTS.md").exists())
+            self.assertTrue((target / "00-AI" / "governance").is_dir())
             self.assertTrue((target / "10-Projects" / "README.md").exists())
-            self.assertTrue((target / "90-Templates" / "TPL-project-bridge-card.md").exists())
-            self.assertTrue((target / "scripts" / "kb.py").exists())
+            self.assertTrue((target / "00-AI" / "templates" / "TPL-project-bridge-card.md").exists())
+            self.assertTrue((target / "00-AI" / "scripts" / "kb.py").exists())
             self.assertFalse((target / "02-Knowledge-Pipeline").exists())
             self.assertFalse((target / "03-Recall-System").exists())
+            self.assertFalse((target / "90-Templates").exists())
             self.assertFalse((target / "docs").exists())
 
     def test_barebone_install_does_not_overwrite_existing_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
             target.mkdir()
-            start_here = target / "START-HERE.md"
+            start_here = target / "00-AI" / "START-HERE.md"
+            start_here.parent.mkdir()
             start_here.write_text("CUSTOM SENTINEL\n", encoding="utf-8")
             args = argparse.Namespace(
                 target=str(target),
@@ -102,8 +114,8 @@ class InstallModeTests(unittest.TestCase):
             manifest = kb.load_manifest(target)
             self.assertEqual(manifest["kit"], "obsidian-ai-workflow-kit")
             self.assertEqual(manifest["mode"], "barebone")
-            self.assertIn("START-HERE.md", manifest["files"])
-            self.assertIn("scripts/kb.py", manifest["files"])
+            self.assertIn("00-AI/START-HERE.md", manifest["files"])
+            self.assertIn("00-AI/scripts/kb.py", manifest["files"])
 
     def test_install_core_refuses_protected_local_adapter(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -125,7 +137,7 @@ class InstallModeTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 kb.install_core(args)
 
-            self.assertFalse((target / "START-HERE.md").exists())
+            self.assertFalse((target / "00-AI" / "START-HERE.md").exists())
 
     def test_install_core_allows_protected_local_adapter_dry_run(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -145,7 +157,7 @@ class InstallModeTests(unittest.TestCase):
             )
 
             self.assertEqual(kb.install_core(args), 0)
-            self.assertFalse((target / "START-HERE.md").exists())
+            self.assertFalse((target / "00-AI" / "START-HERE.md").exists())
 
     def test_upgrade_core_updates_unmodified_managed_file(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -158,10 +170,10 @@ class InstallModeTests(unittest.TestCase):
             )
             kb.install_core(install_args)
 
-            start_here = target / "START-HERE.md"
+            start_here = target / "00-AI" / "START-HERE.md"
             start_here.write_text("OLD KIT CONTENT\n", encoding="utf-8")
             manifest = kb.load_manifest(target)
-            manifest["files"]["START-HERE.md"] = {"sha256": kb.file_sha256(start_here)}
+            manifest["files"]["00-AI/START-HERE.md"] = {"sha256": kb.file_sha256(start_here)}
             kb.save_manifest(target, manifest, kb.ROOT if hasattr(kb, "ROOT") else Path(__file__).resolve().parents[1], "barebone", False)
 
             upgrade_args = argparse.Namespace(
@@ -187,7 +199,7 @@ class InstallModeTests(unittest.TestCase):
             )
             kb.install_core(install_args)
 
-            start_here = target / "START-HERE.md"
+            start_here = target / "00-AI" / "START-HERE.md"
             start_here.write_text("USER CUSTOM CONTENT\n", encoding="utf-8")
             upgrade_args = argparse.Namespace(
                 target=str(target),
@@ -205,7 +217,8 @@ class InstallModeTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
             target.mkdir()
-            start_here = target / "START-HERE.md"
+            start_here = target / "00-AI" / "START-HERE.md"
+            start_here.parent.mkdir(parents=True)
             start_here.write_text("UNMANAGED CONTENT\n", encoding="utf-8")
             upgrade_args = argparse.Namespace(
                 target=str(target),
@@ -240,7 +253,44 @@ class InstallModeTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 kb.upgrade_core(upgrade_args)
 
-            self.assertFalse((target / "START-HERE.md").exists())
+            self.assertFalse((target / "00-AI" / "START-HERE.md").exists())
+
+    def test_migrate_legacy_ai_layout_moves_files_and_updates_references(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "00-Agent-Governance").mkdir()
+            (root / "02-Knowledge-Pipeline").mkdir()
+            (root / "03-Recall-System").mkdir()
+            (root / "90-Templates").mkdir()
+            (root / "scripts").mkdir()
+            (root / "START-HERE.md").write_text("read 00-Agent-Governance/README.md", encoding="utf-8")
+            (root / "AGENTS.md").write_text("use 90-Templates/TPL-project-bridge-card.md", encoding="utf-8")
+            (root / "00-Agent-Governance" / "README.md").write_text("governance", encoding="utf-8")
+            (root / "02-Knowledge-Pipeline" / "local-material-intake.md").write_text("pipeline", encoding="utf-8")
+            (root / "03-Recall-System" / "task-to-context-map.md").write_text("recall", encoding="utf-8")
+            (root / "90-Templates" / "TPL-project-bridge-card.md").write_text("template", encoding="utf-8")
+            (root / "scripts" / "kb.py").write_text("script", encoding="utf-8")
+            (root / "note.md").write_text(
+                "START-HERE.md 02-Knowledge-Pipeline/local-material-intake.md scripts/kb.py",
+                encoding="utf-8",
+            )
+            args = argparse.Namespace(vault=str(root), dry_run=False)
+
+            kb.migrate_ai_layout(args)
+
+            self.assertTrue((root / "00-AI" / "START-HERE.md").exists())
+            self.assertTrue((root / "00-AI" / "AGENTS.md").exists())
+            self.assertTrue((root / "00-AI" / "governance" / "README.md").exists())
+            self.assertTrue((root / "00-AI" / "pipeline" / "local-material-intake.md").exists())
+            self.assertTrue((root / "00-AI" / "recall" / "task-to-context-map.md").exists())
+            self.assertTrue((root / "00-AI" / "templates" / "TPL-project-bridge-card.md").exists())
+            self.assertTrue((root / "00-AI" / "scripts" / "kb.py").exists())
+            self.assertFalse((root / "START-HERE.md").exists())
+            self.assertFalse((root / "00-Agent-Governance").exists())
+            text = (root / "note.md").read_text(encoding="utf-8")
+            self.assertIn("00-AI/START-HERE.md", text)
+            self.assertIn("00-AI/pipeline/local-material-intake.md", text)
+            self.assertIn("00-AI/scripts/kb.py", text)
 
 
 class ProjectBridgeNamingTests(unittest.TestCase):

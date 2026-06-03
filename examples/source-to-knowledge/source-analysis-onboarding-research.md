@@ -33,7 +33,7 @@ canonical: false
 
 - Project: `examples/filled-example/BRIDGE-launch-notes.md`
 - Shared asset: 待判断
-- Recall map: 如果后续多次用于 onboarding 任务，再挂入 `03-Recall-System/task-to-context-map.md`
+- Recall map: 如果后续多次用于 onboarding 任务，再挂入 `00-AI/recall/task-to-context-map.md`
 
 ## Next AI Action
 
