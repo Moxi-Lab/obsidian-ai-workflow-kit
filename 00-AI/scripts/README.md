@@ -9,9 +9,15 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 The remote installer downloads the current repository archive and delegates to `install-core`.
+
+Language:
+
+- `en` is the default.
+- `zh-CN` writes Chinese starter text to language-aware kit files.
 
 Modes:
 
@@ -139,10 +145,12 @@ python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --dry-run
 python3 00-AI/scripts/kb.py install-core "/path/to/your-vault"
 python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --mode barebone --dry-run
 python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --mode barebone
+python3 00-AI/scripts/kb.py install-core "/path/to/your-vault" --language zh-CN --mode barebone
 bash install.sh --dry-run "/path/to/your-vault"
 bash install.sh "/path/to/your-vault"
 bash install.sh --mode barebone --dry-run "/path/to/your-vault"
 bash install.sh --mode barebone "/path/to/your-vault"
+bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 Copies the core kit into an existing Obsidian vault.

@@ -20,16 +20,18 @@
 
 推荐第一步：先把最小层安装进你自己的 vault。
 
+安装器默认写入 English 启动文本。中文用户请加 `--language zh-CN`。
+
 先预览：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone --dry-run "/path/to/your-vault"
 ```
 
 确认后安装：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 检查：
@@ -109,8 +111,8 @@ AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任�
 如果你不想用远程 `curl` 安装，可以本地克隆后运行：
 
 ```bash
-bash install.sh --mode barebone --dry-run "/path/to/your-vault"
-bash install.sh --mode barebone "/path/to/your-vault"
+bash install.sh --language zh-CN --mode barebone --dry-run "/path/to/your-vault"
+bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 ## 适合你吗？

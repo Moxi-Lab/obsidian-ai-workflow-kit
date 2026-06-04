@@ -126,6 +126,9 @@ AI_LAYOUT_REFERENCE_REPLACEMENTS = [
 ]
 
 SKIP_INSTALL_PARTS = {".git", "__pycache__"}
+LANGUAGE_TEMPLATE_ROOT = "00-AI/i18n"
+VALID_LANGUAGES = ("en", "zh-CN")
+DEFAULT_LANGUAGE = "en"
 FOLDER_INTAKE_IGNORE_DIRS = {
     ".git",
     ".obsidian",
@@ -161,3 +164,28 @@ def required_paths_for_mode(mode: str) -> list[str]:
     if mode == "barebone":
         return BAREBONE_INSTALL_PATHS
     raise SystemExit("mode must be full or barebone")
+
+
+def validate_language(language: str | None) -> str:
+    selected = language or DEFAULT_LANGUAGE
+    if selected not in VALID_LANGUAGES:
+        raise SystemExit(f"language must be one of: {', '.join(VALID_LANGUAGES)}")
+    return selected
+
+
+def language_for_install(args) -> str:
+    return validate_language(getattr(args, "language", None))
+
+
+def language_for_upgrade(args, manifest: dict) -> str:
+    selected = getattr(args, "language", None)
+    if selected is None:
+        selected = manifest.get("language")
+    return validate_language(selected)
+
+
+def language_source_path(source_root, language: str, relative):
+    localized = source_root / LANGUAGE_TEMPLATE_ROOT / language / relative
+    if localized.exists():
+        return localized
+    return source_root / relative

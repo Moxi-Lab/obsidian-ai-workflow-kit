@@ -20,6 +20,8 @@ Instead of asking AI to search the whole vault, it uses task routing plus recall
 
 Recommended first step: install the minimal layer into your own vault.
 
+The installer writes English starter text by default. Use `--language zh-CN` for Chinese starter text.
+
 Preview:
 
 ```bash
@@ -30,6 +32,12 @@ Install:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
+```
+
+Chinese starter text:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 Check:
@@ -111,6 +119,7 @@ Security-sensitive users can skip the remote `curl` form and run the installer f
 ```bash
 bash install.sh --mode barebone --dry-run "/path/to/your-vault"
 bash install.sh --mode barebone "/path/to/your-vault"
+bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
 ```
 
 ## Is This For You?

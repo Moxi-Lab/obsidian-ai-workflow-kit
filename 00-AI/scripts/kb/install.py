@@ -13,6 +13,9 @@ from .config import (
     MANIFEST_SCHEMA,
     SKIP_INSTALL_PARTS,
     install_paths_for_mode,
+    language_for_install,
+    language_for_upgrade,
+    language_source_path,
 )
 from .utils import file_sha256, repo_root
 
@@ -74,11 +77,15 @@ def load_manifest(root: Path) -> dict:
     return manifest
 
 
-def save_manifest(root: Path, manifest: dict, source_root: Path, mode: str, dry_run: bool) -> None:
+def save_manifest(root: Path, manifest: dict, source_root: Path, mode: str, dry_run: bool, language: str | None = None) -> None:
     manifest["schema"] = MANIFEST_SCHEMA
     manifest["kit"] = "obsidian-ai-workflow-kit"
     manifest["source_version"] = read_kit_version(source_root)
     manifest["mode"] = mode
+    if language is not None:
+        manifest["language"] = language
+    else:
+        manifest.setdefault("language", "en")
     manifest["updated_at"] = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
     path = manifest_path(root)
     if dry_run:
@@ -93,12 +100,13 @@ def record_managed_file(manifest: dict, relative: Path, source_hash: str) -> Non
     files[relative.as_posix()] = {"sha256": source_hash}
 
 
-def iter_install_files(source_root: Path, rel: str):
+def iter_install_files(source_root: Path, rel: str, language: str):
     source = source_root / rel
     if not source.exists():
         return
     if source.is_file():
-        yield source, Path(rel)
+        relative = Path(rel)
+        yield language_source_path(source_root, language, relative), relative
         return
     for path in sorted(source.rglob("*")):
         if not path.is_file():
@@ -107,7 +115,8 @@ def iter_install_files(source_root: Path, rel: str):
             continue
         if path.name in {".DS_Store"} or path.suffix == ".pyc":
             continue
-        yield path, path.relative_to(source_root)
+        relative = path.relative_to(source_root)
+        yield language_source_path(source_root, language, relative), relative
 
 
 def install_core(args: argparse.Namespace) -> int:
@@ -125,13 +134,15 @@ def install_core(args: argparse.Namespace) -> int:
 
     summary = {"created": 0, "updated": 0, "skipped": 0}
     manifest = load_manifest(target_root)
+    language = language_for_install(args)
     if args.dry_run:
         print(f"would install core files into {target_root}")
+        print(f"language: {language}")
     else:
         target_root.mkdir(parents=True, exist_ok=True)
 
     for rel in install_paths_for_mode(mode):
-        for source, relative in iter_install_files(source_root, rel):
+        for source, relative in iter_install_files(source_root, rel, language):
             target = target_root / relative
             display = str(relative)
             source_hash = file_sha256(source)
@@ -151,7 +162,7 @@ def install_core(args: argparse.Namespace) -> int:
                 record_managed_file(manifest, relative, source_hash)
             summary["updated" if action == "update" else "created"] += 1
 
-    save_manifest(target_root, manifest, source_root, mode, args.dry_run)
+    save_manifest(target_root, manifest, source_root, mode, args.dry_run, language)
 
     print(
         "summary: "
@@ -173,6 +184,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
     enforce_adapter_write_policy(target_root, args)
 
     manifest = load_manifest(target_root)
+    language = language_for_upgrade(args, manifest)
     managed_files = manifest.setdefault("files", {})
     stamp = dt.datetime.now().strftime("%Y%m%d%H%M%S")
     summary = {
@@ -186,9 +198,10 @@ def upgrade_core(args: argparse.Namespace) -> int:
 
     if args.dry_run:
         print(f"would upgrade core files in {target_root}")
+        print(f"language: {language}")
 
     for rel in install_paths_for_mode(mode):
-        for source, relative in iter_install_files(source_root, rel):
+        for source, relative in iter_install_files(source_root, rel, language):
             target = target_root / relative
             display = relative.as_posix()
             source_hash = file_sha256(source)
@@ -239,7 +252,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
             else:
                 summary["skipped"] += 1
 
-    save_manifest(target_root, manifest, source_root, mode, args.dry_run)
+    save_manifest(target_root, manifest, source_root, mode, args.dry_run, language)
     print(
         "summary: "
         f"{summary['created']} created, "
@@ -250,4 +263,3 @@ def upgrade_core(args: argparse.Namespace) -> int:
         f"{summary['skipped']} skipped"
     )
     return 0
-

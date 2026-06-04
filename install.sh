@@ -10,6 +10,7 @@ OVERWRITE=0
 UPDATE=0
 ALLOW_PROTECTED_ADAPTER_WRITE=0
 MODE="full"
+LANGUAGE="en"
 TARGET=""
 TMP_DIR=""
 
@@ -18,11 +19,12 @@ usage() {
 Install Obsidian AI Workflow Kit into an existing Obsidian vault.
 
 Usage:
-  bash install.sh [--dry-run] [--overwrite] [--update] [--allow-protected-adapter-write] [--mode full|barebone] [--branch main] [--source /path/to/repo] <vault-path>
+  bash install.sh [--dry-run] [--overwrite] [--update] [--allow-protected-adapter-write] [--mode full|barebone] [--language en|zh-CN] [--branch main] [--source /path/to/repo] <vault-path>
 
 Examples:
   bash install.sh --dry-run "/path/to/your-vault"
   bash install.sh "/path/to/your-vault"
+  bash install.sh --language zh-CN "/path/to/your-vault"
   bash install.sh --mode barebone "/path/to/your-vault"
   bash install.sh --update --mode barebone --dry-run "/path/to/your-vault"
   bash install.sh --update --mode barebone "/path/to/your-vault"
@@ -30,6 +32,7 @@ Examples:
 Remote one-line form:
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+  curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN "/path/to/your-vault"
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
   curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
 
@@ -40,6 +43,7 @@ Default behavior:
   - In --update mode, only managed and unmodified kit files are updated.
   - Refuses to write into vaults protected by .obsidian-ai-workflow-kit/adoption-policy.json unless --allow-protected-adapter-write is passed.
   - Uses --mode full unless --mode barebone is passed.
+  - Uses --language en unless --language zh-CN is passed.
 USAGE
 }
 
@@ -78,6 +82,18 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       MODE="$2"
+      shift 2
+      ;;
+    --language)
+      if [[ $# -lt 2 ]]; then
+        echo "missing value for --language" >&2
+        exit 2
+      fi
+      if [[ "$2" != "en" && "$2" != "zh-CN" ]]; then
+        echo "language must be en or zh-CN" >&2
+        exit 2
+      fi
+      LANGUAGE="$2"
       shift 2
       ;;
     --branch)
@@ -164,6 +180,7 @@ fi
 
 ARGS=()
 ARGS+=(--mode "$MODE")
+ARGS+=(--language "$LANGUAGE")
 if [[ "$DRY_RUN" -eq 1 ]]; then
   ARGS+=(--dry-run)
 fi

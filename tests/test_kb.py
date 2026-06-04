@@ -1,8 +1,10 @@
 import importlib.util
 import argparse
+import io
 import json
 import tempfile
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 
 
@@ -309,6 +311,89 @@ class InstallModeTests(unittest.TestCase):
             self.assertIn("00-AI/START-HERE.md", text)
             self.assertIn("00-AI/pipeline/local-material-intake.md", text)
             self.assertIn("00-AI/scripts/kb.py", text)
+
+
+class InstallLanguageTests(unittest.TestCase):
+    def install_args(self, target: Path, language, dry_run: bool = False):
+        return argparse.Namespace(
+            target=str(target),
+            mode="barebone",
+            language=language,
+            dry_run=dry_run,
+            overwrite=False,
+            allow_protected_adapter_write=False,
+        )
+
+    def upgrade_args(self, target: Path, language=None):
+        return argparse.Namespace(
+            target=str(target),
+            mode="barebone",
+            language=language,
+            dry_run=False,
+            overwrite=False,
+            conflict_copy=False,
+            allow_protected_adapter_write=False,
+        )
+
+    def test_install_core_writes_selected_chinese_language_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            start_here = (target / "00-AI" / "START-HERE.md").read_text(encoding="utf-8")
+            manifest = kb.load_manifest(target)
+            self.assertEqual(manifest["language"], "zh-CN")
+            self.assertIn("语言：中文", start_here)
+            self.assertNotIn("Language: English", start_here)
+
+    def test_install_core_writes_selected_english_language_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            kb.install_core(self.install_args(target, "en"))
+
+            start_here = (target / "00-AI" / "START-HERE.md").read_text(encoding="utf-8")
+            manifest = kb.load_manifest(target)
+            self.assertEqual(manifest["language"], "en")
+            self.assertIn("Language: English", start_here)
+            self.assertNotIn("语言：中文", start_here)
+
+    def test_install_core_dry_run_prints_selected_language(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            output = io.StringIO()
+
+            with redirect_stdout(output):
+                kb.install_core(self.install_args(target, "zh-CN", dry_run=True))
+
+            self.assertIn("language: zh-CN", output.getvalue())
+            self.assertFalse(target.exists())
+
+    def test_install_core_rejects_unknown_language(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            with self.assertRaises(SystemExit):
+                kb.install_core(self.install_args(target, "fr"))
+
+            self.assertFalse(target.exists())
+
+    def test_upgrade_core_reuses_manifest_language_when_omitted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            kb.install_core(self.install_args(target, "zh-CN"))
+            start_here = target / "00-AI" / "START-HERE.md"
+            start_here.write_text("OLD LANGUAGE FILE\n", encoding="utf-8")
+            manifest = kb.load_manifest(target)
+            manifest["files"]["00-AI/START-HERE.md"] = {"sha256": kb.file_sha256(start_here)}
+            kb.save_manifest(target, manifest, ROOT, "barebone", False)
+
+            kb.upgrade_core(self.upgrade_args(target))
+
+            text = start_here.read_text(encoding="utf-8")
+            self.assertIn("语言：中文", text)
+            self.assertNotIn("OLD LANGUAGE FILE", text)
 
 
 class ProjectBridgeNamingTests(unittest.TestCase):
