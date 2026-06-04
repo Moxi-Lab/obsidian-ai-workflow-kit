@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
-import shutil
 from pathlib import Path
 
 from .config import (
     ADAPTER_POLICY_FILE,
+    DEFAULT_INSTALL_MODE,
     MANIFEST_DIR,
     MANIFEST_FILE,
     MANIFEST_SCHEMA,
@@ -16,8 +17,13 @@ from .config import (
     language_for_install,
     language_for_upgrade,
     language_source_path,
+    language_target_path,
+    localize_text_references,
 )
 from .utils import file_sha256, repo_root
+
+
+TEXT_INSTALL_SUFFIXES = {".md", ".txt", ".json", ".csv", ".yml", ".yaml"}
 
 def read_kit_version(root: Path) -> str:
     version_file = root / "VERSION"
@@ -106,7 +112,7 @@ def iter_install_files(source_root: Path, rel: str, language: str):
         return
     if source.is_file():
         relative = Path(rel)
-        yield language_source_path(source_root, language, relative), relative
+        yield language_source_path(source_root, language, relative), language_target_path(language, relative)
         return
     for path in sorted(source.rglob("*")):
         if not path.is_file():
@@ -116,13 +122,32 @@ def iter_install_files(source_root: Path, rel: str, language: str):
         if path.name in {".DS_Store"} or path.suffix == ".pyc":
             continue
         relative = path.relative_to(source_root)
-        yield language_source_path(source_root, language, relative), relative
+        yield language_source_path(source_root, language, relative), language_target_path(language, relative)
+
+
+def rendered_install_bytes(source: Path, language: str) -> bytes:
+    raw = source.read_bytes()
+    if source.suffix not in TEXT_INSTALL_SUFFIXES:
+        return raw
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw
+    return localize_text_references(text, language).encode("utf-8")
+
+
+def rendered_install_hash(source: Path, language: str) -> str:
+    return hashlib.sha256(rendered_install_bytes(source, language)).hexdigest()
+
+
+def write_rendered_install_file(source: Path, target: Path, language: str) -> None:
+    target.write_bytes(rendered_install_bytes(source, language))
 
 
 def install_core(args: argparse.Namespace) -> int:
     source_root = repo_root()
     target_root = Path(args.target).expanduser().resolve()
-    mode = getattr(args, "mode", "full")
+    mode = getattr(args, "mode", DEFAULT_INSTALL_MODE)
     if target_root == source_root:
         raise SystemExit("target is already this kit repository; choose your own Obsidian vault path")
     try:
@@ -145,7 +170,7 @@ def install_core(args: argparse.Namespace) -> int:
         for source, relative in iter_install_files(source_root, rel, language):
             target = target_root / relative
             display = str(relative)
-            source_hash = file_sha256(source)
+            source_hash = rendered_install_hash(source, language)
             if target.exists() and not args.overwrite:
                 summary["skipped"] += 1
                 print(f"skip existing {display}")
@@ -157,7 +182,7 @@ def install_core(args: argparse.Namespace) -> int:
                 print(f"would {action} {display}")
             else:
                 target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(source, target)
+                write_rendered_install_file(source, target, language)
                 print(f"{action}d {display}")
                 record_managed_file(manifest, relative, source_hash)
             summary["updated" if action == "update" else "created"] += 1
@@ -176,7 +201,7 @@ def install_core(args: argparse.Namespace) -> int:
 def upgrade_core(args: argparse.Namespace) -> int:
     source_root = repo_root()
     target_root = Path(args.target).expanduser().resolve()
-    mode = getattr(args, "mode", "full")
+    mode = getattr(args, "mode", DEFAULT_INSTALL_MODE)
     if not target_root.exists():
         raise SystemExit(f"target vault does not exist: {target_root}")
     if target_root == source_root:
@@ -204,7 +229,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
         for source, relative in iter_install_files(source_root, rel, language):
             target = target_root / relative
             display = relative.as_posix()
-            source_hash = file_sha256(source)
+            source_hash = rendered_install_hash(source, language)
 
             if not target.exists():
                 summary["created"] += 1
@@ -212,7 +237,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
                     print(f"would create {display}")
                 else:
                     target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(source, target)
+                    write_rendered_install_file(source, target, language)
                     record_managed_file(manifest, relative, source_hash)
                     print(f"created {display}")
                 continue
@@ -233,7 +258,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
                     print(f"would {action} {display}")
                 else:
                     target.parent.mkdir(parents=True, exist_ok=True)
-                    shutil.copy2(source, target)
+                    write_rendered_install_file(source, target, language)
                     record_managed_file(manifest, relative, source_hash)
                     print(f"{action}d {display}")
                 continue
@@ -247,7 +272,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
                 if args.dry_run:
                     print(f"would write candidate {candidate.relative_to(target_root).as_posix()}")
                 else:
-                    shutil.copy2(source, candidate)
+                    write_rendered_install_file(source, candidate, language)
                     print(f"wrote candidate {candidate.relative_to(target_root).as_posix()}")
             else:
                 summary["skipped"] += 1

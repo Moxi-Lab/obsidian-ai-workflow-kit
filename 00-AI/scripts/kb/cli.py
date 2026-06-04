@@ -7,7 +7,7 @@ from .install import install_core, upgrade_core
 from .intake import intake_folder, intake_source
 from .migrate import migrate_ai_layout, migrate_codex_names
 from .project import new_project
-from .config import VALID_LANGUAGES
+from .config import DEFAULT_INSTALL_MODE, VALID_LANGUAGES
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Obsidian AI Workflow Kit helper")
@@ -74,7 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")
-    install.add_argument("--mode", choices=["full", "barebone"], default="full", help="Install full kit or minimal barebone kit")
+    install.add_argument("--mode", choices=["full", "barebone"], default=DEFAULT_INSTALL_MODE, help="Install full kit or minimal barebone kit")
     install.add_argument("--language", choices=VALID_LANGUAGES, help="Language for user-facing starter files")
     install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
     install.add_argument(
@@ -87,7 +87,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     upgrade = subparsers.add_parser("upgrade-core", help="Upgrade managed kit files in an installed vault")
     upgrade.add_argument("target", help="Target Obsidian vault directory")
-    upgrade.add_argument("--mode", choices=["full", "barebone"], default="full", help="Upgrade full kit or minimal barebone kit")
+    upgrade.add_argument("--mode", choices=["full", "barebone"], default=DEFAULT_INSTALL_MODE, help="Upgrade full kit or minimal barebone kit")
     upgrade.add_argument("--language", choices=VALID_LANGUAGES, help="Language for user-facing starter files")
     upgrade.add_argument("--overwrite", action="store_true", help="Overwrite modified or unmanaged files")
     upgrade.add_argument("--conflict-copy", action="store_true", help="Write new versions beside conflicted files")

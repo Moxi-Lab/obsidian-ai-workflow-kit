@@ -47,17 +47,45 @@ class InstallModeTests(unittest.TestCase):
         self.assertEqual(
             kb.install_paths_for_mode("barebone"),
             [
+                "index.md",
                 "00-AI/START-HERE.md",
                 "00-AI/AGENTS.md",
                 "00-AI/governance",
+                "00-AI/pipeline/README.md",
+                "00-AI/pipeline/local-material-intake.md",
+                "00-AI/recall/README.md",
+                "00-AI/recall/task-to-context-map.md",
+                "01-Inbox/README.md",
                 "10-Projects/README.md",
                 "10-Projects/PROJECTS-REGISTRY.md",
-                "00-AI/templates/TPL-project-bridge-card.md",
+                "20-SharedAssets/README.md",
+                "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
+                "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
+                "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
+                "40-ExternalSources/README.md",
+                "00-AI/templates",
                 "00-AI/config/stale-patterns.txt",
                 "00-AI/scripts/kb.py",
                 "00-AI/scripts/kb",
             ],
         )
+
+    def test_default_install_mode_is_minimal_template(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            manifest = kb.load_manifest(target)
+            self.assertEqual(manifest["mode"], "barebone")
+            self.assertTrue((target / "index.md").exists())
+            self.assertTrue((target / "00-AI" / "START-HERE.md").exists())
+            self.assertFalse((target / "docs").exists())
 
     def test_barebone_install_excludes_full_mode_directories(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -74,15 +102,22 @@ class InstallModeTests(unittest.TestCase):
             self.assertTrue((target / "00-AI" / "START-HERE.md").exists())
             self.assertTrue((target / "00-AI" / "AGENTS.md").exists())
             self.assertTrue((target / "00-AI" / "governance").is_dir())
+            self.assertTrue((target / "00-AI" / "pipeline" / "README.md").exists())
+            self.assertTrue((target / "00-AI" / "recall" / "task-to-context-map.md").exists())
+            self.assertTrue((target / "01-Inbox" / "README.md").exists())
             self.assertTrue((target / "10-Projects" / "README.md").exists())
+            self.assertTrue((target / "20-SharedAssets" / "README.md").exists())
+            self.assertTrue((target / "20-SharedAssets" / "02-modules" / "project-lesson-promotion-v1.md").exists())
+            self.assertTrue((target / "20-SharedAssets" / "02-modules" / "vault-health-checklist-v1.md").exists())
+            self.assertTrue((target / "20-SharedAssets" / "02-modules" / "metadata-minimum-standard-v1.md").exists())
+            self.assertTrue((target / "40-ExternalSources" / "README.md").exists())
             self.assertTrue((target / "00-AI" / "templates" / "TPL-project-bridge-card.md").exists())
+            self.assertTrue((target / "00-AI" / "templates" / "TPL-agent-handoff-card.md").exists())
             self.assertTrue((target / "00-AI" / "config" / "stale-patterns.txt").exists())
             self.assertTrue((target / "00-AI" / "scripts" / "kb.py").exists())
             self.assertTrue((target / "00-AI" / "scripts" / "kb" / "__init__.py").exists())
-            self.assertFalse((target / "02-Knowledge-Pipeline").exists())
-            self.assertFalse((target / "03-Recall-System").exists())
-            self.assertFalse((target / "90-Templates").exists())
             self.assertFalse((target / "docs").exists())
+            self.assertFalse((target / "examples").exists())
 
     def test_barebone_install_does_not_overwrite_existing_files(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -341,11 +376,42 @@ class InstallLanguageTests(unittest.TestCase):
 
             kb.install_core(self.install_args(target, "zh-CN"))
 
-            start_here = (target / "00-AI" / "START-HERE.md").read_text(encoding="utf-8")
+            start_here_path = target / "00-入口" / "开始这里.md"
+            start_here = start_here_path.read_text(encoding="utf-8")
             manifest = kb.load_manifest(target)
             self.assertEqual(manifest["language"], "zh-CN")
+            self.assertIn("00-入口/开始这里.md", manifest["files"])
             self.assertIn("语言：中文", start_here)
+            self.assertIn("00-入口/开始这里.md", start_here)
             self.assertNotIn("Language: English", start_here)
+            self.assertNotIn("00-AI", start_here)
+            self.assertNotIn("00-智能体", start_here)
+            self.assertNotIn("20-SharedAssets", start_here)
+            self.assertNotIn("40-ExternalSources", start_here)
+            self.assertFalse((target / "00-AI" / "START-HERE.md").exists())
+            self.assertTrue((target / "首页.md").exists())
+            self.assertTrue((target / "01-收件箱" / "README.md").exists())
+            self.assertTrue((target / "10-项目" / "项目登记表.md").exists())
+            self.assertTrue((target / "20-资料" / "README.md").exists())
+            self.assertTrue((target / "20-资料" / "处理流程" / "README.md").exists())
+            self.assertTrue((target / "30-经验资产" / "README.md").exists())
+            self.assertTrue((target / "30-经验资产" / "02-通用模块" / "项目经验沉淀机制-v1.md").exists())
+            self.assertTrue((target / "30-经验资产" / "02-通用模块" / "知识库健康检查清单-v1.md").exists())
+            self.assertTrue((target / "30-经验资产" / "02-通用模块" / "元数据最小标准-v1.md").exists())
+            self.assertTrue((target / "90-系统" / "模板" / "TPL-项目桥接卡.md").exists())
+            self.assertTrue((target / "90-系统" / "模板" / "TPL-Agent交接卡.md").exists())
+            self.assertTrue((target / "90-系统" / "脚本" / "kb.py").exists())
+            self.assertFalse((target / "00-智能体").exists())
+            self.assertFalse((target / "40-外部资料").exists())
+
+    def test_chinese_barebone_health_check_passes_after_install(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            health_args = argparse.Namespace(vault=str(target), mode="barebone")
+            self.assertEqual(kb.health_check(health_args), 0)
 
     def test_install_core_writes_selected_english_language_template(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -383,10 +449,10 @@ class InstallLanguageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
             kb.install_core(self.install_args(target, "zh-CN"))
-            start_here = target / "00-AI" / "START-HERE.md"
+            start_here = target / "00-入口" / "开始这里.md"
             start_here.write_text("OLD LANGUAGE FILE\n", encoding="utf-8")
             manifest = kb.load_manifest(target)
-            manifest["files"]["00-AI/START-HERE.md"] = {"sha256": kb.file_sha256(start_here)}
+            manifest["files"]["00-入口/开始这里.md"] = {"sha256": kb.file_sha256(start_here)}
             kb.save_manifest(target, manifest, ROOT, "barebone", False)
 
             kb.upgrade_core(self.upgrade_args(target))

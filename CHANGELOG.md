@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.0 - 2026-06-04
+
+- Localized Chinese installs into Chinese vault paths: `00-入口/`, `01-收件箱/`, `10-项目/`, `20-资料/`, `30-经验资产/`, and `90-系统/`.
+- Changed the default install and update mode to the minimal `barebone` starter template, with full mode still available via `--mode full`.
+- Expanded the minimal starter template so it includes the startup entry, inbox, projects, source pipeline, reusable lessons, governance rules, recall map, templates, config, and helper scripts.
+- Made install, update, manifest hashes, stale pattern loading, and health checks language-aware.
+- Updated English and Chinese README files, installer output, shell tests, and Python tests to verify the new Chinese path layout and localized Markdown links.
+
 ## 0.7.1 - 2026-06-04
 
 - Split `00-AI/scripts/kb.py` into a small CLI entry point plus focused modules under `00-AI/scripts/kb/`.

@@ -20,24 +20,24 @@ Instead of asking AI to search the whole vault, it uses task routing plus recall
 
 Recommended first step: install the minimal layer into your own vault.
 
-The installer writes English starter text by default. Use `--language zh-CN` for Chinese starter text.
+The installer writes English paths and starter text by default. Use `--language zh-CN` for Chinese paths and starter text.
 
 Preview:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run "/path/to/your-vault"
 ```
 
 Install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
 ```
 
-Chinese starter text:
+Chinese paths and starter text:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN "/path/to/your-vault"
 ```
 
 Check:
@@ -45,6 +45,8 @@ Check:
 ```bash
 python3 "/path/to/your-vault/00-AI/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
+
+For Chinese install paths, see [README.zh-CN.md](README.zh-CN.md).
 
 Then send this to your AI agent:
 
@@ -55,7 +57,7 @@ You are the knowledge base maintenance agent. The root directory of this Obsidia
 Use full mode when you want the complete starter vault, including pipeline, recall system, docs, examples, and templates:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode full "/path/to/your-vault"
 ```
 
 The installer skips existing files by default. Pass `--overwrite` only when you intentionally want to replace files.
@@ -63,8 +65,8 @@ The installer skips existing files by default. Pass `--overwrite` only when you 
 Update later:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update "/path/to/your-vault"
 ```
 
 Updates use a local manifest to replace only managed kit files that you have not edited.
@@ -107,19 +109,21 @@ User task
 
 The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place.
 
-## Install Modes
+## Install Scope
+
+The default install is the minimal starter template. Advanced users can still pass `--mode full`.
 
 | Mode | Best for | What it installs |
 |---|---|---|
-| `barebone` | First step inside an existing vault | startup entry, governance, project registry, project bridge template, `00-AI/scripts/kb.py` |
+| `barebone` | First step inside an existing vault | startup entry, core workflow folders, governance, project registry, templates, `00-AI/scripts/kb.py` |
 | `full` | New starter vault or complete trial | all workflow folders, examples, docs, templates, scripts |
 
 Security-sensitive users can skip the remote `curl` form and run the installer from a local clone:
 
 ```bash
-bash install.sh --mode barebone --dry-run "/path/to/your-vault"
-bash install.sh --mode barebone "/path/to/your-vault"
-bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
+bash install.sh --dry-run "/path/to/your-vault"
+bash install.sh "/path/to/your-vault"
+bash install.sh --language zh-CN "/path/to/your-vault"
 ```
 
 ## Is This For You?
@@ -165,7 +169,7 @@ docs/                      guides, diagrams, and walkthroughs
 examples/                  demo project and source workflows
 ```
 
-Core filenames are English for agent readability. Some page titles and template body text still include Chinese because they preserve the original working method.
+English installs use English paths. Chinese installs localize the core vault paths; see [README.zh-CN.md](README.zh-CN.md) for the exact path names.
 
 ## Maturity
 
@@ -181,4 +185,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.7.1`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.8.0`. See [CHANGELOG.md](CHANGELOG.md).

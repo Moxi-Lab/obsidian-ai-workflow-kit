@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import json
 import re
 import urllib.parse
 from pathlib import Path
@@ -9,8 +10,13 @@ from pathlib import Path
 from .config import (
     AUDIT_REPORT_DIR,
     DEFAULT_STALE_PATTERNS_FILE,
+    MANIFEST_DIR,
+    MANIFEST_FILE,
     VAULT_STALE_PATTERNS_FILE,
+    DEFAULT_LANGUAGE,
+    language_target_path,
     required_paths_for_mode,
+    validate_language,
 )
 from .utils import has_chinese, iter_markdown_files, read_frontmatter_value, vault_root
 
@@ -31,12 +37,30 @@ def load_stale_patterns(root: Path) -> list[str]:
     override = root / VAULT_STALE_PATTERNS_FILE
     if override.exists():
         return read_stale_pattern_file(override)
-    return read_stale_pattern_file(root / DEFAULT_STALE_PATTERNS_FILE)
+    language = detect_vault_language(root)
+    return read_stale_pattern_file(root / language_target_path(language, DEFAULT_STALE_PATTERNS_FILE))
 
 
-def check_required_paths(root: Path, mode: str = "full") -> list[str]:
+def detect_vault_language(root: Path) -> str:
+    path = root / MANIFEST_DIR / MANIFEST_FILE
+    if not path.exists():
+        return DEFAULT_LANGUAGE
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return DEFAULT_LANGUAGE
+    if not isinstance(manifest, dict):
+        return DEFAULT_LANGUAGE
+    try:
+        return validate_language(manifest.get("language"))
+    except SystemExit:
+        return DEFAULT_LANGUAGE
+
+
+def check_required_paths(root: Path, mode: str = "full", language: str | None = None) -> list[str]:
+    selected_language = language or detect_vault_language(root)
     errors = []
-    for rel in required_paths_for_mode(mode):
+    for rel in required_paths_for_mode(mode, selected_language):
         if not (root / rel).exists():
             errors.append(f"missing required path: {rel}")
     return errors
@@ -88,8 +112,9 @@ def check_english_readme(root: Path) -> list[str]:
 def health_check(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
     mode = getattr(args, "mode", "full")
+    language = detect_vault_language(root)
     checks = [
-        ("required paths", check_required_paths(root, mode)),
+        ("required paths", check_required_paths(root, mode, language)),
         ("stale concepts", check_stale_patterns(root)),
         ("markdown links", check_markdown_links(root)),
     ]

@@ -20,36 +20,36 @@
 
 推荐第一步：先把最小层安装进你自己的 vault。
 
-安装器默认写入 English 启动文本。中文用户请加 `--language zh-CN`。
+安装器默认写入 English 路径和启动文本。中文用户请加 `--language zh-CN`，安装后的核心目录也会使用中文路径。
 
 先预览：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --dry-run "/path/to/your-vault"
 ```
 
 确认后安装：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN "/path/to/your-vault"
 ```
 
 检查：
 
 ```bash
-python3 "/path/to/your-vault/00-AI/scripts/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
+python3 "/path/to/your-vault/90-系统/脚本/kb.py" health-check --vault "/path/to/your-vault" --mode barebone
 ```
 
 然后把这句话发给你的 AI Agent：
 
 ```text
-你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<your-vault-path>。请先读取该目录下的 00-AI/START-HERE.md，并按里面的开工流程执行。
+你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<your-vault-path>。请先读取该目录下的 00-入口/开始这里.md，并按里面的开工流程执行。
 ```
 
-如果你想安装完整 starter vault，包括资料流水线、召回系统、文档、示例和模板，使用默认 full 模式：
+如果你想安装完整 starter vault，包括资料流水线、召回系统、文档、示例和模板，可以使用进阶的 full 模式：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode full "/path/to/your-vault"
 ```
 
 安装器默认跳过已有文件；只有你明确传入 `--overwrite` 才会覆盖。
@@ -57,8 +57,8 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 后续更新：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update "/path/to/your-vault"
 ```
 
 更新时会读取本地 manifest，只替换仍然保持原样的 kit 文件，不静默覆盖你改过的内容。
@@ -77,11 +77,11 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 | 需求 | 对应结构 |
 |---|---|
-| AI 不知道从哪开始 | `00-AI/START-HERE.md` |
-| 项目上下文散落各处 | `10-Projects/` 里的项目桥接卡 |
-| AI 写入太随意 | `00-AI/governance/` 里的治理规则 |
-| 本机资料需要整理 | `00-AI/pipeline/` 里的资料流水线 |
-| 有用经验难召回 | `00-AI/recall/` 里的任务地图和召回字段 |
+| AI 不知道从哪开始 | `00-入口/开始这里.md` |
+| 项目上下文散落各处 | `10-项目/` 里的项目桥接卡 |
+| AI 写入太随意 | `90-系统/规则/` 里的治理规则 |
+| 本机资料需要整理 | `20-资料/处理流程/` 里的资料处理流程 |
+| 有用经验难召回 | `90-系统/召回/` 里的任务地图和召回字段 |
 | vault 越用越乱 | 健康检查和维护规则 |
 
 ## 它怎么工作
@@ -92,7 +92,7 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 ```text
 用户任务
-  -> 00-AI/START-HERE.md
+  -> 00-入口/开始这里.md
   -> 对应项目桥接卡或任务地图
   -> 只读取必要上下文
   -> 结构化写回
@@ -101,18 +101,20 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任务映射打开必要上下文，完成任务后写回正确位置。
 
-## 安装模式
+## 安装范围
+
+默认安装最小启动模板。进阶用户仍然可以传 `--mode full`。
 
 | 模式 | 适合场景 | 会安装什么 |
 |---|---|---|
-| `barebone` | 给已有 vault 加一个最小入口 | 开工入口、治理规则、项目登记、项目桥接模板、`00-AI/scripts/kb.py` |
+| `barebone` | 给已有 vault 加一个最小入口 | 开工入口、核心工作目录、治理规则、项目登记、模板、`90-系统/脚本/kb.py` |
 | `full` | 新建 starter vault 或完整试用 | 全部工作流目录、示例、文档、模板、脚本 |
 
 如果你不想用远程 `curl` 安装，可以本地克隆后运行：
 
 ```bash
-bash install.sh --language zh-CN --mode barebone --dry-run "/path/to/your-vault"
-bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
+bash install.sh --language zh-CN --dry-run "/path/to/your-vault"
+bash install.sh --language zh-CN "/path/to/your-vault"
 ```
 
 ## 适合你吗？
@@ -145,20 +147,19 @@ bash install.sh --language zh-CN --mode barebone "/path/to/your-vault"
 ## 仓库结构
 
 ```text
-00-AI/START-HERE.md              AI 开工入口
-00-AI/governance/       写回、审查和维护规则
-00-AI/pipeline/     本机资料进入和升舱
-00-AI/recall/          任务到上下文的召回地图
-10-Projects/               项目工作区和项目桥接卡
-20-SharedAssets/           可复用方法和经验
-40-ExternalSources/        资料分析卡
-00-AI/templates/              可复用笔记模板
-docs/                      指南、架构图和案例
-00-AI/scripts/                   可选辅助脚本
-examples/                  演示项目和资料工作流
+00-入口/开始这里.md          AI 开工入口
+01-收件箱/                  临时流转区
+10-项目/                    项目工作区和项目桥接卡
+20-资料/                    外部资料和本机资料处理流程
+30-经验资产/                可复用方法和经验
+90-系统/规则/               写回、审查和维护规则
+90-系统/召回/               任务到上下文的召回地图
+90-系统/模板/               可复用笔记模板
+90-系统/脚本/               可选辅助脚本
+90-系统/配置/               配置文件
 ```
 
-核心文件名已统一为英文，方便英文 AI Agent 按路径读取；部分页面标题和模板正文保留中文，用来保留原始工作方法。
+English 安装使用英文路径。中文安装会把核心 vault 路径本地化，例如 `00-入口/开始这里.md`、`10-项目/`、`30-经验资产/`。
 
 ## 成熟度
 
@@ -174,4 +175,4 @@ examples/                  演示项目和资料工作流
 
 ## Version
 
-当前版本：`0.7.1`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.8.0`。见 [CHANGELOG.md](CHANGELOG.md)。

@@ -8,8 +8,8 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 VAULT="$TMP_DIR/vault"
 MATERIALS="$TMP_DIR/materials"
 
-python3 "$ROOT/00-AI/scripts/kb.py" install-core "$VAULT" >/dev/null
-python3 "$ROOT/00-AI/scripts/kb.py" upgrade-core "$VAULT" --dry-run >/tmp/kb-upgrade-dry-run.log
+python3 "$ROOT/00-AI/scripts/kb.py" install-core "$VAULT" --mode full >/dev/null
+python3 "$ROOT/00-AI/scripts/kb.py" upgrade-core "$VAULT" --mode full --dry-run >/tmp/kb-upgrade-dry-run.log
 grep -q "would upgrade core files" /tmp/kb-upgrade-dry-run.log
 
 mkdir -p "$MATERIALS/notes" "$MATERIALS/.hidden" "$MATERIALS/node_modules/pkg"

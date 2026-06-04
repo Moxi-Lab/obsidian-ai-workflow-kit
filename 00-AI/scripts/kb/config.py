@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 CORE_PATHS = [
     "install.sh",
     "index.md",
@@ -68,12 +70,23 @@ FULL_INSTALL_PATHS = [
 ]
 
 BAREBONE_INSTALL_PATHS = [
+    "index.md",
     "00-AI/START-HERE.md",
     "00-AI/AGENTS.md",
     "00-AI/governance",
+    "00-AI/pipeline/README.md",
+    "00-AI/pipeline/local-material-intake.md",
+    "00-AI/recall/README.md",
+    "00-AI/recall/task-to-context-map.md",
+    "01-Inbox/README.md",
     "10-Projects/README.md",
     "10-Projects/PROJECTS-REGISTRY.md",
-    "00-AI/templates/TPL-project-bridge-card.md",
+    "20-SharedAssets/README.md",
+    "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
+    "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
+    "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
+    "40-ExternalSources/README.md",
+    "00-AI/templates",
     "00-AI/config/stale-patterns.txt",
     "00-AI/scripts/kb.py",
     "00-AI/scripts/kb",
@@ -129,6 +142,66 @@ SKIP_INSTALL_PARTS = {".git", "__pycache__"}
 LANGUAGE_TEMPLATE_ROOT = "00-AI/i18n"
 VALID_LANGUAGES = ("en", "zh-CN")
 DEFAULT_LANGUAGE = "en"
+DEFAULT_INSTALL_MODE = "barebone"
+ZH_CN_TARGET_RENAMES = [
+    ("00-AI/START-HERE.md", "00-入口/开始这里.md"),
+    ("00-AI/AGENTS.md", "90-系统/AI协作规则.md"),
+    ("00-AI/governance/maintenance-loop.md", "90-系统/规则/维护循环.md"),
+    ("00-AI/governance/review-gates.md", "90-系统/规则/写入审查门槛.md"),
+    ("00-AI/governance/startup-contract.md", "90-系统/规则/开工约定.md"),
+    ("00-AI/governance/write-back-rules.md", "90-系统/规则/写回规则.md"),
+    ("00-AI/governance", "90-系统/规则"),
+    ("00-AI/pipeline/local-material-intake.md", "20-资料/处理流程/本机资料进入流程.md"),
+    ("00-AI/pipeline/source-to-knowledge-workflow.md", "20-资料/处理流程/资料转知识流程.md"),
+    ("00-AI/pipeline", "20-资料/处理流程"),
+    ("00-AI/recall/task-to-context-map.md", "90-系统/召回/任务上下文地图.md"),
+    ("00-AI/recall/recall-fields.md", "90-系统/召回/召回字段.md"),
+    ("00-AI/recall/example-recall-chain.md", "90-系统/召回/示例召回链.md"),
+    ("00-AI/recall", "90-系统/召回"),
+    ("00-AI/templates/TPL-project-bridge-card.md", "90-系统/模板/TPL-项目桥接卡.md"),
+    ("00-AI/templates/TPL-agent-handoff-card.md", "90-系统/模板/TPL-Agent交接卡.md"),
+    ("00-AI/templates/TPL-source-analysis-card.md", "90-系统/模板/TPL-资料分析卡.md"),
+    ("00-AI/templates/TPL-task-state-card.md", "90-系统/模板/TPL-任务状态卡.md"),
+    ("00-AI/templates/TPL-acceptance-record.md", "90-系统/模板/TPL-验收记录.md"),
+    ("00-AI/templates/TPL-incident-experience-card.md", "90-系统/模板/TPL-问题事故经验卡.md"),
+    (
+        "00-AI/templates/TPL-question-knowledge-experience-asset-card.md",
+        "90-系统/模板/TPL-问题知识卡-经验资产卡.md",
+    ),
+    ("00-AI/templates/TPL-web-clip-minimal.md", "90-系统/模板/TPL-WebClip-最简模板.md"),
+    ("00-AI/templates", "90-系统/模板"),
+    ("00-AI/config/stale-patterns.txt", "90-系统/配置/过时概念.txt"),
+    ("00-AI/config", "90-系统/配置"),
+    ("00-AI/scripts", "90-系统/脚本"),
+    ("00-AI", "90-系统/AI"),
+    ("01-Inbox/agent-handoffs", "01-收件箱/Agent交接"),
+    ("01-Inbox/dispatch-cards", "01-收件箱/派工卡"),
+    ("01-Inbox/web-clips", "01-收件箱/网页剪藏"),
+    ("01-Inbox", "01-收件箱"),
+    ("10-Projects/PROJECTS-REGISTRY.md", "10-项目/项目登记表.md"),
+    ("10-Projects/01-example-project", "10-项目/01-示例项目"),
+    ("10-Projects", "10-项目"),
+    ("20-SharedAssets/02-modules/project-lesson-promotion-v1.md", "30-经验资产/02-通用模块/项目经验沉淀机制-v1.md"),
+    ("20-SharedAssets/02-modules/vault-health-checklist-v1.md", "30-经验资产/02-通用模块/知识库健康检查清单-v1.md"),
+    ("20-SharedAssets/02-modules/ai-vault-maintenance-sop-v1.md", "30-经验资产/02-通用模块/AI知识库维护SOP-v1.md"),
+    ("20-SharedAssets/02-modules/metadata-minimum-standard-v1.md", "30-经验资产/02-通用模块/元数据最小标准-v1.md"),
+    ("20-SharedAssets/02-modules/tags-and-recall-fields-v1.md", "30-经验资产/02-通用模块/标签与召回字段-v1.md"),
+    ("20-SharedAssets/02-modules", "30-经验资产/02-通用模块"),
+    ("20-SharedAssets/03-workflows", "30-经验资产/03-工作流"),
+    ("20-SharedAssets/04-optional-advanced", "30-经验资产/04-可选进阶"),
+    ("20-SharedAssets", "30-经验资产"),
+    ("40-ExternalSources/01-samples", "20-资料/01-示例"),
+    ("40-ExternalSources", "20-资料"),
+    ("index.md", "首页.md"),
+]
+LANGUAGE_TARGET_RENAMES = {"zh-CN": ZH_CN_TARGET_RENAMES}
+ZH_CN_TEXT_REFERENCE_REPLACEMENTS = [
+    ("./metadata-minimum-standard-v1.md", "./元数据最小标准-v1.md"),
+    ("metadata-minimum-standard-v1", "元数据最小标准-v1"),
+    ("./project-lesson-promotion-v1.md", "./项目经验沉淀机制-v1.md"),
+    ("project-lesson-promotion-v1", "项目经验沉淀机制-v1"),
+]
+LANGUAGE_TEXT_REFERENCE_REPLACEMENTS = {"zh-CN": ZH_CN_TEXT_REFERENCE_REPLACEMENTS}
 FOLDER_INTAKE_IGNORE_DIRS = {
     ".git",
     ".obsidian",
@@ -158,11 +231,12 @@ def install_paths_for_mode(mode: str) -> list[str]:
     raise SystemExit("mode must be full or barebone")
 
 
-def required_paths_for_mode(mode: str) -> list[str]:
+def required_paths_for_mode(mode: str, language: str | None = None) -> list[str]:
+    selected_language = validate_language(language)
     if mode == "full":
-        return CORE_PATHS
+        return [language_target_path(selected_language, path).as_posix() for path in CORE_PATHS]
     if mode == "barebone":
-        return BAREBONE_INSTALL_PATHS
+        return [language_target_path(selected_language, path).as_posix() for path in BAREBONE_INSTALL_PATHS]
     raise SystemExit("mode must be full or barebone")
 
 
@@ -189,3 +263,24 @@ def language_source_path(source_root, language: str, relative):
     if localized.exists():
         return localized
     return source_root / relative
+
+
+def language_target_path(language: str, relative) -> Path:
+    selected = validate_language(language)
+    rel = Path(relative).as_posix()
+    for source, target in LANGUAGE_TARGET_RENAMES.get(selected, []):
+        if rel == source:
+            return Path(target)
+        if rel.startswith(f"{source}/"):
+            return Path(f"{target}{rel[len(source):]}")
+    return Path(rel)
+
+
+def localize_text_references(text: str, language: str) -> str:
+    selected = validate_language(language)
+    replacements = sorted(LANGUAGE_TARGET_RENAMES.get(selected, []), key=lambda pair: len(pair[0]), reverse=True)
+    for source, target in replacements:
+        text = text.replace(source, target)
+    for source, target in LANGUAGE_TEXT_REFERENCE_REPLACEMENTS.get(selected, []):
+        text = text.replace(source, target)
+    return text
