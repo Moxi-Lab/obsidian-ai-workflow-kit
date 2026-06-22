@@ -57,6 +57,22 @@ def detect_vault_language(root: Path) -> str:
         return DEFAULT_LANGUAGE
 
 
+def detect_vault_mode(root: Path) -> str:
+    path = root / MANIFEST_DIR / MANIFEST_FILE
+    if not path.exists():
+        return "full"
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "full"
+    if not isinstance(manifest, dict):
+        return "full"
+    mode = manifest.get("mode")
+    if mode in {"full", "barebone"}:
+        return mode
+    return "full"
+
+
 def check_required_paths(root: Path, mode: str = "full", language: str | None = None) -> list[str]:
     selected_language = language or detect_vault_language(root)
     errors = []
@@ -111,7 +127,7 @@ def check_english_readme(root: Path) -> list[str]:
 
 def health_check(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
-    mode = getattr(args, "mode", "full")
+    mode = getattr(args, "mode", None) or detect_vault_mode(root)
     language = detect_vault_language(root)
     checks = [
         ("required paths", check_required_paths(root, mode, language)),
@@ -133,11 +149,12 @@ def health_check(args: argparse.Namespace) -> int:
     return 1 if failed else 0
 
 
-def count_inbox_files(root: Path) -> dict[str, int]:
+def count_inbox_files(root: Path, language: str | None = None) -> dict[str, int]:
     result = {}
-    inbox_root = root / "01-Inbox"
+    selected_language = language or detect_vault_language(root)
     for rel in ["agent-handoffs", "dispatch-cards", "web-clips"]:
-        folder = inbox_root / rel
+        display = language_target_path(selected_language, f"01-Inbox/{rel}").as_posix()
+        folder = root / display
         count = 0
         if folder.exists():
             for path in folder.rglob("*"):
@@ -146,12 +163,13 @@ def count_inbox_files(root: Path) -> dict[str, int]:
                 if path.name in {".gitkeep", "README.md"}:
                     continue
                 count += 1
-        result[rel] = count
+        result[display] = count
     return result
 
 
-def project_bridge_cards(root: Path) -> list[Path]:
-    projects_root = root / "10-Projects"
+def project_bridge_cards(root: Path, language: str | None = None) -> list[Path]:
+    selected_language = language or detect_vault_language(root)
+    projects_root = root / language_target_path(selected_language, "10-Projects")
     if not projects_root.exists():
         return []
     cards = list(projects_root.rglob("BRIDGE-*.md"))
@@ -249,8 +267,9 @@ def stale_check(args: argparse.Namespace) -> int:
     return 0
 
 
-def project_dirs_without_bridge(root: Path) -> list[str]:
-    projects_root = root / "10-Projects"
+def project_dirs_without_bridge(root: Path, language: str | None = None) -> list[str]:
+    selected_language = language or detect_vault_language(root)
+    projects_root = root / language_target_path(selected_language, "10-Projects")
     missing = []
     if not projects_root.exists():
         return missing
@@ -262,16 +281,20 @@ def project_dirs_without_bridge(root: Path) -> list[str]:
     return missing
 
 
-def build_audit_report(root: Path) -> tuple[str, int]:
+def build_audit_report(root: Path, mode: str | None = None) -> tuple[str, int]:
+    root = root.expanduser().resolve()
     today = dt.date.today().isoformat()
+    selected_mode = mode or detect_vault_mode(root)
+    language = detect_vault_language(root)
     checks = [
-        ("required paths", check_required_paths(root)),
+        ("required paths", check_required_paths(root, selected_mode, language)),
         ("stale concepts", check_stale_patterns(root)),
         ("markdown links", check_markdown_links(root)),
-        ("english README", check_english_readme(root)),
     ]
-    inbox_counts = count_inbox_files(root)
-    missing_bridges = project_dirs_without_bridge(root)
+    if selected_mode == "full":
+        checks.append(("english README", check_english_readme(root)))
+    inbox_counts = count_inbox_files(root, language)
+    missing_bridges = project_dirs_without_bridge(root, language)
     issue_count = sum(len(errors) for _, errors in checks)
     issue_count += sum(inbox_counts.values())
     issue_count += len(missing_bridges)
@@ -328,7 +351,8 @@ def audit_vault(args: argparse.Namespace) -> int:
     report, _issue_count = build_audit_report(root)
     print(report)
     if args.write_report:
-        report_dir = root / AUDIT_REPORT_DIR
+        language = detect_vault_language(root)
+        report_dir = root / language_target_path(language, AUDIT_REPORT_DIR)
         report_dir.mkdir(parents=True, exist_ok=True)
         today = dt.date.today().isoformat()
         target = report_dir / f"AUDIT-{today}.md"

@@ -2,11 +2,30 @@ from __future__ import annotations
 
 import datetime as dt
 import hashlib
+import json
 import re
 from pathlib import Path
 
+from .config import DEFAULT_LANGUAGE, MANIFEST_DIR, MANIFEST_FILE, validate_language
+
 def vault_root(value: str | None) -> Path:
     return Path(value or ".").resolve()
+
+
+def vault_language(root: Path) -> str:
+    path = root / MANIFEST_DIR / MANIFEST_FILE
+    if not path.exists():
+        return DEFAULT_LANGUAGE
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return DEFAULT_LANGUAGE
+    if not isinstance(manifest, dict):
+        return DEFAULT_LANGUAGE
+    try:
+        return validate_language(manifest.get("language"))
+    except SystemExit:
+        return DEFAULT_LANGUAGE
 
 
 def iter_markdown_files(root: Path):
@@ -91,5 +110,4 @@ def read_frontmatter_value(path: Path, key: str) -> str | None:
         if line.startswith(f"{key}:"):
             return line.split(":", 1)[1].strip().strip('"').strip("'")
     return None
-
 

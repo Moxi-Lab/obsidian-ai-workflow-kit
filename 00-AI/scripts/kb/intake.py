@@ -5,12 +5,13 @@ import datetime as dt
 import os
 from pathlib import Path
 
-from .config import FOLDER_INTAKE_IGNORE_DIRS
+from .config import FOLDER_INTAKE_IGNORE_DIRS, language_target_path, localize_text_references
 from .utils import (
     escape_table,
     format_size,
     make_slug,
     parse_extensions,
+    vault_language,
     vault_root,
     write_file,
     yaml_string,
@@ -18,9 +19,10 @@ from .utils import (
 
 def intake_source(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
+    language = vault_language(root)
     title = args.title or Path(args.source).stem or "Untitled Source"
     slug = make_slug(args.slug or title)
-    target_dir = root / "40-ExternalSources" / "01-samples"
+    target_dir = root / language_target_path(language, "40-ExternalSources/01-samples")
     target = target_dir / f"{slug}.md"
     if target.exists() and not args.force:
         raise SystemExit(f"source card already exists: {target}")
@@ -70,6 +72,8 @@ To be filled by AI after reading the source.
 
 Read the source, summarize it without copying the full text, then decide whether it should stay as source analysis or be promoted. Do not move this source card when promoting; keep it as non-canonical evidence and create or update the promoted target separately.
 """
+
+    content = localize_text_references(content, language)
 
     if not args.dry_run:
         target_dir.mkdir(parents=True, exist_ok=True)
@@ -124,6 +128,7 @@ def collect_folder_files(
 
 def intake_folder(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
+    language = vault_language(root)
     source = Path(args.folder).expanduser().resolve()
     if not source.exists() or not source.is_dir():
         raise SystemExit(f"folder does not exist or is not a directory: {source}")
@@ -132,7 +137,7 @@ def intake_folder(args: argparse.Namespace) -> int:
 
     title = args.title or source.name or "Folder Intake"
     slug = make_slug(args.slug or title)
-    target_dir = root / "40-ExternalSources" / "02-folder-intakes"
+    target_dir = root / language_target_path(language, "40-ExternalSources/02-folder-intakes")
     target = target_dir / f"{slug}.md"
     if target.exists() and not args.force:
         raise SystemExit(f"folder intake already exists: {target}")
@@ -199,9 +204,10 @@ canonical: false
 4. Keep original files in place; promote only stable summaries, decisions, or reusable lessons.
 """
 
+    content = localize_text_references(content, language)
+
     if not args.dry_run:
         target_dir.mkdir(parents=True, exist_ok=True)
     write_file(target, content, args.dry_run)
     return 0
-
 

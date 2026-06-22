@@ -16,7 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     health = subparsers.add_parser("health-check", help="Run repository checks")
     health.add_argument("--vault", help="Vault root. Defaults to current directory.")
-    health.add_argument("--mode", choices=["full", "barebone"], default="full", help="Required path set to check")
+    health.add_argument("--mode", choices=["full", "barebone"], help="Required path set to check. Defaults to the installed kit mode.")
     health.set_defaults(func=health_check)
 
     new = subparsers.add_parser("new-project", help="Create a project workspace")
