@@ -29,7 +29,7 @@ After reading this file, the agent should reply in this shape before scanning th
 
 ```text
 Read: 00-AI/START-HERE.md
-Task type: <local material intake / project handoff / external source processing / lesson capture / vault maintenance / handoff writing / needs clarification>
+Task type: <document organization and classification suggestions / local material intake / project handoff / external source processing / lesson capture / vault maintenance / handoff writing / needs clarification>
 Next file to read: <specific file>
 Write-back target: <specific folder or file>
 Will not do: <explicit out-of-scope work for this session>
@@ -41,6 +41,7 @@ Will not do: <explicit out-of-scope work for this session>
 
 | Task type | Read first |
 |---|---|
+| Document organization and classification suggestions | `index.md`, `00-AI/pipeline/README.md`, `00-AI/pipeline/local-material-intake.md` |
 | Local material intake | `00-AI/pipeline/README.md`, `00-AI/pipeline/local-material-intake.md` |
 | Project handoff | `10-Projects/<project>/BRIDGE-*.md` |
 | External source processing | `40-ExternalSources/README.md`, `00-AI/templates/TPL-source-analysis-card.md` |
@@ -56,6 +57,20 @@ Will not do: <explicit out-of-scope work for this session>
 - Read `00-AI/recall/task-to-context-map.md` only when recall rules are needed.
 - For project work, read only the relevant project bridge card.
 - Do not scan the whole vault by default.
+- When the user asks to organize documents, classify existing notes, or suggest where content should go, first inspect the user-provided scope. If no scope is provided, inspect only the vault's top-level folders, READMEs, index, and a small filename sample. Return organization suggestions directly. Do not create a mapping, recall rule, or new folder by default.
+
+### Document Organization And Classification Suggestions
+
+Return organization suggestions before writing files:
+
+```text
+Current content read: <what the material appears to be>
+Suggested classification:
+- <material/folder> -> <suggested location>, reason: <one sentence>
+Suggested first actions:
+1. <smallest concrete action>
+Not handling yet: <unclear items or items needing user confirmation>
+```
 
 ### 3. Write Back To The Right Place
 

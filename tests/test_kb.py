@@ -152,6 +152,38 @@ class InstallModeTests(unittest.TestCase):
             health_args = argparse.Namespace(vault=str(target), mode="barebone")
             self.assertEqual(kb.health_check(health_args), 0)
 
+    def test_health_check_uses_manifest_mode_by_default_for_barebone_install(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            health_args = argparse.Namespace(vault=str(target), mode=None)
+            self.assertEqual(kb.health_check(health_args), 0)
+
+    def test_audit_report_uses_manifest_mode_by_default_for_barebone_install(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                dry_run=False,
+                overwrite=False,
+            )
+
+            kb.install_core(args)
+
+            report, issue_count = kb.build_audit_report(target)
+            self.assertEqual(issue_count, 0)
+            self.assertNotIn("missing README.md", report)
+            self.assertNotIn("missing required path", report)
+
     def test_install_core_writes_managed_manifest(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
@@ -413,6 +445,97 @@ class InstallLanguageTests(unittest.TestCase):
             health_args = argparse.Namespace(vault=str(target), mode="barebone")
             self.assertEqual(kb.health_check(health_args), 0)
 
+    def test_chinese_start_here_routes_document_organization_to_direct_suggestions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            start_here = (target / "00-入口" / "开始这里.md").read_text(encoding="utf-8")
+            self.assertIn("文档整理与分类建议", start_here)
+            self.assertIn("输出整理建议", start_here)
+            self.assertIn("不要默认创建映射", start_here)
+            self.assertIn("20-资料/处理流程/本机资料进入流程.md", start_here)
+            self.assertNotIn("00-AI/START-HERE.md", start_here)
+
+    def test_english_start_here_routes_document_organization_to_direct_suggestions(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+
+            kb.install_core(self.install_args(target, "en"))
+
+            start_here = (target / "00-AI" / "START-HERE.md").read_text(encoding="utf-8")
+            self.assertIn("Document organization and classification suggestions", start_here)
+            self.assertIn("Return organization suggestions", start_here)
+            self.assertIn("Do not create a mapping", start_here)
+
+    def test_chinese_new_project_uses_localized_project_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            kb.new_project(
+                argparse.Namespace(
+                    slug="demo-project",
+                    vault=str(target),
+                    name="Demo Project",
+                    root=str(Path(tmp) / "demo-project"),
+                    dry_run=False,
+                )
+            )
+
+            project = target / "10-项目" / "demo-project"
+            bridge = project / "BRIDGE-demo-project.md"
+            self.assertTrue(bridge.exists())
+            self.assertFalse((target / "10-Projects" / "demo-project").exists())
+            text = bridge.read_text(encoding="utf-8")
+            self.assertIn("00-入口/开始这里.md", text)
+            self.assertIn("10-项目/demo-project/current-state.md", text)
+            self.assertNotIn("00-AI/START-HERE.md", text)
+
+    def test_chinese_folder_intake_uses_localized_source_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            source = Path(tmp) / "demo-materials"
+            source.mkdir()
+            (source / "example.md").write_text("demo", encoding="utf-8")
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            kb.intake_folder(
+                argparse.Namespace(
+                    folder=str(source),
+                    vault=str(target),
+                    title="Demo Materials",
+                    project="demo-project",
+                    slug=None,
+                    extensions=None,
+                    max_files=200,
+                    include_hidden=False,
+                    force=False,
+                    dry_run=False,
+                )
+            )
+
+            card = target / "20-资料" / "02-folder-intakes" / "demo-materials.md"
+            self.assertTrue(card.exists())
+            self.assertFalse((target / "40-ExternalSources" / "02-folder-intakes").exists())
+            self.assertIn("20-资料/处理流程/本机资料进入流程.md", card.read_text(encoding="utf-8"))
+
+    def test_chinese_audit_report_uses_localized_inbox_path_labels(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            kb.install_core(self.install_args(target, "zh-CN"))
+
+            report, issue_count = kb.build_audit_report(target)
+
+            self.assertEqual(issue_count, 0)
+            self.assertIn("01-收件箱/Agent交接", report)
+            self.assertIn("01-收件箱/派工卡", report)
+            self.assertIn("01-收件箱/网页剪藏", report)
+            self.assertNotIn("agent-handoffs", report)
+            self.assertNotIn("dispatch-cards", report)
+            self.assertNotIn("web-clips", report)
+
     def test_install_core_writes_selected_english_language_template(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "vault"
@@ -460,6 +583,27 @@ class InstallLanguageTests(unittest.TestCase):
             text = start_here.read_text(encoding="utf-8")
             self.assertIn("语言：中文", text)
             self.assertNotIn("OLD LANGUAGE FILE", text)
+
+
+class FirstRunDocumentationTests(unittest.TestCase):
+    def test_english_first_run_matches_default_barebone_install(self):
+        text = (ROOT / "docs" / "10-minute-first-run.md").read_text(encoding="utf-8")
+
+        self.assertIn("mkdir -p ~/demo-materials", text)
+        self.assertIn(
+            "python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py health-check "
+            "--vault ~/obsidian-ai-workflow-test --mode barebone",
+            text,
+        )
+
+    def test_chinese_first_run_uses_chinese_install_commands(self):
+        text = (ROOT / "docs" / "10-minute-first-run.zh-CN.md").read_text(encoding="utf-8")
+
+        self.assertIn("--language zh-CN --dry-run ~/obsidian-ai-workflow-test", text)
+        self.assertIn("--language zh-CN ~/obsidian-ai-workflow-test", text)
+        self.assertIn("mkdir -p ~/demo-materials", text)
+        self.assertIn("90-系统/脚本/kb.py", text)
+        self.assertIn("00-入口/开始这里.md", text)
 
 
 class ProjectBridgeNamingTests(unittest.TestCase):

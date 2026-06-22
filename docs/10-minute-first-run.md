@@ -8,6 +8,8 @@ Use an empty folder or a small existing vault. Do not start with your full perso
 
 ```bash
 mkdir -p ~/obsidian-ai-workflow-test
+mkdir -p ~/demo-materials
+printf "Example note for folder intake.\n" > ~/demo-materials/example.md
 ```
 
 ## 1. Preview Installation
@@ -43,7 +45,7 @@ The installer skips existing files by default.
 ## 3. Verify
 
 ```bash
-python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test
+python3 ~/obsidian-ai-workflow-test/00-AI/scripts/kb.py health-check --vault ~/obsidian-ai-workflow-test --mode barebone
 ```
 
 ## 4. Create A Project Bridge

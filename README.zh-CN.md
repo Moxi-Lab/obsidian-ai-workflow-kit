@@ -49,7 +49,7 @@ python3 "/path/to/your-vault/90-系统/脚本/kb.py" health-check --vault "/path
 如果你想安装完整 starter vault，包括资料流水线、召回系统、文档、示例和模板，可以使用进阶的 full 模式：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --mode full "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode full "/path/to/your-vault"
 ```
 
 安装器默认跳过已有文件；只有你明确传入 `--overwrite` 才会覆盖。

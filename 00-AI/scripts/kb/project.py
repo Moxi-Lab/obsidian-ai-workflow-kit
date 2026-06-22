@@ -3,12 +3,14 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 
-from .utils import validate_slug, vault_root, write_file
+from .config import language_target_path, localize_text_references
+from .utils import validate_slug, vault_language, vault_root, write_file
 
 def new_project(args: argparse.Namespace) -> int:
     validate_slug(args.slug)
     root = vault_root(args.vault)
-    project_dir = root / "10-Projects" / args.slug
+    language = vault_language(root)
+    project_dir = root / language_target_path(language, f"10-Projects/{args.slug}")
     if project_dir.exists() and any(project_dir.iterdir()):
         raise SystemExit(f"project directory already exists: {project_dir}")
 
@@ -115,6 +117,6 @@ No stable decisions recorded yet.
         project_dir.mkdir(parents=True, exist_ok=True)
 
     for filename, content in files.items():
+        content = localize_text_references(content, language)
         write_file(project_dir / filename, content, args.dry_run)
     return 0
-
