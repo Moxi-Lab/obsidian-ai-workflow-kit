@@ -1,6 +1,10 @@
 ---
 type: analysis-card
-status: sample
+status: processed
+created: 2026-06-01
+updated: 2026-07-18
+captured: 2026-06-01
+sample: true
 source_note: "<source-title>"
 source_url: "<source-url>"
 decision: "asset"

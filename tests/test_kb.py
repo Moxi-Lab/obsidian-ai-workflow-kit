@@ -4,6 +4,7 @@ import io
 import json
 import tempfile
 import unittest
+import zipfile
 from contextlib import redirect_stdout
 from pathlib import Path
 
@@ -47,6 +48,8 @@ class InstallModeTests(unittest.TestCase):
         self.assertEqual(
             kb.install_paths_for_mode("barebone"),
             [
+                "LICENSE",
+                "VERSION",
                 "index.md",
                 "00-AI/START-HERE.md",
                 "00-AI/AGENTS.md",
@@ -63,7 +66,10 @@ class InstallModeTests(unittest.TestCase):
                 "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
                 "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
                 "40-ExternalSources/README.md",
-                "00-AI/templates",
+                "00-AI/templates/TPL-project-bridge-card.md",
+                "00-AI/templates/TPL-task-state-card.md",
+                "00-AI/templates/TPL-source-analysis-card.md",
+                "00-AI/templates/TPL-agent-handoff-card.md",
                 "00-AI/config/stale-patterns.txt",
                 "00-AI/scripts/kb.py",
                 "00-AI/scripts/kb",
@@ -113,6 +119,8 @@ class InstallModeTests(unittest.TestCase):
             self.assertTrue((target / "40-ExternalSources" / "README.md").exists())
             self.assertTrue((target / "00-AI" / "templates" / "TPL-project-bridge-card.md").exists())
             self.assertTrue((target / "00-AI" / "templates" / "TPL-agent-handoff-card.md").exists())
+            self.assertTrue((target / "00-AI" / "templates" / "TPL-task-state-card.md").exists())
+            self.assertFalse((target / "00-AI" / "templates" / "TPL-acceptance-record.md").exists())
             self.assertTrue((target / "00-AI" / "config" / "stale-patterns.txt").exists())
             self.assertTrue((target / "00-AI" / "scripts" / "kb.py").exists())
             self.assertTrue((target / "00-AI" / "scripts" / "kb" / "__init__.py").exists())
@@ -530,7 +538,7 @@ class InstallLanguageTests(unittest.TestCase):
 
             self.assertEqual(issue_count, 0)
             self.assertIn("01-收件箱/Agent交接", report)
-            self.assertIn("01-收件箱/派工卡", report)
+            self.assertIn("01-收件箱/任务", report)
             self.assertIn("01-收件箱/网页剪藏", report)
             self.assertNotIn("agent-handoffs", report)
             self.assertNotIn("dispatch-cards", report)
@@ -624,6 +632,8 @@ class ProjectBridgeNamingTests(unittest.TestCase):
             self.assertFalse((project / "CODEX-BRIDGE-demo.md").exists())
             text = (project / "BRIDGE-demo.md").read_text(encoding="utf-8")
             self.assertIn("type: project-bridge", text)
+            self.assertIn("project_entry: true", text)
+            self.assertIn('pillar: "general"', text)
 
     def test_project_dirs_without_bridge_accepts_new_and_legacy_names(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -671,6 +681,169 @@ class CodexNameMigrationTests(unittest.TestCase):
             self.assertIn("10-Projects/demo/BRIDGE-demo.md", text)
             self.assertIn("90-Templates/TPL-project-bridge-card.md", text)
             self.assertIn("20-SharedAssets/02-modules/project-lesson-promotion-v1.md", text)
+
+
+class V09MigrationTests(unittest.TestCase):
+    def test_migrate_v09_moves_tasks_maps_status_and_adds_project_entry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            old_tasks = root / "01-Inbox" / "dispatch-cards"
+            project = root / "10-Projects" / "demo"
+            old_tasks.mkdir(parents=True)
+            project.mkdir(parents=True)
+            (old_tasks / "TASK-demo.md").write_text(
+                """---
+type: task_card
+created: 2026-06-01
+updated: 2026-06-01
+status: doing
+project: Demo
+priority: high
+next_action: Verify migration
+---
+
+# Task
+""",
+                encoding="utf-8",
+            )
+            (project / "BRIDGE-demo.md").write_text(
+                """---
+type: project-bridge
+status: active
+project: Demo
+updated: 2026-06-01
+---
+
+# Bridge
+""",
+                encoding="utf-8",
+            )
+            (root / "note.md").write_text("See 01-Inbox/dispatch-cards/TASK-demo.md\n", encoding="utf-8")
+
+            kb.migrate_v09(argparse.Namespace(vault=str(root), dry_run=False))
+
+            task = root / "01-Inbox" / "tasks" / "TASK-demo.md"
+            self.assertTrue(task.exists())
+            self.assertFalse((old_tasks / "TASK-demo.md").exists())
+            self.assertFalse(old_tasks.exists())
+            task_text = task.read_text(encoding="utf-8")
+            self.assertIn("type: local-task", task_text)
+            self.assertIn("status: active", task_text)
+            bridge_text = (project / "BRIDGE-demo.md").read_text(encoding="utf-8")
+            self.assertIn("pillar: general", bridge_text)
+            self.assertIn("project_entry: true", bridge_text)
+            self.assertIn("01-Inbox/tasks/TASK-demo.md", (root / "note.md").read_text(encoding="utf-8"))
+
+    def test_migrate_v09_refuses_task_overwrite_before_changes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            old_tasks = root / "01-Inbox" / "dispatch-cards"
+            new_tasks = root / "01-Inbox" / "tasks"
+            old_tasks.mkdir(parents=True)
+            new_tasks.mkdir(parents=True)
+            old = old_tasks / "same.md"
+            new = new_tasks / "same.md"
+            old.write_text("old\n", encoding="utf-8")
+            new.write_text("new\n", encoding="utf-8")
+
+            with self.assertRaises(SystemExit):
+                kb.migrate_v09(argparse.Namespace(vault=str(root), dry_run=False))
+
+            self.assertEqual(old.read_text(encoding="utf-8"), "old\n")
+            self.assertEqual(new.read_text(encoding="utf-8"), "new\n")
+
+
+class HealthContractTests(unittest.TestCase):
+    def test_wikilink_check_reports_missing_and_ambiguous_targets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "a").mkdir()
+            (root / "b").mkdir()
+            (root / "a" / "Same.md").write_text("# A\n", encoding="utf-8")
+            (root / "b" / "Same.md").write_text("# B\n", encoding="utf-8")
+            (root / "note.md").write_text("[[Missing]] and [[Same]]\n", encoding="utf-8")
+
+            errors = kb.check_wikilinks(root)
+
+            self.assertTrue(any("broken wikilink" in error for error in errors))
+            self.assertTrue(any("ambiguous wikilink" in error for error in errors))
+
+    def test_typed_status_check_rejects_status_from_another_page_type(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "project.md").write_text(
+                "---\ntype: project-bridge\nstatus: queued\n---\n",
+                encoding="utf-8",
+            )
+
+            errors = kb.check_typed_statuses(root)
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("unsupported project status", errors[0])
+
+    def test_base_dependency_check_requires_project_entry_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project = root / "10-Projects" / "demo"
+            project.mkdir(parents=True)
+            (project / "BRIDGE-demo.md").write_text(
+                "---\ntype: project-bridge\nstatus: active\nproject: Demo\nproject_entry: true\n---\n",
+                encoding="utf-8",
+            )
+
+            errors = kb.check_base_dependency_metadata(root, "en")
+
+            self.assertTrue(any("pillar" in error and "updated" in error for error in errors))
+
+    def test_base_dependency_check_requires_task_fields_and_source_capture_date(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            tasks = root / "01-Inbox" / "tasks"
+            sources = root / "40-ExternalSources"
+            tasks.mkdir(parents=True)
+            sources.mkdir(parents=True)
+            (tasks / "TASK-demo.md").write_text(
+                "---\ntype: local-task\nstatus: queued\n---\n",
+                encoding="utf-8",
+            )
+            (sources / "source.md").write_text(
+                "---\ntype: source-analysis\nstatus: inbox\n---\n",
+                encoding="utf-8",
+            )
+
+            errors = kb.check_base_dependency_metadata(root, "en")
+
+            self.assertTrue(any("local task missing metadata" in error for error in errors))
+            self.assertTrue(any("missing captured date" in error for error in errors))
+
+
+class ReleaseBundleTests(unittest.TestCase):
+    def test_build_release_creates_openable_chinese_full_vault(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp) / "dist"
+
+            kb.build_release(
+                argparse.Namespace(output=str(output), language="zh-CN", mode="full")
+            )
+
+            version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+            archive = output / f"obsidian-ai-workflow-kit-v{version}-zh-CN-full.zip"
+            self.assertTrue(archive.exists())
+            with zipfile.ZipFile(archive) as bundle:
+                names = set(bundle.namelist())
+            root = f"obsidian-ai-workflow-kit-v{version}-zh-CN-full"
+            self.assertIn(f"{root}/00-入口/开始这里.md", names)
+            self.assertIn(f"{root}/90-系统/视图/项目总览.base", names)
+            self.assertIn(f"{root}/.obsidian/core-plugins.json", names)
+            self.assertIn(f"{root}/.obsidian/community-plugins.json", names)
+            with zipfile.ZipFile(archive) as bundle:
+                project_base = bundle.read(f"{root}/90-系统/视图/项目总览.base").decode("utf-8")
+                task_base = bundle.read(f"{root}/90-系统/视图/任务总览.base").decode("utf-8")
+                source_base = bundle.read(f"{root}/90-系统/视图/资料总览.base").decode("utf-8")
+            self.assertIn('file.inFolder("10-项目")', project_base)
+            self.assertIn('file.inFolder("01-收件箱/任务")', task_base)
+            self.assertIn('file.inFolder("20-资料")', source_base)
+            self.assertNotIn("10-Projects", project_base)
 
 
 class FolderIntakeTests(unittest.TestCase):

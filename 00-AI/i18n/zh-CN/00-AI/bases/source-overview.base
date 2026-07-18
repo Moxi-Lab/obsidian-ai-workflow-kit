@@ -1,0 +1,54 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("40-ExternalSources")
+    - or:
+        - type == "source-analysis"
+        - type == "analysis-card"
+        - type == "folder-intake"
+        - type == "web-clip"
+properties:
+  file.name:
+    displayName: 资料
+  status:
+    displayName: 状态
+  captured:
+    displayName: 收录日期
+  source:
+    displayName: 来源链接或路径
+  related_project:
+    displayName: 关联项目
+  themes:
+    displayName: 主题
+views:
+  - type: table
+    name: 全部资料
+    order:
+      - file.name
+      - status
+      - captured
+      - related_project
+      - themes
+    limit: 500
+  - type: table
+    name: 待处理
+    filters:
+      and:
+        - status == "inbox"
+    order:
+      - file.name
+      - captured
+      - related_project
+    limit: 200
+  - type: table
+    name: 已处理与归档
+    filters:
+      or:
+        - status == "processed"
+        - status == "filed"
+    order:
+      - file.name
+      - status
+      - captured
+      - related_project
+    limit: 500

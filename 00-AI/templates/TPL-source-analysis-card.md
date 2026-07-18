@@ -1,11 +1,12 @@
 ---
-type: analysis-card
+type: source-analysis
 created: {{date}}
 updated: {{date}}
-status: draft
+status: inbox
 aliases: ["TPL-资料分析卡", "资料分析卡模板", "Source Analysis Card Template"]
 source_note: ""
 source_url: ""
+captured: {{date}}
 decision: "" # reference-only / action / asset / review / skip
 writeback_target: ""
 ---

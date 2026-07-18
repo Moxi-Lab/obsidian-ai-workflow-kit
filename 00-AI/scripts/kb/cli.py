@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import argparse
+import sys
 
 from .health import audit_vault, health_check, stale_check
 from .install import install_core, upgrade_core
 from .intake import intake_folder, intake_source
-from .migrate import migrate_ai_layout, migrate_codex_names
+from .migrate import migrate_ai_layout, migrate_codex_names, migrate_v09
 from .project import new_project
+from .release import build_release
 from .config import DEFAULT_INSTALL_MODE, VALID_LANGUAGES
 
 def build_parser() -> argparse.ArgumentParser:
@@ -24,6 +26,7 @@ def build_parser() -> argparse.ArgumentParser:
     new.add_argument("--vault", help="Vault root. Defaults to current directory.")
     new.add_argument("--name", required=True, help="Project display name")
     new.add_argument("--root", help="Local project path to record in the bridge card")
+    new.add_argument("--pillar", default="general", help="Stable project area used by the project Base")
     new.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     new.set_defaults(func=new_project)
 
@@ -72,6 +75,14 @@ def build_parser() -> argparse.ArgumentParser:
     migrate_layout.add_argument("--dry-run", action="store_true", help="Print actions without moving files")
     migrate_layout.set_defaults(func=migrate_ai_layout)
 
+    migrate_09 = subparsers.add_parser(
+        "migrate-v0.9",
+        help="Migrate v0.8 task cards, status values, and project entry metadata",
+    )
+    migrate_09.add_argument("--vault", help="Vault root. Defaults to current directory.")
+    migrate_09.add_argument("--dry-run", action="store_true", help="Preview changes without modifying files")
+    migrate_09.set_defaults(func=migrate_v09)
+
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")
     install.add_argument("--mode", choices=["full", "barebone"], default=DEFAULT_INSTALL_MODE, help="Install full kit or minimal barebone kit")
@@ -98,6 +109,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     upgrade.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     upgrade.set_defaults(func=upgrade_core)
+
+    release = subparsers.add_parser("build-release", help="Build verified downloadable vault archives")
+    release.add_argument("--output", default="dist", help="Directory for generated zip archives")
+    release.add_argument("--language", choices=["all", *VALID_LANGUAGES], default="all")
+    release.add_argument("--mode", choices=["all", "full", "barebone"], default="all")
+    release.set_defaults(func=build_release)
 
     return parser
 

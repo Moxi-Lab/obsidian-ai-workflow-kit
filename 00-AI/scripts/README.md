@@ -21,8 +21,8 @@ Language:
 
 Modes:
 
-- `full` is the default and installs the complete workflow kit.
-- `barebone` installs the smallest usable layer: startup entry, governance, project registry, project bridge template, and `00-AI/scripts/kb.py`.
+- `barebone` is the default and installs the smallest usable layer: startup entry, governance, project registry, focused templates, and `00-AI/scripts/kb.py`.
+- `full` installs the complete workflow kit, examples, documentation, and the built-in Obsidian Bases views.
 
 ## Update Existing Install
 
@@ -78,7 +78,12 @@ Checks:
 - Core files and directories exist.
 - Legacy private-vault concepts are not present.
 - Markdown relative links point to existing files.
-- The English README does not contain visible Chinese text.
+- Obsidian Wikilinks resolve to exactly one target.
+- Typed `status` values match their page type.
+- Project entries, local tasks, and external source cards contain every field used by Bases.
+- Full-mode Base files preserve their required filters and views.
+- Public Markdown does not contain private-looking `/Users/<name>/` paths.
+- The English README does not contain visible Chinese text in English full mode.
 
 Use `--mode barebone` when checking a minimal install.
 
@@ -138,6 +143,31 @@ Examples:
 - `90-Templates/` -> `00-AI/templates/`
 - `scripts/` -> `00-AI/scripts/`
 
+## Migrate v0.8 To v0.9
+
+Preview first:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-v0.9 --vault "/path/to/your-vault" --dry-run
+```
+
+Apply only after reviewing the preview:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-v0.9 --vault "/path/to/your-vault"
+```
+
+This migration:
+
+- moves legacy `01-Inbox/dispatch-cards/` files to `01-Inbox/tasks/`;
+- removes the legacy dispatch directory only after every real file has moved and the directory is empty;
+- maps legacy task and page status values to the v0.9 typed status domains;
+- changes `type: task_card` to `type: local-task`;
+- updates exact task-folder references;
+- adds `pillar: general` and `project_entry: true` when a project has exactly one unambiguous current bridge card.
+
+It performs a preflight before writing. If a destination task file already exists or a project has multiple current bridge cards, it stops without making changes.
+
 ## Install Core
 
 ```bash
@@ -176,6 +206,7 @@ Use this when a vault already has the kit and you want to follow newer GitHub ve
 
 ```bash
 python3 00-AI/scripts/kb.py new-project my-project --name "My Project" --root "/path/to/project"
+python3 00-AI/scripts/kb.py new-project my-project --name "My Project" --pillar "product" --root "/path/to/project"
 ```
 
 Creates:
@@ -218,3 +249,18 @@ python3 00-AI/scripts/kb.py audit-vault --write-report
 ```
 
 Checks core entry points, stale concepts, Markdown links, Inbox files, and project directories without bridge cards. `--write-report` writes a report under `20-SharedAssets/05-audit-reports/`.
+
+## Build Downloadable Release Vaults
+
+```bash
+python3 00-AI/scripts/kb.py build-release --output dist
+```
+
+Builds and health-checks four archives:
+
+- English barebone
+- English full
+- Chinese barebone
+- Chinese full
+
+Full archives include only safe per-vault Obsidian settings: the built-in Bases and Templates core plugins are enabled, the template folder is configured, and the community plugin list is empty.

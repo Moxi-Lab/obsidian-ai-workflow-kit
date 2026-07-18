@@ -2,6 +2,8 @@
 
 This path is for a new user who wants to see value quickly without rebuilding an existing vault.
 
+For a brand-new vault, the fastest route is to download the `en-full` Release archive, unzip it, open the folder as a vault, and read `START.md`. The steps below exercise the installer against an empty test folder and remain the recommended path for adding the kit to an existing vault.
+
 ## 0. Start With A Test Vault
 
 Use an empty folder or a small existing vault. Do not start with your full personal vault.
@@ -111,3 +113,5 @@ You should now have:
 - One folder intake manifest.
 - One audit report.
 - A clear instruction you can give to an AI agent.
+- A project bridge with `project_entry: true` that can appear in the full-mode project Base.
+- No role card or local task card for work that the current conversation can finish directly.

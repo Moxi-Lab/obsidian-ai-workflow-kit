@@ -1,0 +1,54 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("40-ExternalSources")
+    - or:
+        - type == "source-analysis"
+        - type == "analysis-card"
+        - type == "folder-intake"
+        - type == "web-clip"
+properties:
+  file.name:
+    displayName: Source
+  status:
+    displayName: Status
+  captured:
+    displayName: Captured
+  source:
+    displayName: Source URL or path
+  related_project:
+    displayName: Related project
+  themes:
+    displayName: Themes
+views:
+  - type: table
+    name: All sources
+    order:
+      - file.name
+      - status
+      - captured
+      - related_project
+      - themes
+    limit: 500
+  - type: table
+    name: Inbox
+    filters:
+      and:
+        - status == "inbox"
+    order:
+      - file.name
+      - captured
+      - related_project
+    limit: 200
+  - type: table
+    name: Processed and filed
+    filters:
+      or:
+        - status == "processed"
+        - status == "filed"
+    order:
+      - file.name
+      - status
+      - captured
+      - related_project
+    limit: 500

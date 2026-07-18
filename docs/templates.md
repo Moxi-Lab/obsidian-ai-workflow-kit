@@ -16,12 +16,14 @@ The templates are optional Markdown starting points. Use them when a note needs 
 ## When To Use Each Template
 
 - Use a project bridge card when AI needs to resume the same project across multiple sessions.
-- Use an agent handoff card when a session ends and future AI needs to know what changed.
+- Use an agent handoff card only when work must continue in another session and the project bridge card is not enough.
 - Use a source analysis card when importing a file, article, PDF, or web source.
-- Use a task state card when a task needs explicit status and next action.
+- Use a task state card only when work is queued, crosses sessions, or is blocked. Execute directly when the current conversation can finish the task.
 - Use an acceptance record when a result needs verification evidence.
 - Use a question knowledge / experience asset card when a lesson should be reusable.
 - Use an incident experience card when a failure, wrong assumption, rework, or tool issue can prevent future mistakes.
 - Use a web clip template for raw capture only; promote it later if it becomes useful knowledge.
 
 Template filenames are English for agent readability. Chinese titles inside the files preserve the original working method.
+
+Default templates do not require `owner_role`, `owner_agent`, or CEO/CTO/QA role cards. Put the task goal, next action, blocker, and acceptance evidence on the task itself.

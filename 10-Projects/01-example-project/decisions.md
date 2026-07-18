@@ -1,7 +1,10 @@
 ---
 type: decisions
-status: sample
+status: active
 project: Example Project
+created: 2026-06-01
+updated: 2026-07-18
+sample: true
 ---
 
 # 稳定决策

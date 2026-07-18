@@ -49,6 +49,8 @@ Start with:
 
 `01-Inbox/` is for incoming handoffs, task cards, and web clips. It is not a permanent storage area.
 
+The current conversation is the default execution context. Create `01-Inbox/tasks/` cards only when work is queued, crosses sessions, waits on an external condition, or needs explicit coordination. The default flow does not assign CEO/CTO/QA-style job roles.
+
 ### 7. Lessons Become Assets
 
 Repeated lessons should move into `20-SharedAssets/` with a clear trigger, action, and verification method.
@@ -59,6 +61,10 @@ Failures, wrong assumptions, rework, failed tests, user corrections, and tool in
 
 This kit is designed to be copied into your own local Obsidian vault. Your real project states, personal notes, handoff history, and private source material stay on your machine.
 
+### 9. Markdown Is Truth, Bases Are Views
+
+Full mode includes project, task, and source dashboards built with Obsidian's core Bases plugin. `project_entry`, typed `status`, `pillar`, and `captured` are index fields guarded by the read-only health check. A Base never replaces the authoritative Markdown page.
+
 ## Scope
 
 The kit focuses on four jobs:
@@ -68,7 +74,7 @@ The kit focuses on four jobs:
 - Recall system: help AI find the right context for each task.
 - Maintenance loop: keep the vault healthy over time.
 
-This is not a RAG stack, a cloud service, or a task manager. It is a local-first operating method for Obsidian plus AI.
+This is not a RAG stack, a cloud service, or a hosted task manager. It is a local-first operating method for Obsidian plus AI.
 
 ## Example Workflow
 
@@ -112,9 +118,10 @@ If you already have an Obsidian vault, start with [Migration Guide](migration.md
 | [`index.md`](../index.md) | Human-facing vault homepage |
 | [`00-AI/AGENTS.md`](../00-AI/AGENTS.md) | Rules for AI agents such as Claude Code, Cursor, and Codex |
 | [`00-AI/governance/`](../00-AI/governance/) | Startup contract, review gates, write-back rules, maintenance loop |
-| [`01-Inbox/`](../01-Inbox/) | Temporary handoffs, dispatch cards, and web clips |
+| [`01-Inbox/`](../01-Inbox/) | Temporary handoffs, queued/cross-session task cards, and web clips |
 | [`00-AI/pipeline/`](../00-AI/pipeline/) | How AI turns local materials into structured knowledge |
 | [`00-AI/recall/`](../00-AI/recall/) | Task-to-context maps and recall fields |
+| [`00-AI/bases/`](../00-AI/bases/) | Optional project, task, and source views installed in full mode |
 | [`10-Projects/`](../10-Projects/) | Project workspaces and bridge cards |
 | [`20-SharedAssets/`](../20-SharedAssets/) | Reusable methods, SOPs, and workflows |
 | [`40-ExternalSources/`](../40-ExternalSources/) | Source analysis cards, not copied third-party articles |

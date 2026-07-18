@@ -50,6 +50,8 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 
 ## 开工三步
 
+> 默认直接执行：当前对话能完成的任务不创建任务卡，也不先分配岗位角色。只有任务需要排队、跨会话继续、等待外部条件或明确协调多个执行者时，才写入 `01-Inbox/tasks/`。
+
 ### 第 1 步：确认任务类型
 
 | 任务类型 | 先读 |
@@ -62,6 +64,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 复盘问题/事故 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`00-AI/templates/TPL-incident-experience-card.md` |
 | 维护知识库 | `00-AI/governance/maintenance-loop.md`、`20-SharedAssets/02-modules/vault-health-checklist-v1.md` |
 | 写交接 | `00-AI/templates/TPL-agent-handoff-card.md` |
+| 接续本地任务 | `01-Inbox/tasks/<task>.md`、相关项目桥接卡 |
 
 ### 第 2 步：只加载必要上下文
 
@@ -91,7 +94,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 内容 | 写到哪里 |
 |---|---|
 | 临时交接 | `01-Inbox/agent-handoffs/` |
-| 临时派工 | `01-Inbox/dispatch-cards/` |
+| 排队、跨会话或阻塞任务 | `01-Inbox/tasks/` |
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
 | 复用经验 | `20-SharedAssets/02-modules/` |
@@ -112,6 +115,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 - 不直接复制第三方原文全文。
 - 不把 Inbox 当长期目录。
 - 不在没有明确任务时批量重构目录。
+- 不默认加载或创建岗位角色卡；需要专业检查时直接说明本轮检查视角。
 
 ## 任务结束前检查
 

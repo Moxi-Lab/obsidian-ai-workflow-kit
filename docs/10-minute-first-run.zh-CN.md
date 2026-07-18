@@ -2,6 +2,8 @@
 
 这条路径适合新用户快速看到价值，不需要重建自己的完整 vault。
 
+新建 Vault 时，最快方式是下载 `zh-CN-full` Release 压缩包，解压后直接作为 Vault 打开并阅读 `START.md`。下面的步骤用于验证空测试目录安装，也适合把 kit 加入已有 Vault。
+
 ## 0. 先用测试 vault
 
 先用空目录或一个很小的测试 vault。不要一开始就拿完整个人 vault 测试。
@@ -111,3 +113,5 @@ python3 ~/obsidian-ai-workflow-test/90-系统/脚本/kb.py audit-vault \
 - 一张资料目录导入清单。
 - 一份审计报告。
 - 一句可以直接发给 AI 的开工指令。
+- 一个设置了 `project_entry: true`、能进入 full 模式项目 Base 的项目桥接卡。
+- 当前对话能完成的任务不需要岗位角色卡或本地任务卡。

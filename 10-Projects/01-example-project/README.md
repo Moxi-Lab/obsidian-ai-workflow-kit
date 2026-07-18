@@ -2,6 +2,9 @@
 type: project-root
 status: active
 project: Example Project
+created: 2026-06-01
+updated: 2026-07-18
+sample: true
 ---
 
 # Example Project

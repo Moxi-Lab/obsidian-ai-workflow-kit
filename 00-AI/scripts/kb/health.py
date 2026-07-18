@@ -10,8 +10,15 @@ from pathlib import Path
 from .config import (
     AUDIT_REPORT_DIR,
     DEFAULT_STALE_PATTERNS_FILE,
+    EXTERNAL_BASE_TYPES,
+    LOCAL_TASK_REQUIRED_FIELDS,
     MANIFEST_DIR,
     MANIFEST_FILE,
+    PROJECT_ENTRY_ALL_STATUSES,
+    PROJECT_ENTRY_CURRENT_STATUSES,
+    PROJECT_ENTRY_REQUIRED_FIELDS,
+    STATUS_TYPE_POLICIES,
+    STATUS_VALUES,
     VAULT_STALE_PATTERNS_FILE,
     DEFAULT_LANGUAGE,
     language_target_path,
@@ -19,6 +26,11 @@ from .config import (
     validate_language,
 )
 from .utils import has_chinese, iter_markdown_files, read_frontmatter_value, vault_root
+
+
+WIKILINK_PATTERN = re.compile(r"!?(?<!\\)\[\[([^\[\]\n]+)\]\]")
+PRIVATE_USER_PATH_PATTERN = re.compile(r"/Users/([^/<>{}\s\"']+)/")
+PUBLIC_USER_PATH_PLACEHOLDERS = {"me", "you", "user", "username", "your-name"}
 
 
 def read_stale_pattern_file(path: Path) -> list[str]:
@@ -115,6 +127,222 @@ def check_markdown_links(root: Path) -> list[str]:
     return errors
 
 
+def read_frontmatter(path: Path) -> tuple[dict[str, str], str]:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---\n"):
+        return {}, text
+    end = text.find("\n---", 4)
+    if end == -1:
+        return {}, text
+    metadata: dict[str, str] = {}
+    for line in text[4:end].splitlines():
+        if not line or line[0].isspace() or ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        normalized = value.strip()
+        if " #" in normalized:
+            normalized = normalized.split(" #", 1)[0].rstrip()
+        metadata[key.strip()] = normalized.strip("\"'")
+    return metadata, text
+
+
+def strip_code_for_link_checks(text: str) -> str:
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    return re.sub(r"`[^`\n]*`", "", text)
+
+
+def wikilink_index(root: Path) -> tuple[dict[str, list[Path]], dict[str, list[Path]]]:
+    by_stem: dict[str, list[Path]] = {}
+    by_name: dict[str, list[Path]] = {}
+    for path in root.rglob("*"):
+        if not path.is_file() or any(part in {".git", ".obsidian", "__pycache__"} for part in path.parts):
+            continue
+        by_name.setdefault(path.name.casefold(), []).append(path)
+        by_stem.setdefault(path.stem.casefold(), []).append(path)
+    return by_stem, by_name
+
+
+def check_wikilinks(root: Path) -> list[str]:
+    errors: list[str] = []
+    by_stem, by_name = wikilink_index(root)
+    root_resolved = root.resolve()
+    for path in iter_markdown_files(root):
+        text = strip_code_for_link_checks(path.read_text(encoding="utf-8"))
+        for match in WIKILINK_PATTERN.finditer(text):
+            raw = match.group(1).split("|", 1)[0].strip()
+            target = raw.split("#", 1)[0].split("^", 1)[0].strip()
+            if not target or "{{" in target:
+                continue
+            target = urllib.parse.unquote(target)
+            rel = path.relative_to(root).as_posix()
+            if "/" in target or target.startswith((".", "..")):
+                candidates = [root / target, path.parent / target]
+                expanded = []
+                for candidate in candidates:
+                    expanded.append(candidate)
+                    if not candidate.suffix:
+                        expanded.extend([candidate.with_suffix(".md"), candidate.with_suffix(".base")])
+                resolved_candidates = []
+                for candidate in expanded:
+                    resolved = candidate.resolve()
+                    try:
+                        resolved.relative_to(root_resolved)
+                    except ValueError:
+                        continue
+                    if resolved.exists():
+                        resolved_candidates.append(resolved)
+                if not resolved_candidates:
+                    errors.append(f"broken wikilink: {rel} -> {target}")
+                continue
+
+            key = target.casefold()
+            matches = by_name.get(key, []) if Path(target).suffix else by_stem.get(key, [])
+            if not matches:
+                errors.append(f"broken wikilink: {rel} -> {target}")
+            elif len(matches) > 1:
+                choices = ", ".join(sorted(item.relative_to(root).as_posix() for item in matches))
+                errors.append(f"ambiguous wikilink: {rel} -> {target} matches [{choices}]")
+    return errors
+
+
+def status_policy_for(path: Path, metadata: dict[str, str], root: Path) -> str:
+    page_type = metadata.get("type", "")
+    if page_type in STATUS_TYPE_POLICIES:
+        return STATUS_TYPE_POLICIES[page_type]
+    return "governance"
+
+
+def check_typed_statuses(root: Path) -> list[str]:
+    errors: list[str] = []
+    for path in iter_markdown_files(root):
+        metadata, text = read_frontmatter(path)
+        if not metadata:
+            continue
+        page_type = metadata.get("type", "")
+        status = metadata.get("status", "")
+        rel = path.relative_to(root).as_posix()
+        if page_type and not status:
+            errors.append(f"missing status for typed page: {rel}")
+            continue
+        if not status:
+            continue
+        policy = status_policy_for(path, metadata, root)
+        allowed = STATUS_VALUES[policy]
+        if status not in allowed:
+            errors.append(
+                f"unsupported {policy} status in {rel}: {status}; "
+                f"allowed={','.join(sorted(allowed))}"
+            )
+        frontmatter_text = text[: text.find("\n---", 4)] if text.startswith("---\n") else ""
+        if re.search(r"^status:\s*[\"']", frontmatter_text, re.M):
+            errors.append(f"quoted status in {rel}")
+    return errors
+
+
+def check_base_files(root: Path, mode: str, language: str) -> list[str]:
+    if mode != "full":
+        return []
+    errors: list[str] = []
+    project_folder = language_target_path(language, "10-Projects").as_posix()
+    task_folder = language_target_path(language, "01-Inbox/tasks").as_posix()
+    source_folder = language_target_path(language, "40-ExternalSources").as_posix()
+    specs = {
+        "00-AI/bases/project-overview.base": [
+            "filters:", "properties:", "views:", "project_entry == true", "pillar:",
+            f'file.inFolder("{project_folder}")',
+            *[f'status == "{status}"' for status in sorted(PROJECT_ENTRY_CURRENT_STATUSES)],
+        ],
+        "00-AI/bases/task-overview.base": [
+            "filters:", "properties:", "views:", 'type == "local-task"',
+            f'file.inFolder("{task_folder}")',
+            *[f'status == "{status}"' for status in sorted(STATUS_VALUES["local_task"])],
+        ],
+        "00-AI/bases/source-overview.base": [
+            "filters:", "properties:", "views:", "captured:",
+            f'file.inFolder("{source_folder}")',
+            *[f'type == "{page_type}"' for page_type in sorted(EXTERNAL_BASE_TYPES)],
+        ],
+    }
+    for source_rel, markers in specs.items():
+        rel = language_target_path(language, source_rel)
+        path = root / rel
+        if not path.exists():
+            errors.append(f"missing Base file: {rel.as_posix()}")
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "\t" in text:
+            errors.append(f"Base contains tab indentation: {rel.as_posix()}")
+        for marker in markers:
+            if marker not in text:
+                errors.append(f"Base contract missing in {rel.as_posix()}: {marker}")
+    return errors
+
+
+def check_base_dependency_metadata(root: Path, language: str) -> list[str]:
+    errors: list[str] = []
+    projects_root = root / language_target_path(language, "10-Projects")
+    if projects_root.exists():
+        for path in projects_root.rglob("*.md"):
+            metadata, text = read_frontmatter(path)
+            marker = metadata.get("project_entry", "")
+            rel = path.relative_to(root).as_posix()
+            if marker and marker not in {"true", "false"}:
+                errors.append(f"invalid project_entry boolean in {rel}: {marker}")
+            if marker == "true":
+                missing = sorted(field for field in PROJECT_ENTRY_REQUIRED_FIELDS if not metadata.get(field))
+                if missing:
+                    errors.append(f"project entry missing metadata in {rel}: {', '.join(missing)}")
+                if metadata.get("status") not in PROJECT_ENTRY_ALL_STATUSES:
+                    errors.append(f"unsupported project entry status in {rel}: {metadata.get('status') or '-'}")
+                frontmatter_text = text[: text.find("\n---", 4)] if text.startswith("---\n") else ""
+                if re.search(r"^status:\s*[\"']", frontmatter_text, re.M):
+                    errors.append(f"quoted project entry status in {rel}")
+            if (
+                metadata.get("type") == "project-bridge"
+                and metadata.get("status") in PROJECT_ENTRY_CURRENT_STATUSES
+                and marker != "true"
+            ):
+                errors.append(f"current project bridge missing project_entry: {rel}")
+
+    task_root = root / language_target_path(language, "01-Inbox/tasks")
+    if task_root.exists():
+        for path in task_root.rglob("*.md"):
+            metadata, _text = read_frontmatter(path)
+            rel = path.relative_to(root).as_posix()
+            missing = sorted(field for field in LOCAL_TASK_REQUIRED_FIELDS if not metadata.get(field))
+            if missing:
+                errors.append(f"local task missing metadata in {rel}: {', '.join(missing)}")
+            if metadata.get("type") != "local-task":
+                errors.append(f"local task missing type=local-task: {rel}")
+            if metadata.get("status") not in STATUS_VALUES["local_task"]:
+                errors.append(f"unsupported local task status in {rel}: {metadata.get('status') or '-'}")
+
+    sources_root = root / language_target_path(language, "40-ExternalSources")
+    if sources_root.exists():
+        for path in sources_root.rglob("*.md"):
+            metadata, _text = read_frontmatter(path)
+            if metadata.get("type") not in EXTERNAL_BASE_TYPES:
+                continue
+            rel = path.relative_to(root).as_posix()
+            if not metadata.get("captured"):
+                errors.append(f"Base source missing captured date: {rel}")
+            if metadata.get("status") not in STATUS_VALUES["external"]:
+                errors.append(f"unsupported Base source status in {rel}: {metadata.get('status') or '-'}")
+    return errors
+
+
+def check_private_user_paths(root: Path) -> list[str]:
+    errors: list[str] = []
+    for path in iter_markdown_files(root):
+        text = path.read_text(encoding="utf-8")
+        for match in PRIVATE_USER_PATH_PATTERN.finditer(text):
+            if match.group(1).casefold() not in PUBLIC_USER_PATH_PLACEHOLDERS:
+                errors.append(
+                    f"private-looking user path in {path.relative_to(root).as_posix()}: /Users/{match.group(1)}/"
+                )
+    return errors
+
+
 def check_english_readme(root: Path) -> list[str]:
     readme = root / "README.md"
     if not readme.exists():
@@ -133,8 +361,14 @@ def health_check(args: argparse.Namespace) -> int:
         ("required paths", check_required_paths(root, mode, language)),
         ("stale concepts", check_stale_patterns(root)),
         ("markdown links", check_markdown_links(root)),
+        ("wikilinks", check_wikilinks(root)),
+        ("typed status", check_typed_statuses(root)),
+        ("Base files", check_base_files(root, mode, language)),
+        ("Base dependency metadata", check_base_dependency_metadata(root, language)),
     ]
-    if mode == "full":
+    if not (root / MANIFEST_DIR / MANIFEST_FILE).exists():
+        checks.append(("private user paths", check_private_user_paths(root)))
+    if mode == "full" and language == "en":
         checks.append(("english README", check_english_readme(root)))
 
     failed = False
@@ -152,7 +386,7 @@ def health_check(args: argparse.Namespace) -> int:
 def count_inbox_files(root: Path, language: str | None = None) -> dict[str, int]:
     result = {}
     selected_language = language or detect_vault_language(root)
-    for rel in ["agent-handoffs", "dispatch-cards", "web-clips"]:
+    for rel in ["agent-handoffs", "tasks", "web-clips"]:
         display = language_target_path(selected_language, f"01-Inbox/{rel}").as_posix()
         folder = root / display
         count = 0
@@ -290,8 +524,14 @@ def build_audit_report(root: Path, mode: str | None = None) -> tuple[str, int]:
         ("required paths", check_required_paths(root, selected_mode, language)),
         ("stale concepts", check_stale_patterns(root)),
         ("markdown links", check_markdown_links(root)),
+        ("wikilinks", check_wikilinks(root)),
+        ("typed status", check_typed_statuses(root)),
+        ("Base files", check_base_files(root, selected_mode, language)),
+        ("Base dependency metadata", check_base_dependency_metadata(root, language)),
     ]
-    if selected_mode == "full":
+    if not (root / MANIFEST_DIR / MANIFEST_FILE).exists():
+        checks.append(("private user paths", check_private_user_paths(root)))
+    if selected_mode == "full" and language == "en":
         checks.append(("english README", check_english_readme(root)))
     inbox_counts = count_inbox_files(root, language)
     missing_bridges = project_dirs_without_bridge(root, language)

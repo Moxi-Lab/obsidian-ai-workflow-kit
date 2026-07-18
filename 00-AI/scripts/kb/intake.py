@@ -34,6 +34,8 @@ type: source-analysis
 status: inbox
 title: "{title}"
 source: "{args.source}"
+created: {today}
+updated: {today}
 captured: {today}
 related_project: "{project}"
 themes: []
@@ -165,6 +167,8 @@ type: folder-intake
 status: inbox
 title: {yaml_string(title)}
 source_folder: {yaml_string(str(source))}
+created: {today}
+updated: {today}
 captured: {today}
 related_project: {yaml_string(args.project or "")}
 file_count: {stats["matched"]}
@@ -210,4 +214,3 @@ canonical: false
         target_dir.mkdir(parents=True, exist_ok=True)
     write_file(target, content, args.dry_run)
     return 0
-

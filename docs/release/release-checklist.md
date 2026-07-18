@@ -11,6 +11,11 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] `python3 00-AI/scripts/kb.py health-check` passes.
 - [ ] `bash 00-AI/scripts/test_install.sh` passes.
 - [ ] `bash 00-AI/scripts/test_tools.sh` passes.
+- [ ] `python3 -m unittest discover -s tests` passes with no regression from the previous release.
+- [ ] English/zh-CN × barebone/full temporary installs all pass `health-check`.
+- [ ] `python3 00-AI/scripts/kb.py build-release --output dist` builds four archives.
+- [ ] A full archive opens as an Obsidian vault, shows `START.md`, enables the built-in Bases plugin, and contains no community plugins.
+- [ ] `migrate-v0.9 --dry-run` reports conflicts before the apply form is considered.
 - [ ] GitHub Actions CI passes on `main`.
 - [ ] `VERSION` matches the intended release tag.
 - [ ] `CHANGELOG.md` has an entry for the release.
@@ -32,6 +37,8 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] Release is tagged and marked as prerelease if still in beta.
 - [ ] README install command has been tested after the visibility change.
 - [ ] No private paths, secrets, personal notes, source clips, or private handoff history are included.
+- [ ] Release assets use the `v<VERSION>-<language>-<mode>.zip` naming contract.
+- [ ] After explicit maintainer approval, publish with `gh release create v0.9.0 dist/*.zip --title "Obsidian AI Workflow Kit v0.9.0" --notes-file docs/release/v0.9.0-release-notes.md`.
 
 ## Source Sync Checks
 

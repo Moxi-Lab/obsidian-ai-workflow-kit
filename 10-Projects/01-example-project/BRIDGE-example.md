@@ -2,13 +2,17 @@
 type: project-bridge
 status: active
 project: Example Project
+pillar: example
+project_entry: true
 local_root: "<your-project-path>"
 kb_project: "10-Projects/01-example-project/README.md"
 startup_files:
   - "00-AI/START-HERE.md"
   - "10-Projects/01-example-project/current-state.md"
   - "10-Projects/01-example-project/decisions.md"
-updated: 2026-06-01
+created: 2026-06-01
+updated: 2026-07-18
+next_action: Copy this example and replace the placeholder fields.
 ---
 
 # 项目桥接卡｜Example Project

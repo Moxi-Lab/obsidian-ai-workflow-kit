@@ -7,4 +7,5 @@ from .install import *
 from .intake import *
 from .migrate import *
 from .project import *
+from .release import *
 from .utils import *

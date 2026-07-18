@@ -2,6 +2,36 @@
 
 Use this kit gradually. Do not rebuild an existing Obsidian vault.
 
+## Upgrading From v0.8 To v0.9
+
+The v0.9 upgrade has two separate steps so kit files and user-owned notes are never treated the same.
+
+First preview and upgrade managed kit files. Keep the same language and mode as the existing install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full "/path/to/your-vault"
+```
+
+Use `--mode barebone` for a barebone installation. The updater creates new kit files and updates only managed files that still match their previous checksum. Modified and unmanaged files are skipped.
+
+Then preview the metadata migration:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-v0.9 --vault "/path/to/your-vault" --dry-run
+```
+
+It reports legacy dispatch-card moves, task status mappings, exact folder-reference updates, and project bridge cards that can safely receive `project_entry: true`. The old dispatch directory is removed only after every real file has moved and the directory is empty.
+
+Apply only after the preview is correct:
+
+```bash
+python3 00-AI/scripts/kb.py migrate-v0.9 --vault "/path/to/your-vault"
+python3 00-AI/scripts/kb.py health-check --vault "/path/to/your-vault"
+```
+
+The migration stops before writing when a task destination already exists or a project has multiple current bridge cards. Resolve that ambiguity manually; do not use `--overwrite` as a migration shortcut. Legacy `owner_role` and `owner_agent` values are left in user-owned cards as historical data, but new templates no longer create them.
+
 ## If You Are Starting Fresh
 
 1. Clone or download this repository.
@@ -104,6 +134,7 @@ Update behavior:
 - Unmodified managed files are updated.
 - User-edited files are skipped.
 - Existing files without manifest history are treated as user-owned.
+- New full-mode Base files are created without requiring Dataview or a community plugin.
 
 If you need to compare a skipped file with the new kit version:
 

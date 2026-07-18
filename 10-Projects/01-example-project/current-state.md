@@ -1,7 +1,10 @@
 ---
 type: project-state
-status: sample
+status: active
 project: Example Project
+created: 2026-06-01
+updated: 2026-07-18
+sample: true
 ---
 
 # 当前状态

@@ -10,11 +10,22 @@
 
 这套 kit 解决的就是这个接手问题：用一个本地优先的 Obsidian 结构，提供唯一开工入口、项目桥接卡、写回规则、资料分流、召回地图和维护检查。
 
-它不是 App、插件、云端记忆服务，也不是 RAG 系统。它是一套文件系统层的工作流：人能直接改，任何能读取本地文件的 AI Agent 都能执行。
+它不是 App、社区插件、云端记忆服务，也不是 RAG 系统。它是一套文件系统层的工作流：人能直接改，任何能读取本地文件的 AI Agent 都能执行。可选动态工作台使用 Obsidian 自带的 Bases 核心插件。
 
 它不让 AI 全库乱搜，而是用任务路由和召回字段，让 AI 先读最该读的少数文件。
 
 ## 快速开始
+
+### 下载后直接使用
+
+新建知识库或交付客户时，推荐从 [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases) 下载完整包：
+
+- `obsidian-ai-workflow-kit-v0.9.0-zh-CN-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.0-en-full.zip`
+
+解压后，在 Obsidian 中选择“打开文件夹作为仓库”，再打开根目录的 `START.md`。Full 包已经包含安全的 Vault 配置、启用 Obsidian 自带的 Bases，不安装任何社区插件。
+
+只有在已有 Vault 中添加最小底座时，才选择 `barebone` 压缩包。
 
 ### 安装到已有 vault
 
@@ -82,7 +93,9 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 | AI 写入太随意 | `90-系统/规则/` 里的治理规则 |
 | 本机资料需要整理 | `20-资料/处理流程/` 里的资料处理流程 |
 | 有用经验难召回 | `90-系统/召回/` 里的任务地图和召回字段 |
-| vault 越用越乱 | 健康检查和维护规则 |
+| 手写索引容易过期 | `90-系统/视图/` 中的项目、任务和资料 Base |
+| 字段填错后页面从视图消失 | 类型化 status、`project_entry` 和 Base 字段健康检查 |
+| vault 越用越乱 | 只读的链接、元数据和维护检查 |
 
 ## 它怎么工作
 
@@ -94,12 +107,14 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 用户任务
   -> 00-入口/开始这里.md
   -> 对应项目桥接卡或任务地图
+  -> 当前对话能完成就直接执行
+  -> 只有排队、跨会话或阻塞时才写入 01-收件箱/任务/
   -> 只读取必要上下文
   -> 结构化写回
   -> 可复用经验进入后续召回
 ```
 
-AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任务映射打开必要上下文，完成任务后写回正确位置。
+AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任务映射打开必要上下文，完成任务后写回正确位置。默认流程不使用 CEO、CTO、QA 等岗位角色卡；需要专业视角时直接说明检查角度。
 
 ## 安装范围
 
@@ -108,7 +123,7 @@ AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任�
 | 模式 | 适合场景 | 会安装什么 |
 |---|---|---|
 | `barebone` | 给已有 vault 加一个最小入口 | 开工入口、核心工作目录、治理规则、项目登记、模板、`90-系统/脚本/kb.py` |
-| `full` | 新建 starter vault 或完整试用 | 全部工作流目录、示例、文档、模板、脚本 |
+| `full` | 新建 starter vault 或客户交付 | 全部工作流目录、示例、文档、模板、脚本和 Bases 动态视图 |
 
 如果你不想用远程 `curl` 安装，可以本地克隆后运行：
 
@@ -143,6 +158,7 @@ bash install.sh --language zh-CN "/path/to/your-vault"
 - [核心概念](docs/concepts.zh-CN.md)
 - [模板说明](docs/templates.zh-CN.md)
 - [脚本说明](00-AI/scripts/README.md)
+- [v0.9.0 发布说明](docs/release/v0.9.0-release-notes.md)
 
 ## 仓库结构
 
@@ -154,6 +170,7 @@ bash install.sh --language zh-CN "/path/to/your-vault"
 30-经验资产/                可复用方法和经验
 90-系统/规则/               写回、审查和维护规则
 90-系统/召回/               任务到上下文的召回地图
+90-系统/视图/               项目、任务、资料动态视图（仅 full）
 90-系统/模板/               可复用笔记模板
 90-系统/脚本/               可选辅助脚本
 90-系统/配置/               配置文件
@@ -175,4 +192,4 @@ English 安装使用英文路径。中文安装会把核心 vault 路径本地�
 
 ## Version
 
-当前版本：`0.8.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.9.0`。见 [CHANGELOG.md](CHANGELOG.md)。

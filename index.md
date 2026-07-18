@@ -16,6 +16,7 @@ status: active
 - `00-AI/recall/README.md`：召回系统。
 - `10-Projects/PROJECTS-REGISTRY.md`：项目登记表。
 - `10-Projects/01-example-project/BRIDGE-example.md`：项目接续示例。
+- `00-AI/bases/`：full 模式的项目、任务和资料动态视图；Markdown 页面仍是事实源。
 
 ## 工作流入口
 
@@ -26,6 +27,7 @@ status: active
 - 召回规则：`00-AI/recall/task-to-context-map.md`
 - 经验沉淀：`20-SharedAssets/02-modules/project-lesson-promotion-v1.md`
 - 知识库巡检：`20-SharedAssets/02-modules/vault-health-checklist-v1.md`
+- 本地任务：当前对话能完成就直接执行；排队、跨会话或阻塞时才写入 `01-Inbox/tasks/`
 
 ## 模板入口
 
@@ -33,7 +35,6 @@ status: active
 - `00-AI/templates/TPL-agent-handoff-card.md`
 - `00-AI/templates/TPL-source-analysis-card.md`
 - `00-AI/templates/TPL-task-state-card.md`
-- `00-AI/templates/TPL-acceptance-record.md`
 
 ## 文件别名
 

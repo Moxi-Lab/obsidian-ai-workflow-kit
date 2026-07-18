@@ -1,0 +1,48 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("01-Inbox/tasks")
+    - type == "local-task"
+properties:
+  file.name:
+    displayName: 任务
+  project:
+    displayName: 项目
+  priority:
+    displayName: 优先级
+  status:
+    displayName: 状态
+  updated:
+    displayName: 更新日期
+  next_action:
+    displayName: 下一步
+  blocker:
+    displayName: 阻塞原因
+views:
+  - type: table
+    name: 当前任务
+    filters:
+      or:
+        - status == "queued"
+        - status == "active"
+        - status == "blocked"
+    order:
+      - file.name
+      - project
+      - priority
+      - status
+      - updated
+      - next_action
+    limit: 200
+  - type: table
+    name: 已完成与归档
+    filters:
+      or:
+        - status == "done"
+        - status == "archived"
+    order:
+      - file.name
+      - project
+      - status
+      - updated
+    limit: 200

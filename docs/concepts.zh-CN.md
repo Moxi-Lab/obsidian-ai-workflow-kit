@@ -49,6 +49,8 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 
 `01-Inbox/` 用来接收交接卡、任务卡和网页剪藏，不作为长期保存目录。
 
+当前对话是默认执行上下文。只有任务需要排队、跨会话、等待外部条件或明确协调时，才写入 `01-Inbox/tasks/`。默认流程不分配 CEO、CTO、QA 等岗位角色。
+
 ### 7. 经验要变成资产
 
 重复出现的经验应该进入 `20-SharedAssets/`，并写清楚触发条件、处理动作和验证方式。
@@ -59,6 +61,10 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 
 这套结构适合复制到你自己的本地 Obsidian vault 中使用。真实项目状态、个人笔记、交接历史和私有资料都留在你自己的机器上。
 
+### 9. Markdown 是事实源，Bases 是视图
+
+Full 模式使用 Obsidian 自带的 Bases 提供项目、任务和资料动态视图。`project_entry`、类型化 `status`、`pillar` 和 `captured` 是索引字段，由只读健康检查守护。Base 不替代权威 Markdown 页面。
+
 ## 范围边界
 
 这套结构只聚焦四件事：
@@ -68,7 +74,7 @@ AI Agent 越常用，“换窗口就失忆”的问题越明显。现有方案�
 - 召回系统：让 AI 按任务找到该读的上下文。
 - 维护循环：让知识库持续保持健康。
 
-它不是 RAG 系统，不是云服务，也不是任务管理器。它是一套本地优先的 Obsidian + AI 工作方法。
+它不是 RAG 系统，不是云服务，也不是托管任务管理器。它是一套本地优先的 Obsidian + AI 工作方法。
 
 ## 示例工作流
 
@@ -112,9 +118,10 @@ examples/source-to-knowledge/
 | [`index.md`](../index.md) | 给人看的 vault 首页 |
 | [`00-AI/AGENTS.md`](../00-AI/AGENTS.md) | 给 Claude Code、Cursor、Codex 等 AI agent 的规则 |
 | [`00-AI/governance/`](../00-AI/governance/) | 开工契约、审查门、写回规则、维护循环 |
-| [`01-Inbox/`](../01-Inbox/) | 临时交接、派工卡、网页剪藏入口 |
+| [`01-Inbox/`](../01-Inbox/) | 临时交接、排队或跨会话任务卡、网页剪藏入口 |
 | [`00-AI/pipeline/`](../00-AI/pipeline/) | AI 如何把本机资料整理成结构化知识 |
 | [`00-AI/recall/`](../00-AI/recall/) | 任务到上下文的召回地图和召回字段 |
+| [`00-AI/bases/`](../00-AI/bases/) | Full 模式安装的项目、任务和资料动态视图 |
 | [`10-Projects/`](../10-Projects/) | 项目工作区和项目桥接卡 |
 | [`20-SharedAssets/`](../20-SharedAssets/) | 可复用方法、SOP 和工作流 |
 | [`40-ExternalSources/`](../40-ExternalSources/) | 外部资料分析卡，不保存第三方全文 |

@@ -12,6 +12,7 @@ AI 写入前先判断内容类型，再写到对应位置。
 | 项目长期状态 | `10-Projects/<project>/current-state.md` 或项目桥接卡 | 下次接手必须知道 |
 | 稳定决策 | `10-Projects/<project>/decisions.md` | 已确认且会影响后续行动 |
 | 临时交接 | `01-Inbox/agent-handoffs/` | 只服务下一次接续 |
+| 排队、跨会话或阻塞任务 | `01-Inbox/tasks/` | 当前对话无法闭环，并且需要明确下一步 |
 | 外部资料分析 | `40-ExternalSources/` | 有来源、有摘要、有可用结论 |
 | 可复用经验 | `20-SharedAssets/02-modules/` 或问题知识卡 | 未来多个任务会重复用 |
 | 问题/事故经验 | 用 `00-AI/templates/TPL-incident-experience-card.md` 新建后放到项目或 `20-SharedAssets/02-modules/` | 下次能避免失败、误判、返工或工具异常 |
@@ -25,6 +26,7 @@ AI 写入前先判断内容类型，再写到对应位置。
 - 下一步：写成可执行动作。
 - 风险：写清楚不能做什么。
 - 问题/事故：必须写清触发条件、根因、处理动作、验证方式和禁止事项。
+- 任务卡：必须写清 `status / project / priority / updated / next_action`，不依赖岗位角色字段完成分流。
 
 ## 删除规则
 

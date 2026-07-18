@@ -9,7 +9,7 @@
 3. 把这段话发给一个能读取本地文件的 AI Agent：
 
 ```text
-你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<这个仓库的本地路径>。请先读取 00-AI/START-HERE.md，然后使用 examples/filled-example 里的只读演示项目。告诉我当前项目状态、最新决策和下一步动作。不要编辑文件。
+你是知识库维护 Agent。这个 Obsidian vault 的根目录是：<这个仓库的本地路径>。请先读取 00-AI/START-HERE.md，然后使用 examples/filled-example 里的只读演示项目。告诉我当前项目状态、最新决策和下一步动作。不要编辑文件，不创建任务卡，也不分配岗位角色。
 ```
 
 ## 预期效果
@@ -23,4 +23,3 @@ AI 应该读取：
 - `examples/filled-example/decisions.md`
 
 然后说明演示项目的当前状态、最新决策、下一步动作，以及真实任务应该写回哪里。
-

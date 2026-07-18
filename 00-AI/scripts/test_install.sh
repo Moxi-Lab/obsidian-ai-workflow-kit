@@ -8,6 +8,8 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 TARGET="$TMP_DIR/vault"
 BAREBONE_TARGET="$TMP_DIR/barebone-vault"
 ZH_TARGET="$TMP_DIR/zh-vault"
+EN_FULL_TARGET="$TMP_DIR/en-full-vault"
+ZH_FULL_TARGET="$TMP_DIR/zh-full-vault"
 
 OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --dry-run "$TARGET" >/tmp/obsidian-ai-workflow-kit-dry-run.log
 grep -q "language: en" /tmp/obsidian-ai-workflow-kit-dry-run.log
@@ -74,6 +76,24 @@ assert manifest["language"] == "zh-CN"
 assert "00-入口/开始这里.md" in manifest["files"]
 PY
 
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --mode full "$EN_FULL_TARGET" >/tmp/obsidian-ai-workflow-kit-en-full.log
+test -f "$EN_FULL_TARGET/00-AI/bases/project-overview.base"
+test -f "$EN_FULL_TARGET/00-AI/bases/task-overview.base"
+test -f "$EN_FULL_TARGET/00-AI/bases/source-overview.base"
+test -d "$EN_FULL_TARGET/01-Inbox/tasks"
+test ! -d "$EN_FULL_TARGET/01-Inbox/dispatch-cards"
+! grep -q 'owner_role' "$EN_FULL_TARGET/00-AI/templates/TPL-task-state-card.md"
+! grep -q 'owner_agent' "$EN_FULL_TARGET/00-AI/templates/TPL-task-state-card.md"
+python3 "$EN_FULL_TARGET/00-AI/scripts/kb.py" health-check --vault "$EN_FULL_TARGET" --mode full >/tmp/obsidian-ai-workflow-kit-en-full-health.log
+
+OBSIDIAN_AI_WORKFLOW_KIT_SOURCE="$ROOT" bash "$ROOT/install.sh" --language zh-CN --mode full "$ZH_FULL_TARGET" >/tmp/obsidian-ai-workflow-kit-zh-full.log
+test -f "$ZH_FULL_TARGET/90-系统/视图/项目总览.base"
+test -f "$ZH_FULL_TARGET/90-系统/视图/任务总览.base"
+test -f "$ZH_FULL_TARGET/90-系统/视图/资料总览.base"
+test -d "$ZH_FULL_TARGET/01-收件箱/任务"
+test ! -d "$ZH_FULL_TARGET/01-收件箱/派工卡"
+python3 "$ZH_FULL_TARGET/90-系统/脚本/kb.py" health-check --vault "$ZH_FULL_TARGET" --mode full >/tmp/obsidian-ai-workflow-kit-zh-full-health.log
+
 rm -f /tmp/obsidian-ai-workflow-kit-dry-run.log \
   /tmp/obsidian-ai-workflow-kit-install.log \
   /tmp/obsidian-ai-workflow-kit-health.log \
@@ -83,4 +103,8 @@ rm -f /tmp/obsidian-ai-workflow-kit-dry-run.log \
   /tmp/obsidian-ai-workflow-kit-barebone.log \
   /tmp/obsidian-ai-workflow-kit-barebone-health.log \
   /tmp/obsidian-ai-workflow-kit-zh.log \
-  /tmp/obsidian-ai-workflow-kit-zh-health.log
+  /tmp/obsidian-ai-workflow-kit-zh-health.log \
+  /tmp/obsidian-ai-workflow-kit-en-full.log \
+  /tmp/obsidian-ai-workflow-kit-en-full-health.log \
+  /tmp/obsidian-ai-workflow-kit-zh-full.log \
+  /tmp/obsidian-ai-workflow-kit-zh-full-health.log

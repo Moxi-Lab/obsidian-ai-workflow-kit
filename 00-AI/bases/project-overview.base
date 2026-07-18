@@ -1,0 +1,44 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("10-Projects")
+    - project_entry == true
+properties:
+  file.name:
+    displayName: Project entry
+  project:
+    displayName: Project
+  pillar:
+    displayName: Area
+  status:
+    displayName: Status
+  updated:
+    displayName: Updated
+  next_action:
+    displayName: Next action
+views:
+  - type: table
+    name: Current projects
+    filters:
+      or:
+        - status == "active"
+        - status == "waiting"
+        - status == "paused"
+        - status == "blocked"
+    order:
+      - file.name
+      - project
+      - pillar
+      - status
+      - updated
+      - next_action
+    limit: 200
+  - type: table
+    name: All project entries
+    order:
+      - file.name
+      - project
+      - pillar
+      - status
+      - updated
+    limit: 500

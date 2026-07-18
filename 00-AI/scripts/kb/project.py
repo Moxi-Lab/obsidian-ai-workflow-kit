@@ -4,7 +4,7 @@ import argparse
 import datetime as dt
 
 from .config import language_target_path, localize_text_references
-from .utils import validate_slug, vault_language, vault_root, write_file
+from .utils import validate_slug, vault_language, vault_root, write_file, yaml_string
 
 def new_project(args: argparse.Namespace) -> int:
     validate_slug(args.slug)
@@ -16,12 +16,15 @@ def new_project(args: argparse.Namespace) -> int:
 
     today = dt.date.today().isoformat()
     root_hint = args.root or "<your-project-path>"
+    pillar = getattr(args, "pillar", None) or "general"
     bridge_name = f"BRIDGE-{args.slug}.md"
     files = {
         "README.md": f"""---
 type: project-readme
 status: active
-project: {args.name}
+project: {yaml_string(args.name)}
+created: {today}
+updated: {today}
 ---
 
 # {args.name}
@@ -43,14 +46,18 @@ Describe what this project is for and why an AI agent may need to resume it.
         bridge_name: f"""---
 type: project-bridge
 status: active
-project: {args.name}
-local_root: "{root_hint}"
+project: {yaml_string(args.name)}
+pillar: {yaml_string(pillar)}
+project_entry: true
+local_root: {yaml_string(root_hint)}
 kb_project: "10-Projects/{args.slug}/README.md"
 startup_files:
   - "00-AI/START-HERE.md"
   - "10-Projects/{args.slug}/current-state.md"
   - "10-Projects/{args.slug}/decisions.md"
 updated: {today}
+created: {today}
+next_action: Define the next concrete project action.
 ---
 
 # Project Bridge | {args.name}
@@ -90,7 +97,8 @@ Explain how this local project maps to the vault and why it matters.
         "current-state.md": f"""---
 type: project-state
 status: active
-project: {args.name}
+project: {yaml_string(args.name)}
+created: {today}
 updated: {today}
 ---
 
@@ -101,7 +109,8 @@ updated: {today}
         "decisions.md": f"""---
 type: decisions
 status: active
-project: {args.name}
+project: {yaml_string(args.name)}
+created: {today}
 updated: {today}
 ---
 

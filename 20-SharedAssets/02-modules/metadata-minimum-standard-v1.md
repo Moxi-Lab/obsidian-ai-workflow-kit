@@ -5,7 +5,7 @@ asset_label: 元数据最小标准
 type: standard
 aliases: ["元数据最小标准-v1", "Minimal Metadata Standard"]
 created: 2026-05-14
-updated: 2026-06-01
+updated: 2026-07-18
 status: active
 scope: cross-project
 owner: maintainer
@@ -37,17 +37,20 @@ status:
 | `updated` | 最近更新日期 | `2026-05-14` |
 | `status` | 当前状态 | `active`、`draft`、`waiting`、`paused`、`archived` |
 
-## 常用状态
+## status 按页面类型取值
 
-| 状态 | 含义 |
+`status` 不是全库通用标签。先判断页面类型，再从对应值域选择：
+
+| 页面类型 | 合法状态 |
 |---|---|
-| `active` | 当前有效 |
-| `draft` | 草稿 |
-| `waiting` | 等待确认或外部条件 |
-| `paused` | 暂停 |
-| `archived` | 历史归档 |
-| `done` | 已完成 |
-| `blocked` | 受阻 |
+| 规则、资产、入口 | `draft / active / deprecated / historical` |
+| 项目、项目桥接 | `active / waiting / paused / blocked / done / archived` |
+| 外部资料、分析卡、剪藏 | `inbox / filed / processed / rejected` |
+| 本地任务 | `queued / active / blocked / done / archived` |
+| 交接卡 | `open / blocked / done / archived` |
+| 验收与审核 | `pending / accepted / deferred / skipped` |
+
+Frontmatter 使用未加引号的小写值，例如 `status: active`。不要用项目的 `done` 表示资料已处理，也不要把任务的 `queued` 写到项目页。
 
 ## 可复用资产补充字段
 
@@ -63,11 +66,14 @@ owner:
 
 ```yaml
 project:
-owner:
+pillar:
+project_entry:
 stage:
 priority:
 next_action:
 ```
+
+每个长期项目只选择一页作为权威入口，并设置 `project_entry: true`。入口页必须同时填写 `type / updated / status / pillar / project`。普通 README、决策页、任务卡、模板和复盘不得设置 `project_entry: true`。
 
 ## 外部资料补充字段
 
@@ -78,6 +84,23 @@ captured:
 related_project:
 related_notes:
 ```
+
+`captured` 是公开版资料进入知识库的日期，也是资料 Base 的索引字段；通过 `intake-source` 或 `intake-folder` 创建的资料卡必须填写。
+
+## 本地任务补充字段
+
+```yaml
+type: local-task
+created:
+updated:
+status: queued
+project:
+priority: medium
+next_action:
+blocker:
+```
+
+只有排队、跨会话、阻塞或明确协调的任务才建卡。当前对话能够完成的工作直接执行，不按岗位角色分配。
 
 ## Web Clipper 原始剪藏补充字段
 
@@ -123,8 +146,7 @@ relationships:
 ## 交接卡补充字段
 
 ```yaml
-source_agent:
-source_role:
+source_context:
 rule_version:
 handoff_type:
 next_action:
@@ -136,4 +158,4 @@ links:
 - 新增页面必须满足本标准。
 - 旧页面不做一次性批量补齐；只在被编辑时顺手补齐。
 - 历史归档页可以保留旧格式。
-- 字段不确定时，用 `waiting` 或 `unknown`，不要凭空判断。
+- 状态不确定时使用该页面类型允许的保守值：项目用 `waiting`、资料用 `inbox`、任务用 `queued`、审核用 `pending`。不要写不在枚举中的 `unknown`，也不要凭空判断。

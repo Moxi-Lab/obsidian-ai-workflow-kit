@@ -1,8 +1,10 @@
 ---
 type: source-analysis
-status: active
+status: processed
 title: "Onboarding Research"
-source: "/Users/me/Downloads/onboarding-research.md"
+source: "<source-file-path>"
+created: 2026-06-01
+updated: 2026-07-18
 captured: 2026-06-01
 related_project: "launch-notes"
 themes:
@@ -38,4 +40,3 @@ canonical: false
 ## Next AI Action
 
 如果这个结论会被多个项目复用，升舱成问题知识卡或经验资产卡。
-

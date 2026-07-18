@@ -1,0 +1,44 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("10-Projects")
+    - project_entry == true
+properties:
+  file.name:
+    displayName: 项目入口
+  project:
+    displayName: 项目
+  pillar:
+    displayName: 领域
+  status:
+    displayName: 状态
+  updated:
+    displayName: 更新日期
+  next_action:
+    displayName: 下一步
+views:
+  - type: table
+    name: 当前项目
+    filters:
+      or:
+        - status == "active"
+        - status == "waiting"
+        - status == "paused"
+        - status == "blocked"
+    order:
+      - file.name
+      - project
+      - pillar
+      - status
+      - updated
+      - next_action
+    limit: 200
+  - type: table
+    name: 全部项目入口
+    order:
+      - file.name
+      - project
+      - pillar
+      - status
+      - updated
+    limit: 500

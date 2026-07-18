@@ -1,0 +1,48 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.inFolder("01-Inbox/tasks")
+    - type == "local-task"
+properties:
+  file.name:
+    displayName: Task
+  project:
+    displayName: Project
+  priority:
+    displayName: Priority
+  status:
+    displayName: Status
+  updated:
+    displayName: Updated
+  next_action:
+    displayName: Next action
+  blocker:
+    displayName: Blocker
+views:
+  - type: table
+    name: Current tasks
+    filters:
+      or:
+        - status == "queued"
+        - status == "active"
+        - status == "blocked"
+    order:
+      - file.name
+      - project
+      - priority
+      - status
+      - updated
+      - next_action
+    limit: 200
+  - type: table
+    name: Done and archived
+    filters:
+      or:
+        - status == "done"
+        - status == "archived"
+    order:
+      - file.name
+      - project
+      - status
+      - updated
+    limit: 200

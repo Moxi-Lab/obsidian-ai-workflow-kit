@@ -10,11 +10,22 @@ You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this
 
 This kit fixes that handoff problem with a local-first Obsidian structure: one startup entry, project bridge cards, write-back rules, source triage, recall maps, and maintenance checks.
 
-It is not an app, plugin, cloud memory service, or RAG stack. It is a file-system-level workflow that humans can edit and any AI agent with file access can follow.
+It is not an app, community plugin, cloud memory service, or RAG stack. It is a file-system-level workflow that humans can edit and any AI agent with file access can follow. The optional dashboards use Obsidian's built-in Bases core plugin.
 
 Instead of asking AI to search the whole vault, it uses task routing plus recall fields so the agent reads the right few files first.
 
 ## Start Fast
+
+### Download A Ready-To-Use Vault
+
+For a new vault or customer delivery, download a `full` archive from [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases):
+
+- `obsidian-ai-workflow-kit-v0.9.0-en-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.0-zh-CN-full.zip`
+
+Unzip it, choose **Open folder as vault** in Obsidian, and open `START.md`. The full package already contains safe vault settings, enables the built-in Bases plugin, and installs no community plugins.
+
+Use a `barebone` archive only when you want the smallest foundation without examples, documentation, or Bases dashboards.
 
 ### Existing Vault
 
@@ -90,7 +101,9 @@ The demo shows an AI agent reading the startup entry, finding a filled project b
 | AI writes too freely | governance rules in `00-AI/governance/` |
 | Local materials need sorting | knowledge pipeline in `00-AI/pipeline/` |
 | Useful lessons are hard to recall | task maps and recall fields in `00-AI/recall/` |
-| The vault slowly gets messy | health checks and maintenance rules |
+| Handwritten indexes go stale | optional project, task, and source Bases in `00-AI/bases/` |
+| Metadata silently drops pages from views | typed status, `project_entry`, and Base-field health checks |
+| The vault slowly gets messy | read-only link, metadata, and maintenance checks |
 
 ## How It Works
 
@@ -102,12 +115,14 @@ Daily use stays small:
 User task
   -> 00-AI/START-HERE.md
   -> relevant project bridge card or task map
+  -> execute directly when the current conversation can finish
+  -> create 01-Inbox/tasks/ card only for queued, cross-session, or blocked work
   -> required context only
   -> structured write-back
   -> reusable lessons promoted for future recall
 ```
 
-The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place.
+The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place. Job-role cards are not part of the default workflow; name a review perspective directly when one is useful.
 
 ## Install Scope
 
@@ -116,7 +131,7 @@ The default install is the minimal starter template. Advanced users can still pa
 | Mode | Best for | What it installs |
 |---|---|---|
 | `barebone` | First step inside an existing vault | startup entry, core workflow folders, governance, project registry, templates, `00-AI/scripts/kb.py` |
-| `full` | New starter vault or complete trial | all workflow folders, examples, docs, templates, scripts |
+| `full` | New starter vault or customer delivery | all workflow folders, examples, docs, templates, scripts, and built-in Bases views |
 
 Security-sensitive users can skip the remote `curl` form and run the installer from a local clone:
 
@@ -152,6 +167,7 @@ Not a good fit:
 - [Concepts](docs/concepts.md)
 - [Templates](docs/templates.md)
 - [Scripts](00-AI/scripts/README.md)
+- [v0.9.0 Release Notes](docs/release/v0.9.0-release-notes.md)
 
 ## Repository Layout
 
@@ -160,6 +176,8 @@ Not a good fit:
 00-AI/governance/       write-back, review, and maintenance rules
 00-AI/pipeline/     local material intake and promotion
 00-AI/recall/          task-to-context maps and recall fields
+00-AI/bases/           optional built-in Bases dashboards (full mode)
+01-Inbox/tasks/        queued, cross-session, or blocked local tasks
 10-Projects/               project workspaces and bridge cards
 20-SharedAssets/           reusable methods and lessons
 40-ExternalSources/        source analysis cards
@@ -185,4 +203,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.8.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.9.0`. See [CHANGELOG.md](CHANGELOG.md).

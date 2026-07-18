@@ -12,7 +12,7 @@ status: active
 用户给 AI 一个本地文件：
 
 ```text
-/Users/me/Downloads/onboarding-research.md
+<source-file-path>/onboarding-research.md
 ```
 
 用户说：
@@ -33,4 +33,3 @@ status: active
 
 - `source-analysis-onboarding-research.md`
 - `promoted-question-card.md`
-

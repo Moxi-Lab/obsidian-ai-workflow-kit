@@ -17,6 +17,7 @@ from kb.install import *
 from kb.intake import *
 from kb.migrate import *
 from kb.project import *
+from kb.release import *
 from kb.utils import *
 
 

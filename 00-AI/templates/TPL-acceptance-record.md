@@ -1,24 +1,23 @@
 ---
-type: acceptance
+type: acceptance-record
 created: {{date}}
 updated: {{date}}
 aliases: ["TPL-验收记录", "验收记录模板", "Acceptance Record Template"]
-dispatch_link: ""
-assignee_role: ""
-result: "" # pass / fail / partial
+status: pending # pending / accepted / deferred / skipped
+task_link: ""
 evidence_links: []
 notes: ""
 ---
 
 # 验收记录：{{title}}
 
-## 对应派工卡
+## 对应任务
 
-- {{dispatch_link}}
+- {{task_link}}
 
-## 结果
+## 验收结论
 
-- {{result}}
+- {{status}}
 
 ## 证据链接
 

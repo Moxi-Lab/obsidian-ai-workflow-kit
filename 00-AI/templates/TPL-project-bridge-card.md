@@ -13,14 +13,16 @@ aliases: ["TPL-Codex项目桥接卡", "项目桥接卡模板", "Project Bridge C
 type: project-bridge
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
-status: active # active / waiting / paused / archived
+status: active # active / waiting / paused / blocked / done / archived
 project:
+pillar: general
+project_entry: true
 local_root:
 kb_project:
 startup_files:
-owner:
 kb_bridge_status: kb-only # kb-only / project-linked / paused
 last_verified:
+next_action:
 ---
 ```
 

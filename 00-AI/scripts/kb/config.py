@@ -33,7 +33,12 @@ CORE_PATHS = [
     "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
     "40-ExternalSources/README.md",
     "00-AI/templates/TPL-project-bridge-card.md",
+    "00-AI/templates/TPL-task-state-card.md",
     "00-AI/templates/TPL-incident-experience-card.md",
+    "00-AI/bases/README.md",
+    "00-AI/bases/project-overview.base",
+    "00-AI/bases/task-overview.base",
+    "00-AI/bases/source-overview.base",
     "00-AI/config/stale-patterns.txt",
     "00-AI/scripts/README.md",
     "00-AI/scripts/kb.py",
@@ -54,6 +59,7 @@ FULL_INSTALL_PATHS = [
     "00-AI/pipeline",
     "00-AI/recall",
     "00-AI/templates",
+    "00-AI/bases",
     "00-AI/config/stale-patterns.txt",
     "00-AI/scripts/README.md",
     "00-AI/scripts/kb.py",
@@ -70,6 +76,8 @@ FULL_INSTALL_PATHS = [
 ]
 
 BAREBONE_INSTALL_PATHS = [
+    "LICENSE",
+    "VERSION",
     "index.md",
     "00-AI/START-HERE.md",
     "00-AI/AGENTS.md",
@@ -86,7 +94,10 @@ BAREBONE_INSTALL_PATHS = [
     "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
     "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
     "40-ExternalSources/README.md",
-    "00-AI/templates",
+    "00-AI/templates/TPL-project-bridge-card.md",
+    "00-AI/templates/TPL-task-state-card.md",
+    "00-AI/templates/TPL-source-analysis-card.md",
+    "00-AI/templates/TPL-agent-handoff-card.md",
     "00-AI/config/stale-patterns.txt",
     "00-AI/scripts/kb.py",
     "00-AI/scripts/kb",
@@ -170,11 +181,16 @@ ZH_CN_TARGET_RENAMES = [
     ),
     ("00-AI/templates/TPL-web-clip-minimal.md", "90-系统/模板/TPL-WebClip-最简模板.md"),
     ("00-AI/templates", "90-系统/模板"),
+    ("00-AI/bases/project-overview.base", "90-系统/视图/项目总览.base"),
+    ("00-AI/bases/task-overview.base", "90-系统/视图/任务总览.base"),
+    ("00-AI/bases/source-overview.base", "90-系统/视图/资料总览.base"),
+    ("00-AI/bases", "90-系统/视图"),
     ("00-AI/config/stale-patterns.txt", "90-系统/配置/过时概念.txt"),
     ("00-AI/config", "90-系统/配置"),
     ("00-AI/scripts", "90-系统/脚本"),
     ("00-AI", "90-系统/AI"),
     ("01-Inbox/agent-handoffs", "01-收件箱/Agent交接"),
+    ("01-Inbox/tasks", "01-收件箱/任务"),
     ("01-Inbox/dispatch-cards", "01-收件箱/派工卡"),
     ("01-Inbox/web-clips", "01-收件箱/网页剪藏"),
     ("01-Inbox", "01-收件箱"),
@@ -221,6 +237,71 @@ ADAPTER_POLICY_FILE = "adoption-policy.json"
 MANIFEST_SCHEMA = 1
 DEFAULT_STALE_PATTERNS_FILE = "00-AI/config/stale-patterns.txt"
 VAULT_STALE_PATTERNS_FILE = f"{MANIFEST_DIR}/stale-patterns.txt"
+
+STATUS_VALUES = {
+    "governance": {"draft", "active", "deprecated", "historical"},
+    "project": {"active", "waiting", "paused", "blocked", "done", "archived"},
+    "external": {"inbox", "filed", "processed", "rejected"},
+    "local_task": {"queued", "active", "blocked", "done", "archived"},
+    "handoff": {"open", "blocked", "done", "archived"},
+    "review": {"pending", "accepted", "deferred", "skipped"},
+}
+
+STATUS_TYPE_POLICIES = {
+    "project-root": "project",
+    "project-readme": "project",
+    "project-bridge": "project",
+    "project-state": "project",
+    "decisions": "project",
+    "source-analysis": "external",
+    "analysis-card": "external",
+    "folder-intake": "external",
+    "web-clip": "external",
+    "local-task": "local_task",
+    "task_card": "local_task",
+    "agent-handoff": "handoff",
+    "acceptance": "review",
+    "acceptance-record": "review",
+}
+
+LEGACY_STATUS_MAPS = {
+    "project": {
+        "open": "active",
+        "draft": "waiting",
+        "sample": "active",
+        "completed": "done",
+        "closed": "done",
+        "resolved": "done",
+    },
+    "external": {
+        "draft": "inbox",
+        "active": "processed",
+        "sample": "processed",
+        "done": "processed",
+        "archived": "filed",
+    },
+    "local_task": {
+        "todo": "queued",
+        "pending": "queued",
+        "ready": "queued",
+        "claimed": "active",
+        "doing": "active",
+        "review": "active",
+        "dev": "active",
+        "scoping": "active",
+        "completed": "done",
+        "closed": "done",
+        "resolved": "done",
+    },
+    "handoff": {"closed": "done", "historical": "archived"},
+    "review": {"pass": "accepted", "fail": "deferred", "partial": "deferred"},
+}
+
+PROJECT_ENTRY_REQUIRED_FIELDS = {"type", "updated", "status", "pillar", "project"}
+PROJECT_ENTRY_CURRENT_STATUSES = {"active", "waiting", "paused", "blocked"}
+PROJECT_ENTRY_ALL_STATUSES = PROJECT_ENTRY_CURRENT_STATUSES | {"done", "archived"}
+LOCAL_TASK_REQUIRED_FIELDS = {"type", "created", "updated", "status", "project", "priority", "next_action"}
+EXTERNAL_BASE_TYPES = {"source-analysis", "analysis-card", "folder-intake", "web-clip"}
 
 
 def install_paths_for_mode(mode: str) -> list[str]:

@@ -23,7 +23,7 @@ from .config import (
 from .utils import file_sha256, repo_root
 
 
-TEXT_INSTALL_SUFFIXES = {".md", ".txt", ".json", ".csv", ".yml", ".yaml"}
+TEXT_INSTALL_SUFFIXES = {".md", ".txt", ".json", ".csv", ".yml", ".yaml", ".base"}
 
 def read_kit_version(root: Path) -> str:
     version_file = root / "VERSION"

@@ -1,21 +1,17 @@
 ---
-type: task_card
+type: local-task
 created: {{date}}
 updated: {{date}}
 aliases: ["TPL-任务状态卡", "任务状态卡模板", "Task State Card Template"]
 task_id: ""
 title: ""
 project: ""
-priority: "" # low / medium / high
-owner_role: "" # maintainer / reviewer / researcher / writer / developer
-owner_agent: ""
-status: "todo" # todo / claimed / doing / review / blocked / done
-estimate: "" # 30m / 60m / 90m
+priority: medium # low / medium / high
+status: queued # queued / active / blocked / done / archived
 depends_on: []
 definition_of_done: []
 next_action: ""
 blocker: ""
-handoff_to: ""
 evidence_links: []
 ---
 
@@ -25,19 +21,20 @@ evidence_links: []
 
 - 
 
+> 只有任务需要排队、跨会话继续或等待外部条件时才创建本卡；当前对话可以完成的任务直接执行。
+
 ## 当前状态
 
 - `status`: {{status}}
-- `owner`: {{owner_role}} / {{owner_agent}}
 - `next_action`: {{next_action}}
 - `updated`: {{date}} {{time}}
 
 ## 执行记录（只写关键变更）
 
-- [{{time}}] `todo -> claimed`：
-- [{{time}}] `claimed -> doing`：
-- [{{time}}] `doing -> review`：
-- [{{time}}] `review -> done`：
+- [{{time}}] `queued -> active`：
+- [{{time}}] `active -> blocked`：
+- [{{time}}] `blocked -> active`：
+- [{{time}}] `active -> done`：
 
 ## 阻塞信息（仅 blocked 填写）
 
