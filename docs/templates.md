@@ -26,4 +26,4 @@ The templates are optional Markdown starting points. Use them when a note needs 
 
 Template filenames are English for agent readability. Chinese titles inside the files preserve the original working method.
 
-Default templates do not require `owner_role`, `owner_agent`, or CEO/CTO/QA role cards. Put the task goal, next action, blocker, and acceptance evidence on the task itself.
+Default task templates keep ownership and routing on the task itself: goal, next action, blocker, priority, and acceptance evidence.

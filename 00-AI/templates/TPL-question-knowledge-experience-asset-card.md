@@ -21,7 +21,7 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 
 source_refs: [] # 来源文件、链接、交接卡或 Issue
-source_authors: [] # 原作者、项目成员或 Agent 角色
+source_authors: [] # 原作者、项目成员、Agent 或其他执行者
 themes: [] # 稳定主题，如 AI协作、内容增长、项目管理
 keywords: [] # 检索关键词，可以更细
 

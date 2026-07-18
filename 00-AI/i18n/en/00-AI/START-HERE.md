@@ -37,7 +37,7 @@ Will not do: <explicit out-of-scope work for this session>
 
 ## Startup Steps
 
-> Execute directly by default. Do not create a task card or assign a job role when the current conversation can finish the work. Use `01-Inbox/tasks/` only for queued, cross-session, externally blocked, or explicitly coordinated work.
+> Execute directly by default. Do not create a task card when the current conversation can finish the work. Use `01-Inbox/tasks/` only for queued, cross-session, externally blocked, or explicitly coordinated work.
 
 ### 1. Identify The Task Type
 
@@ -95,7 +95,7 @@ Not handling yet: <unclear items or items needing user confirmation>
 - Do not copy full third-party articles into the vault.
 - Do not use Inbox folders as permanent storage.
 - Do not reorganize the vault without a clear task.
-- Do not load or create job-role cards by default. Name a review perspective directly when one is useful.
+- When specialist review is useful, name the review perspective and acceptance criteria directly.
 
 ## Before Ending
 

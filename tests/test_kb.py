@@ -42,6 +42,85 @@ class CorePathTests(unittest.TestCase):
         self.assertNotIn("START-HERE.md", kb.CORE_PATHS)
         self.assertNotIn("00-Agent-Governance/README.md", kb.CORE_PATHS)
 
+    def test_public_kit_has_no_job_role_artifacts(self):
+        ignored_parts = {".git", "dist", "__pycache__"}
+        forbidden_name_markers = (
+            "岗位卡",
+            "角色卡",
+            "员工卡",
+            "部门卡",
+            "role-card",
+            "role_card",
+            "job-role-card",
+            "job_role_card",
+        )
+        artifact_paths = []
+        for path in ROOT.rglob("*"):
+            if any(part in ignored_parts for part in path.parts):
+                continue
+            lowered = path.name.casefold()
+            if any(marker.casefold() in lowered for marker in forbidden_name_markers):
+                artifact_paths.append(path.relative_to(ROOT).as_posix())
+        self.assertEqual(artifact_paths, [])
+
+        forbidden_metadata = {
+            "owner_role",
+            "owner_agent",
+            "job_role",
+            "assignee_role",
+            "执行角色",
+            "负责岗位",
+        }
+        metadata_violations = []
+        for path in ROOT.rglob("*.md"):
+            if any(part in ignored_parts for part in path.parts):
+                continue
+            metadata, _text = kb.read_frontmatter(path)
+            if forbidden_metadata.intersection(metadata):
+                metadata_violations.append(path.relative_to(ROOT).as_posix())
+        self.assertEqual(metadata_violations, [])
+
+        current_guidance = [
+            "00-AI/AGENTS.md",
+            "00-AI/START-HERE.md",
+            "00-AI/i18n/en/00-AI/START-HERE.md",
+            "00-AI/i18n/zh-CN/00-AI/START-HERE.md",
+            "00-AI/governance/README.md",
+            "00-AI/governance/startup-contract.md",
+            "00-AI/governance/write-back-rules.md",
+            "01-Inbox/README.md",
+            "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
+            "README.md",
+            "README.zh-CN.md",
+            "docs/10-minute-first-run.md",
+            "docs/10-minute-first-run.zh-CN.md",
+            "docs/30-second-demo.md",
+            "docs/30-second-demo.zh-CN.md",
+            "docs/concepts.md",
+            "docs/concepts.zh-CN.md",
+            "docs/templates.md",
+            "docs/templates.zh-CN.md",
+        ]
+        forbidden_guidance_terms = (
+            "### Role",
+            "岗位角色",
+            "岗位卡",
+            "CEO/CTO/QA",
+            "owner_role",
+            "owner_agent",
+            "job-role",
+            "job role",
+            "role card",
+            "role system",
+            "organization chart",
+        )
+        guidance_violations = []
+        for relative in current_guidance:
+            text = (ROOT / relative).read_text(encoding="utf-8")
+            if any(term in text for term in forbidden_guidance_terms):
+                guidance_violations.append(relative)
+        self.assertEqual(guidance_violations, [])
+
 
 class InstallModeTests(unittest.TestCase):
     def test_barebone_install_paths_are_minimal(self):

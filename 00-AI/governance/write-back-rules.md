@@ -26,7 +26,7 @@ AI 写入前先判断内容类型，再写到对应位置。
 - 下一步：写成可执行动作。
 - 风险：写清楚不能做什么。
 - 问题/事故：必须写清触发条件、根因、处理动作、验证方式和禁止事项。
-- 任务卡：必须写清 `status / project / priority / updated / next_action`，不依赖岗位角色字段完成分流。
+- 任务卡：必须写清 `status / project / priority / updated / next_action`，由任务字段完成分流。
 
 ## 删除规则
 

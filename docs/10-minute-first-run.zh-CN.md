@@ -114,4 +114,4 @@ python3 ~/obsidian-ai-workflow-test/90-系统/脚本/kb.py audit-vault \
 - 一份审计报告。
 - 一句可以直接发给 AI 的开工指令。
 - 一个设置了 `project_entry: true`、能进入 full 模式项目 Base 的项目桥接卡。
-- 当前对话能完成的任务不需要岗位角色卡或本地任务卡。
+- 当前对话能完成的任务直接执行，不额外创建本地任务卡。

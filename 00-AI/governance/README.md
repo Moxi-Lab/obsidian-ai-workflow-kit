@@ -9,7 +9,7 @@ status: active
 
 这一层回答一个问题：AI 进入 vault 后，怎么少猜、少乱写、能维护。
 
-它不是角色系统，也不是组织管理。它只定义 AI 管理本地知识库时必须遵守的四件事：
+这一层定义 AI 管理本地知识库时必须遵守的四件事：
 
 | 文件 | 作用 |
 |---|---|
@@ -31,7 +31,7 @@ status: active
 
 This layer answers one question: after AI enters the vault, how does it avoid guessing, write safely, and keep the knowledge base maintainable?
 
-It is not a role system or an organization chart. It defines four rules AI must follow when maintaining a local knowledge base:
+This layer defines four rules AI must follow when maintaining a local knowledge base:
 
 | File | Use |
 |---|---|

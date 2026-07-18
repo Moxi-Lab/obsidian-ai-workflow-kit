@@ -114,4 +114,4 @@ You should now have:
 - One audit report.
 - A clear instruction you can give to an AI agent.
 - A project bridge with `project_entry: true` that can appear in the full-mode project Base.
-- No role card or local task card for work that the current conversation can finish directly.
+- Work the current conversation can finish is executed directly without an extra local task card.

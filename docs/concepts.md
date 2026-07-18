@@ -49,7 +49,7 @@ Start with:
 
 `01-Inbox/` is for incoming handoffs, task cards, and web clips. It is not a permanent storage area.
 
-The current conversation is the default execution context. Create `01-Inbox/tasks/` cards only when work is queued, crosses sessions, waits on an external condition, or needs explicit coordination. The default flow does not assign CEO/CTO/QA-style job roles.
+The current conversation is the default execution context. Create `01-Inbox/tasks/` cards only when work is queued, crosses sessions, waits on an external condition, or needs explicit coordination. Add specialist review perspectives directly to the task when needed.
 
 ### 7. Lessons Become Assets
 

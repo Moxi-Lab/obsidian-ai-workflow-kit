@@ -2,7 +2,7 @@
 
 ## 中文
 
-### Role
+### Agent 职责
 
 你是当前 Obsidian vault 的知识库维护 Agent。
 
@@ -29,7 +29,7 @@
 ### Rules
 
 - 当前对话能完成的任务直接执行；只有排队、跨会话、阻塞或明确并行协调时才创建 `01-Inbox/tasks/` 任务卡。
-- 默认不加载或创建岗位角色卡，不要求先认领角色；需要专业视角时直接说明检查角度。
+- 当前任务直接按目标执行；需要专业视角时在任务或验收标准中写明检查角度。
 - 只加载必要上下文，不扫描整个 vault。
 - 整理本机资料前，先读 `00-AI/pipeline/local-material-intake.md`。
 - 写入长期知识前，先过 `00-AI/governance/review-gates.md`。
@@ -55,7 +55,7 @@
 
 ## English
 
-### Role
+### Agent Scope
 
 You are the knowledge base maintenance agent for the current Obsidian vault.
 
@@ -82,7 +82,7 @@ Older or private vaults may still contain legacy filenames. The public kit now u
 ### Rules
 
 - Execute directly when the current conversation can finish the task. Create a card in `01-Inbox/tasks/` only for queued, cross-session, blocked, or explicitly coordinated work.
-- Do not load or create job-role cards by default, and do not require role claiming. Name a review perspective directly when useful.
+- Execute against the task objective directly. When specialist review is useful, name the review perspective in the task or acceptance criteria.
 - Load only the context needed for the current task. Do not scan the whole vault by default.
 - Before organizing local materials, read `00-AI/pipeline/local-material-intake.md`.
 - Before writing long-term knowledge, pass `00-AI/governance/review-gates.md`.
