@@ -197,4 +197,4 @@ English 安装使用英文路径。中文安装会把核心 vault 路径本地�
 
 ## Version
 
-当前版本：`0.10.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.11.0`。见 [CHANGELOG.md](CHANGELOG.md)。

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.11.0 - 2026-07-18
+
+- Added root `AGENTS.md` and `CLAUDE.md` entry points so Codex and Claude can discover the same task-first vault rules immediately after download.
+- Added a user-owned experience layer that keeps generated lessons outside the managed shared-core modules.
+- Expanded project bridge cards with `priority`, `stage`, `last_verified`, and `next_action`, and added matching project views and health-check guards.
+- Made task cards and handoff cards explicitly conditional instead of automatic outputs for work completed in the current conversation.
+- Fixed recall documentation references and removed obsolete CI and stale-concept checks tied to retired organizational workflows.
+- Strengthened installer and regression coverage for shared-core ownership, localized user assets, project metadata, and private-path protection.
+
 ## 0.10.0 - 2026-07-18
 
 - Added a `shared-core` install and upgrade mode for established working vaults that need one managed source for reusable rules, templates, views, scripts, pipelines, recall maps, and knowledge standards.

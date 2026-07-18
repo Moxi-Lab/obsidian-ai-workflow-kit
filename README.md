@@ -208,4 +208,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.10.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.11.0`. See [CHANGELOG.md](CHANGELOG.md).
