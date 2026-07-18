@@ -41,7 +41,7 @@ Default behavior:
   - Does not overwrite unless --overwrite is passed.
   - In --update mode, only managed and unmodified kit files are updated.
   - Refuses to write into vaults protected by .obsidian-ai-workflow-kit/adoption-policy.json unless --allow-protected-adapter-write is passed.
-  - Installs the minimal starter template by default. Advanced users may still pass --mode full.
+  - Installs the minimal starter template by default. Use --mode shared-core for an established managed vault.
   - Uses --language en unless --language zh-CN is passed.
 USAGE
 }
@@ -76,8 +76,8 @@ while [[ $# -gt 0 ]]; do
         echo "missing value for --mode" >&2
         exit 2
       fi
-      if [[ "$2" != "full" && "$2" != "barebone" ]]; then
-        echo "mode must be full or barebone" >&2
+      if [[ "$2" != "full" && "$2" != "barebone" && "$2" != "shared-core" ]]; then
+        echo "mode must be full, barebone, or shared-core" >&2
         exit 2
       fi
       MODE="$2"

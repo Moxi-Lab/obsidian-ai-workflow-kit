@@ -20,7 +20,7 @@ links: []
 
 ## 我做了什么（What changed）
 
-- 
+- {{change_summary}}
 
 ## 下一步（Next action）
 
@@ -28,4 +28,4 @@ links: []
 
 ## 关键链接（Links）
 
-- 
+- {{link}}

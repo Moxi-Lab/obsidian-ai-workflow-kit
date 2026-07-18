@@ -2,7 +2,7 @@
 
 This path is for a new user who wants to see value quickly without rebuilding an existing vault.
 
-For a brand-new vault, the fastest route is to download the `en-full` Release archive, unzip it, open the folder as a vault, and read `START.md`. The steps below exercise the installer against an empty test folder and remain the recommended path for adding the kit to an existing vault.
+For a brand-new vault, use the managed installer against an empty folder; add `--mode full` when you want the complete starter structure. The steps below use the smaller default profile so you can verify the workflow before expanding it.
 
 ## 0. Start With A Test Vault
 

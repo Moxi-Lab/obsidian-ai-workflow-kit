@@ -103,6 +103,24 @@ BAREBONE_INSTALL_PATHS = [
     "00-AI/scripts/kb",
 ]
 
+# Reusable system files that may be managed inside an established working
+# vault. This profile deliberately excludes entry pages, Inbox, projects,
+# archives, examples, repository documentation, and root-level legal/version
+# files so a core upgrade cannot take ownership of private working content.
+SHARED_CORE_INSTALL_PATHS = [
+    "00-AI/AGENTS.md",
+    "00-AI/governance",
+    "00-AI/pipeline",
+    "00-AI/recall",
+    "00-AI/templates",
+    "00-AI/bases",
+    "00-AI/config",
+    "00-AI/scripts/README.md",
+    "00-AI/scripts/kb.py",
+    "00-AI/scripts/kb",
+    "20-SharedAssets/02-modules",
+]
+
 LEGACY_STATIC_RENAMES = {
     "20-SharedAssets/02-modules/AI知识库复利维护SOP-v1.md": "20-SharedAssets/02-modules/ai-vault-maintenance-sop-v1.md",
     "20-SharedAssets/02-modules/Codex项目经验资产化机制-v1.md": "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
@@ -309,7 +327,9 @@ def install_paths_for_mode(mode: str) -> list[str]:
         return FULL_INSTALL_PATHS
     if mode == "barebone":
         return BAREBONE_INSTALL_PATHS
-    raise SystemExit("mode must be full or barebone")
+    if mode == "shared-core":
+        return SHARED_CORE_INSTALL_PATHS
+    raise SystemExit("mode must be full, barebone, or shared-core")
 
 
 def required_paths_for_mode(mode: str, language: str | None = None) -> list[str]:
@@ -318,7 +338,9 @@ def required_paths_for_mode(mode: str, language: str | None = None) -> list[str]
         return [language_target_path(selected_language, path).as_posix() for path in CORE_PATHS]
     if mode == "barebone":
         return [language_target_path(selected_language, path).as_posix() for path in BAREBONE_INSTALL_PATHS]
-    raise SystemExit("mode must be full or barebone")
+    if mode == "shared-core":
+        return [language_target_path(selected_language, path).as_posix() for path in SHARED_CORE_INSTALL_PATHS]
+    raise SystemExit("mode must be full, barebone, or shared-core")
 
 
 def validate_language(language: str | None) -> str:

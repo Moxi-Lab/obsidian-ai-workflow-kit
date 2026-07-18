@@ -72,4 +72,3 @@ If the project bridge card is stale, the AI agent should tell the user before do
 - the bridge card `updated` field
 - the current state section
 - the next startup action
-

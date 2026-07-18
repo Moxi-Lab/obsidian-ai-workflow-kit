@@ -249,18 +249,3 @@ python3 00-AI/scripts/kb.py audit-vault --write-report
 ```
 
 Checks core entry points, stale concepts, Markdown links, Inbox files, and project directories without bridge cards. `--write-report` writes a report under `20-SharedAssets/05-audit-reports/`.
-
-## Build Downloadable Release Vaults
-
-```bash
-python3 00-AI/scripts/kb.py build-release --output dist
-```
-
-Builds and health-checks four archives:
-
-- English barebone
-- English full
-- Chinese barebone
-- Chinese full
-
-Full archives include only safe per-vault Obsidian settings: the built-in Bases and Templates core plugins are enabled, the template folder is configured, and the community plugin list is empty.

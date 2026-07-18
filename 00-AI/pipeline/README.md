@@ -23,4 +23,3 @@ status: active
 - `local-material-intake.md`
 - `source-to-knowledge-workflow.md`
 - `00-AI/recall/task-to-context-map.md`
-

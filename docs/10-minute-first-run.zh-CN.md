@@ -2,7 +2,7 @@
 
 这条路径适合新用户快速看到价值，不需要重建自己的完整 vault。
 
-新建 Vault 时，最快方式是下载 `zh-CN-full` Release 压缩包，解压后直接作为 Vault 打开并阅读 `START.md`。下面的步骤用于验证空测试目录安装，也适合把 kit 加入已有 Vault。
+新建 Vault 时，直接用 managed installer 安装到空目录；需要完整 starter 结构时再加 `--mode full`。下面先用更小的默认模式验证工作流，再决定是否扩展。
 
 ## 0. 先用测试 vault
 

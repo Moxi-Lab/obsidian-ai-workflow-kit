@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.10.0 - 2026-07-18
+
+- Added a `shared-core` install and upgrade mode for established working vaults that need one managed source for reusable rules, templates, views, scripts, pipelines, recall maps, and knowledge standards.
+- Excluded startup entries, Inbox, projects, archives, examples, repository documentation, and root legal/version files from the shared-core ownership boundary.
+- Added `managed-core` adoption policies that allow only explicitly listed install modes, so a working vault can accept shared-core updates while still refusing `barebone` and `full` writes.
+- Added regression coverage for private-file preservation, Chinese target paths, write and dry-run policy enforcement, and idempotent shared-core upgrades.
+- Scoped shared-core health and audit checks to manifest-managed files and shared Base structure, leaving private working content to the vault's own health check.
+- Kept downloadable `v0.9.1` archives as historical snapshots and removed the custom customer ZIP builder from the active CLI; `v0.10.0` and later use repository source plus the managed installer.
+
 ## 0.9.1 - 2026-07-18
 
 - Reworded current customer guidance around direct task execution, specialist review perspectives, and task-owned routing so obsolete organizational terminology no longer dominates the product experience.

@@ -54,10 +54,29 @@ def load_adapter_policy(root: Path) -> dict | None:
 
 
 def enforce_adapter_write_policy(target_root: Path, args: argparse.Namespace) -> None:
-    if getattr(args, "dry_run", False) or getattr(args, "allow_protected_adapter_write", False):
+    if getattr(args, "allow_protected_adapter_write", False):
         return
     policy = load_adapter_policy(target_root)
     if not policy:
+        return
+    requested_mode = getattr(args, "mode", DEFAULT_INSTALL_MODE)
+    if policy.get("mode") == "managed-core":
+        allowed_modes = policy.get("allowed_install_modes", [])
+        if requested_mode not in allowed_modes:
+            allowed = ", ".join(allowed_modes) or "none"
+            raise SystemExit(
+                f"target vault only allows managed modes: {allowed}; "
+                f"refusing mode: {requested_mode}"
+            )
+        if getattr(args, "dry_run", False):
+            return
+        if policy.get("allow_public_kit_writes") is not True:
+            raise SystemExit(
+                "target vault managed-core policy does not allow public kit writes. "
+                "Use --dry-run for review."
+            )
+        return
+    if getattr(args, "dry_run", False):
         return
     if policy.get("mode") == "local-adapter" and policy.get("allow_public_kit_writes") is False:
         policy_rel = adapter_policy_path(target_root).relative_to(target_root).as_posix()
@@ -216,6 +235,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
         "created": 0,
         "updated": 0,
         "unchanged": 0,
+        "removed": 0,
         "skipped": 0,
         "conflicts": 0,
         "candidates": 0,
@@ -225,57 +245,84 @@ def upgrade_core(args: argparse.Namespace) -> int:
         print(f"would upgrade core files in {target_root}")
         print(f"language: {language}")
 
-    for rel in install_paths_for_mode(mode):
-        for source, relative in iter_install_files(source_root, rel, language):
-            target = target_root / relative
-            display = relative.as_posix()
-            source_hash = rendered_install_hash(source, language)
+    install_files = [
+        item
+        for rel in install_paths_for_mode(mode)
+        for item in iter_install_files(source_root, rel, language)
+    ]
+    desired_files = {relative.as_posix() for _source, relative in install_files}
 
-            if not target.exists():
-                summary["created"] += 1
-                if args.dry_run:
-                    print(f"would create {display}")
-                else:
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    write_rendered_install_file(source, target, language)
-                    record_managed_file(manifest, relative, source_hash)
-                    print(f"created {display}")
-                continue
+    for source, relative in install_files:
+        target = target_root / relative
+        display = relative.as_posix()
+        source_hash = rendered_install_hash(source, language)
 
-            target_hash = file_sha256(target)
-            if target_hash == source_hash:
-                summary["unchanged"] += 1
-                record_managed_file(manifest, relative, source_hash)
-                print(f"unchanged {display}")
-                continue
-
-            previous_hash = managed_files.get(display, {}).get("sha256")
-            can_update = args.overwrite or (previous_hash and target_hash == previous_hash)
-            if can_update:
-                summary["updated"] += 1
-                action = "overwrite" if args.overwrite and target_hash != previous_hash else "update"
-                if args.dry_run:
-                    print(f"would {action} {display}")
-                else:
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    write_rendered_install_file(source, target, language)
-                    record_managed_file(manifest, relative, source_hash)
-                    print(f"{action}d {display}")
-                continue
-
-            summary["conflicts"] += 1
-            reason = "modified" if previous_hash else "unmanaged"
-            print(f"skip {reason} {display}")
-            if args.conflict_copy:
-                candidate = target.with_name(f"{target.name}.kit-update-{stamp}")
-                summary["candidates"] += 1
-                if args.dry_run:
-                    print(f"would write candidate {candidate.relative_to(target_root).as_posix()}")
-                else:
-                    write_rendered_install_file(source, candidate, language)
-                    print(f"wrote candidate {candidate.relative_to(target_root).as_posix()}")
+        if not target.exists():
+            summary["created"] += 1
+            if args.dry_run:
+                print(f"would create {display}")
             else:
-                summary["skipped"] += 1
+                target.parent.mkdir(parents=True, exist_ok=True)
+                write_rendered_install_file(source, target, language)
+                record_managed_file(manifest, relative, source_hash)
+                print(f"created {display}")
+            continue
+
+        target_hash = file_sha256(target)
+        if target_hash == source_hash:
+            summary["unchanged"] += 1
+            record_managed_file(manifest, relative, source_hash)
+            print(f"unchanged {display}")
+            continue
+
+        previous_hash = managed_files.get(display, {}).get("sha256")
+        can_update = args.overwrite or (previous_hash and target_hash == previous_hash)
+        if can_update:
+            summary["updated"] += 1
+            action = "overwrite" if args.overwrite and target_hash != previous_hash else "update"
+            if args.dry_run:
+                print(f"would {action} {display}")
+            else:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                write_rendered_install_file(source, target, language)
+                record_managed_file(manifest, relative, source_hash)
+                print(f"{action}d {display}")
+            continue
+
+        summary["conflicts"] += 1
+        reason = "modified" if previous_hash else "unmanaged"
+        print(f"skip {reason} {display}")
+        if args.conflict_copy:
+            candidate = target.with_name(f"{target.name}.kit-update-{stamp}")
+            summary["candidates"] += 1
+            if args.dry_run:
+                print(f"would write candidate {candidate.relative_to(target_root).as_posix()}")
+            else:
+                write_rendered_install_file(source, candidate, language)
+                print(f"wrote candidate {candidate.relative_to(target_root).as_posix()}")
+        else:
+            summary["skipped"] += 1
+
+    if manifest.get("mode") == mode:
+        for display, metadata in list(managed_files.items()):
+            if display in desired_files:
+                continue
+            target = target_root / display
+            previous_hash = metadata.get("sha256") if isinstance(metadata, dict) else None
+            if not target.exists():
+                managed_files.pop(display, None)
+                continue
+            if previous_hash and file_sha256(target) == previous_hash:
+                summary["removed"] += 1
+                if args.dry_run:
+                    print(f"would remove retired {display}")
+                else:
+                    target.unlink()
+                    managed_files.pop(display, None)
+                    print(f"removed retired {display}")
+                continue
+            summary["conflicts"] += 1
+            print(f"preserve modified retired {display}")
 
     save_manifest(target_root, manifest, source_root, mode, args.dry_run, language)
     print(
@@ -283,6 +330,7 @@ def upgrade_core(args: argparse.Namespace) -> int:
         f"{summary['created']} created, "
         f"{summary['updated']} updated, "
         f"{summary['unchanged']} unchanged, "
+        f"{summary['removed']} removed, "
         f"{summary['conflicts']} conflicts, "
         f"{summary['candidates']} candidates, "
         f"{summary['skipped']} skipped"

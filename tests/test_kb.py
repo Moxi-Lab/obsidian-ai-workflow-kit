@@ -4,7 +4,6 @@ import io
 import json
 import tempfile
 import unittest
-import zipfile
 from contextlib import redirect_stdout
 from pathlib import Path
 
@@ -123,6 +122,304 @@ class CorePathTests(unittest.TestCase):
 
 
 class InstallModeTests(unittest.TestCase):
+    def test_shared_core_paths_exclude_working_vault_content(self):
+        paths = kb.install_paths_for_mode("shared-core")
+
+        self.assertIn("00-AI/AGENTS.md", paths)
+        self.assertIn("00-AI/governance", paths)
+        self.assertIn("00-AI/templates", paths)
+        self.assertIn("00-AI/scripts/kb", paths)
+        self.assertIn("20-SharedAssets/02-modules", paths)
+        for forbidden in (
+            "00-AI/START-HERE.md",
+            "01-Inbox",
+            "10-Projects",
+            "40-ExternalSources",
+            "README.md",
+            "LICENSE",
+            "VERSION",
+            "docs",
+            "examples",
+        ):
+            self.assertNotIn(forbidden, paths)
+
+    def test_shared_core_install_manages_only_reusable_system_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            private_note = target / "10-项目Projects" / "private" / "current-state.md"
+            private_note.parent.mkdir(parents=True)
+            private_note.write_text("PRIVATE SENTINEL\n", encoding="utf-8")
+            args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+
+            kb.install_core(args)
+
+            self.assertEqual(private_note.read_text(encoding="utf-8"), "PRIVATE SENTINEL\n")
+            self.assertTrue((target / "90-系统" / "AI协作规则.md").exists())
+            self.assertTrue((target / "90-系统" / "规则" / "写回规则.md").exists())
+            self.assertTrue((target / "90-系统" / "模板" / "TPL-项目桥接卡.md").exists())
+            self.assertTrue((target / "90-系统" / "脚本" / "kb.py").exists())
+            self.assertTrue((target / "20-资料" / "处理流程" / "本机资料进入流程.md").exists())
+            self.assertTrue((target / "30-经验资产" / "02-通用模块" / "元数据最小标准-v1.md").exists())
+            self.assertFalse((target / "00-入口" / "开始这里.md").exists())
+            self.assertFalse((target / "01-收件箱").exists())
+            self.assertFalse((target / "10-项目").exists())
+            self.assertFalse((target / "LICENSE").exists())
+            self.assertFalse((target / "VERSION").exists())
+            manifest = kb.load_manifest(target)
+            self.assertEqual(manifest["mode"], "shared-core")
+            self.assertEqual(manifest["language"], "zh-CN")
+
+    def test_managed_core_policy_refuses_non_shared_install(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            args = argparse.Namespace(
+                target=str(target),
+                mode="barebone",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+
+            with self.assertRaises(SystemExit):
+                kb.install_core(args)
+
+            self.assertFalse((target / "00-入口" / "开始这里.md").exists())
+
+    def test_managed_core_policy_refuses_non_shared_dry_runs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            for mode in ("barebone", "full"):
+                args = argparse.Namespace(
+                    target=str(target),
+                    mode=mode,
+                    language="zh-CN",
+                    dry_run=True,
+                    overwrite=False,
+                    allow_protected_adapter_write=False,
+                )
+                with self.subTest(mode=mode), self.assertRaises(SystemExit):
+                    kb.install_core(args)
+
+    def test_shared_core_upgrade_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+            kb.install_core(install_args)
+            managed = target / "90-系统" / "规则" / "写回规则.md"
+            before = kb.file_sha256(managed)
+            output = io.StringIO()
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language=None,
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+                allow_protected_adapter_write=False,
+            )
+
+            with redirect_stdout(output):
+                kb.upgrade_core(upgrade_args)
+
+            self.assertEqual(kb.file_sha256(managed), before)
+            self.assertIn("0 updated", output.getvalue())
+            self.assertIn("0 conflicts", output.getvalue())
+
+    def test_shared_core_upgrade_removes_only_unmodified_retired_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+            with redirect_stdout(io.StringIO()):
+                kb.install_core(install_args)
+
+            retired = target / "90-系统" / "脚本" / "kb" / "retired.py"
+            retired.write_text("retired\n", encoding="utf-8")
+            manifest = kb.load_manifest(target)
+            retired_key = retired.relative_to(target).as_posix()
+            manifest["files"][retired_key] = {"sha256": kb.file_sha256(retired)}
+            kb.save_manifest(target, manifest, ROOT, "shared-core", False, "zh-CN")
+
+            upgrade_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language=None,
+                dry_run=False,
+                overwrite=False,
+                conflict_copy=False,
+                allow_protected_adapter_write=False,
+            )
+            output = io.StringIO()
+            with redirect_stdout(output):
+                kb.upgrade_core(upgrade_args)
+
+            self.assertFalse(retired.exists())
+            self.assertNotIn(retired_key, kb.load_manifest(target)["files"])
+            self.assertIn("1 removed", output.getvalue())
+
+    def test_shared_core_health_checks_only_managed_core(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+            with redirect_stdout(io.StringIO()):
+                kb.install_core(install_args)
+
+            private_note = target / "10-项目" / "私人项目" / "current-state.md"
+            private_note.parent.mkdir(parents=True)
+            private_note.write_text(
+                "---\ntype: project-bridge\nstatus: queued\n---\n"
+                "KB-MANIFEST [[MissingPrivateTarget]] /Users/private-owner/\n",
+                encoding="utf-8",
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                result = kb.health_check(argparse.Namespace(vault=str(target), mode=None))
+            report, issue_count = kb.build_audit_report(target)
+
+            self.assertEqual(result, 0)
+            self.assertEqual(issue_count, 0)
+            self.assertIn("PASS managed manifest", output.getvalue())
+            self.assertNotIn("stale concepts", output.getvalue())
+            self.assertNotIn("wikilinks", output.getvalue())
+            self.assertNotIn("## Inbox files", report)
+
+    def test_shared_core_health_reports_managed_file_drift(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "vault"
+            policy_dir = target / ".obsidian-ai-workflow-kit"
+            policy_dir.mkdir(parents=True)
+            (policy_dir / "adoption-policy.json").write_text(
+                json.dumps(
+                    {
+                        "mode": "managed-core",
+                        "allow_public_kit_writes": True,
+                        "allowed_install_modes": ["shared-core"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            install_args = argparse.Namespace(
+                target=str(target),
+                mode="shared-core",
+                language="zh-CN",
+                dry_run=False,
+                overwrite=False,
+                allow_protected_adapter_write=False,
+            )
+            with redirect_stdout(io.StringIO()):
+                kb.install_core(install_args)
+            managed = target / "90-系统" / "规则" / "写回规则.md"
+            managed.write_text(managed.read_text(encoding="utf-8") + "\nlocal drift\n", encoding="utf-8")
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                result = kb.health_check(argparse.Namespace(vault=str(target), mode=None))
+
+            self.assertEqual(result, 1)
+            self.assertIn("managed file hash mismatch", output.getvalue())
+
     def test_barebone_install_paths_are_minimal(self):
         self.assertEqual(
             kb.install_paths_for_mode("barebone"),
@@ -894,35 +1191,6 @@ class HealthContractTests(unittest.TestCase):
 
             self.assertTrue(any("local task missing metadata" in error for error in errors))
             self.assertTrue(any("missing captured date" in error for error in errors))
-
-
-class ReleaseBundleTests(unittest.TestCase):
-    def test_build_release_creates_openable_chinese_full_vault(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            output = Path(tmp) / "dist"
-
-            kb.build_release(
-                argparse.Namespace(output=str(output), language="zh-CN", mode="full")
-            )
-
-            version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
-            archive = output / f"obsidian-ai-workflow-kit-v{version}-zh-CN-full.zip"
-            self.assertTrue(archive.exists())
-            with zipfile.ZipFile(archive) as bundle:
-                names = set(bundle.namelist())
-            root = f"obsidian-ai-workflow-kit-v{version}-zh-CN-full"
-            self.assertIn(f"{root}/00-入口/开始这里.md", names)
-            self.assertIn(f"{root}/90-系统/视图/项目总览.base", names)
-            self.assertIn(f"{root}/.obsidian/core-plugins.json", names)
-            self.assertIn(f"{root}/.obsidian/community-plugins.json", names)
-            with zipfile.ZipFile(archive) as bundle:
-                project_base = bundle.read(f"{root}/90-系统/视图/项目总览.base").decode("utf-8")
-                task_base = bundle.read(f"{root}/90-系统/视图/任务总览.base").decode("utf-8")
-                source_base = bundle.read(f"{root}/90-系统/视图/资料总览.base").decode("utf-8")
-            self.assertIn('file.inFolder("10-项目")', project_base)
-            self.assertIn('file.inFolder("01-收件箱/任务")', task_base)
-            self.assertIn('file.inFolder("20-资料")', source_base)
-            self.assertNotIn("10-Projects", project_base)
 
 
 class FolderIntakeTests(unittest.TestCase):

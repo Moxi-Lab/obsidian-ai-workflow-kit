@@ -110,4 +110,3 @@ def read_frontmatter_value(path: Path, key: str) -> str | None:
         if line.startswith(f"{key}:"):
             return line.split(":", 1)[1].strip().strip('"').strip("'")
     return None
-

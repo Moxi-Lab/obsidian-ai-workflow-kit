@@ -8,7 +8,6 @@ from .install import install_core, upgrade_core
 from .intake import intake_folder, intake_source
 from .migrate import migrate_ai_layout, migrate_codex_names, migrate_v09
 from .project import new_project
-from .release import build_release
 from .config import DEFAULT_INSTALL_MODE, VALID_LANGUAGES
 
 def build_parser() -> argparse.ArgumentParser:
@@ -18,7 +17,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     health = subparsers.add_parser("health-check", help="Run repository checks")
     health.add_argument("--vault", help="Vault root. Defaults to current directory.")
-    health.add_argument("--mode", choices=["full", "barebone"], help="Required path set to check. Defaults to the installed kit mode.")
+    health.add_argument("--mode", choices=["full", "barebone", "shared-core"], help="Required path set to check. Defaults to the installed kit mode.")
     health.set_defaults(func=health_check)
 
     new = subparsers.add_parser("new-project", help="Create a project workspace")
@@ -85,7 +84,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     install = subparsers.add_parser("install-core", help="Install the kit into another Obsidian vault")
     install.add_argument("target", help="Target Obsidian vault directory")
-    install.add_argument("--mode", choices=["full", "barebone"], default=DEFAULT_INSTALL_MODE, help="Install full kit or minimal barebone kit")
+    install.add_argument("--mode", choices=["full", "barebone", "shared-core"], default=DEFAULT_INSTALL_MODE, help="Install full kit, minimal barebone kit, or reusable shared core")
     install.add_argument("--language", choices=VALID_LANGUAGES, help="Language for user-facing starter files")
     install.add_argument("--overwrite", action="store_true", help="Overwrite existing files")
     install.add_argument(
@@ -98,7 +97,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     upgrade = subparsers.add_parser("upgrade-core", help="Upgrade managed kit files in an installed vault")
     upgrade.add_argument("target", help="Target Obsidian vault directory")
-    upgrade.add_argument("--mode", choices=["full", "barebone"], default=DEFAULT_INSTALL_MODE, help="Upgrade full kit or minimal barebone kit")
+    upgrade.add_argument("--mode", choices=["full", "barebone", "shared-core"], default=DEFAULT_INSTALL_MODE, help="Upgrade full kit, minimal barebone kit, or reusable shared core")
     upgrade.add_argument("--language", choices=VALID_LANGUAGES, help="Language for user-facing starter files")
     upgrade.add_argument("--overwrite", action="store_true", help="Overwrite modified or unmanaged files")
     upgrade.add_argument("--conflict-copy", action="store_true", help="Write new versions beside conflicted files")
@@ -109,12 +108,6 @@ def build_parser() -> argparse.ArgumentParser:
     )
     upgrade.add_argument("--dry-run", action="store_true", help="Print actions without writing files")
     upgrade.set_defaults(func=upgrade_core)
-
-    release = subparsers.add_parser("build-release", help="Build verified downloadable vault archives")
-    release.add_argument("--output", default="dist", help="Directory for generated zip archives")
-    release.add_argument("--language", choices=["all", *VALID_LANGUAGES], default="all")
-    release.add_argument("--mode", choices=["all", "full", "barebone"], default="all")
-    release.set_defaults(func=build_release)
 
     return parser
 

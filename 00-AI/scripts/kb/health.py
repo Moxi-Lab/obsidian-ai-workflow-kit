@@ -14,6 +14,7 @@ from .config import (
     LOCAL_TASK_REQUIRED_FIELDS,
     MANIFEST_DIR,
     MANIFEST_FILE,
+    MANIFEST_SCHEMA,
     PROJECT_ENTRY_ALL_STATUSES,
     PROJECT_ENTRY_CURRENT_STATUSES,
     PROJECT_ENTRY_REQUIRED_FIELDS,
@@ -25,7 +26,7 @@ from .config import (
     required_paths_for_mode,
     validate_language,
 )
-from .utils import has_chinese, iter_markdown_files, read_frontmatter_value, vault_root
+from .utils import file_sha256, has_chinese, iter_markdown_files, read_frontmatter_value, vault_root
 
 
 WIKILINK_PATTERN = re.compile(r"!?(?<!\\)\[\[([^\[\]\n]+)\]\]")
@@ -80,7 +81,7 @@ def detect_vault_mode(root: Path) -> str:
     if not isinstance(manifest, dict):
         return "full"
     mode = manifest.get("mode")
-    if mode in {"full", "barebone"}:
+    if mode in {"full", "barebone", "shared-core"}:
         return mode
     return "full"
 
@@ -91,6 +92,74 @@ def check_required_paths(root: Path, mode: str = "full", language: str | None = 
     for rel in required_paths_for_mode(mode, selected_language):
         if not (root / rel).exists():
             errors.append(f"missing required path: {rel}")
+    return errors
+
+
+def check_managed_manifest(root: Path, expected_mode: str | None = None) -> list[str]:
+    path = root / MANIFEST_DIR / MANIFEST_FILE
+    if not path.exists():
+        return [f"missing managed manifest: {MANIFEST_DIR}/{MANIFEST_FILE}"]
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [f"invalid managed manifest JSON: {exc}"]
+    if not isinstance(manifest, dict):
+        return ["managed manifest must be a JSON object"]
+
+    errors: list[str] = []
+    if manifest.get("schema") != MANIFEST_SCHEMA:
+        errors.append(
+            f"managed manifest schema mismatch: {manifest.get('schema') or '-'}; "
+            f"expected={MANIFEST_SCHEMA}"
+        )
+    if manifest.get("kit") != "obsidian-ai-workflow-kit":
+        errors.append(f"unexpected managed manifest kit: {manifest.get('kit') or '-'}")
+    mode = manifest.get("mode")
+    if expected_mode and mode != expected_mode:
+        errors.append(f"managed manifest mode mismatch: {mode or '-'}; expected={expected_mode}")
+    try:
+        language = validate_language(manifest.get("language"))
+    except SystemExit:
+        errors.append(f"unsupported managed manifest language: {manifest.get('language') or '-'}")
+        language = DEFAULT_LANGUAGE
+
+    files = manifest.get("files")
+    if not isinstance(files, dict) or not files:
+        errors.append("managed manifest files must be a non-empty object")
+        return errors
+
+    allowed_roots: list[str] = []
+    if expected_mode:
+        allowed_roots = required_paths_for_mode(expected_mode, language)
+    root_resolved = root.resolve()
+    for rel, record in sorted(files.items()):
+        if not isinstance(rel, str) or not rel:
+            errors.append("managed manifest contains an invalid file path")
+            continue
+        relative = Path(rel)
+        target = (root / relative).resolve()
+        try:
+            target.relative_to(root_resolved)
+        except ValueError:
+            errors.append(f"managed file escapes vault: {rel}")
+            continue
+        if allowed_roots and not any(
+            rel == allowed or rel.startswith(f"{allowed}/") for allowed in allowed_roots
+        ):
+            errors.append(f"managed file is outside {expected_mode} scope: {rel}")
+        if not isinstance(record, dict) or not isinstance(record.get("sha256"), str):
+            errors.append(f"managed file has no recorded sha256: {rel}")
+            continue
+        if not target.is_file():
+            errors.append(f"managed file is missing: {rel}")
+            continue
+        expected_hash = record["sha256"]
+        actual_hash = file_sha256(target)
+        if actual_hash != expected_hash:
+            errors.append(
+                f"managed file hash mismatch: {rel}; "
+                f"expected={expected_hash} actual={actual_hash}"
+            )
     return errors
 
 
@@ -240,7 +309,7 @@ def check_typed_statuses(root: Path) -> list[str]:
 
 
 def check_base_files(root: Path, mode: str, language: str) -> list[str]:
-    if mode != "full":
+    if mode not in {"full", "shared-core"}:
         return []
     errors: list[str] = []
     project_folder = language_target_path(language, "10-Projects").as_posix()
@@ -276,6 +345,29 @@ def check_base_files(root: Path, mode: str, language: str) -> list[str]:
             if marker not in text:
                 errors.append(f"Base contract missing in {rel.as_posix()}: {marker}")
     return errors
+
+
+def health_checks_for_mode(root: Path, mode: str, language: str) -> list[tuple[str, list[str]]]:
+    if mode == "shared-core":
+        return [
+            ("required paths", check_required_paths(root, mode, language)),
+            ("managed manifest", check_managed_manifest(root, expected_mode=mode)),
+            ("Base files", check_base_files(root, mode, language)),
+        ]
+    checks = [
+        ("required paths", check_required_paths(root, mode, language)),
+        ("stale concepts", check_stale_patterns(root)),
+        ("markdown links", check_markdown_links(root)),
+        ("wikilinks", check_wikilinks(root)),
+        ("typed status", check_typed_statuses(root)),
+        ("Base files", check_base_files(root, mode, language)),
+        ("Base dependency metadata", check_base_dependency_metadata(root, language)),
+    ]
+    if not (root / MANIFEST_DIR / MANIFEST_FILE).exists():
+        checks.append(("private user paths", check_private_user_paths(root)))
+    if mode == "full" and language == "en":
+        checks.append(("english README", check_english_readme(root)))
+    return checks
 
 
 def check_base_dependency_metadata(root: Path, language: str) -> list[str]:
@@ -357,19 +449,7 @@ def health_check(args: argparse.Namespace) -> int:
     root = vault_root(args.vault)
     mode = getattr(args, "mode", None) or detect_vault_mode(root)
     language = detect_vault_language(root)
-    checks = [
-        ("required paths", check_required_paths(root, mode, language)),
-        ("stale concepts", check_stale_patterns(root)),
-        ("markdown links", check_markdown_links(root)),
-        ("wikilinks", check_wikilinks(root)),
-        ("typed status", check_typed_statuses(root)),
-        ("Base files", check_base_files(root, mode, language)),
-        ("Base dependency metadata", check_base_dependency_metadata(root, language)),
-    ]
-    if not (root / MANIFEST_DIR / MANIFEST_FILE).exists():
-        checks.append(("private user paths", check_private_user_paths(root)))
-    if mode == "full" and language == "en":
-        checks.append(("english README", check_english_readme(root)))
+    checks = health_checks_for_mode(root, mode, language)
 
     failed = False
     for name, errors in checks:
@@ -520,21 +600,13 @@ def build_audit_report(root: Path, mode: str | None = None) -> tuple[str, int]:
     today = dt.date.today().isoformat()
     selected_mode = mode or detect_vault_mode(root)
     language = detect_vault_language(root)
-    checks = [
-        ("required paths", check_required_paths(root, selected_mode, language)),
-        ("stale concepts", check_stale_patterns(root)),
-        ("markdown links", check_markdown_links(root)),
-        ("wikilinks", check_wikilinks(root)),
-        ("typed status", check_typed_statuses(root)),
-        ("Base files", check_base_files(root, selected_mode, language)),
-        ("Base dependency metadata", check_base_dependency_metadata(root, language)),
-    ]
-    if not (root / MANIFEST_DIR / MANIFEST_FILE).exists():
-        checks.append(("private user paths", check_private_user_paths(root)))
-    if selected_mode == "full" and language == "en":
-        checks.append(("english README", check_english_readme(root)))
-    inbox_counts = count_inbox_files(root, language)
-    missing_bridges = project_dirs_without_bridge(root, language)
+    checks = health_checks_for_mode(root, selected_mode, language)
+    if selected_mode == "shared-core":
+        inbox_counts = {}
+        missing_bridges = []
+    else:
+        inbox_counts = count_inbox_files(root, language)
+        missing_bridges = project_dirs_without_bridge(root, language)
     issue_count = sum(len(errors) for _, errors in checks)
     issue_count += sum(inbox_counts.values())
     issue_count += len(missing_bridges)
@@ -563,26 +635,41 @@ def build_audit_report(root: Path, mode: str | None = None) -> tuple[str, int]:
         else:
             lines.append(f"- PASS {name}")
 
-    lines.extend(["", "## Inbox files", ""])
-    for rel, count in inbox_counts.items():
-        lines.append(f"- `{rel}`: {count}")
-
-    lines.extend(["", "## Project directories without bridge", ""])
-    if missing_bridges:
-        lines.extend(f"- `{name}`" for name in missing_bridges)
+    if selected_mode == "shared-core":
+        lines.extend(
+            [
+                "",
+                "## Scope",
+                "",
+                "This audit covers only manifest-managed shared-core files. Private projects, Inbox, archives, and local extensions are outside this report.",
+                "",
+                "## Recommended Next Action",
+                "",
+                "1. If a managed hash differs, review local drift before running `upgrade-core`.",
+                "2. Run the vault's own local health check for private working content.",
+            ]
+        )
     else:
-        lines.append("- None")
+        lines.extend(["", "## Inbox files", ""])
+        for rel, count in inbox_counts.items():
+            lines.append(f"- `{rel}`: {count}")
 
-    lines.extend(
-        [
-            "",
-            "## Recommended Next Action",
-            "",
-            "1. Clear Inbox files that no longer need handoff.",
-            "2. Add bridge cards for long-lived project directories.",
-            "3. Run `health-check` after changes.",
-        ]
-    )
+        lines.extend(["", "## Project directories without bridge", ""])
+        if missing_bridges:
+            lines.extend(f"- `{name}`" for name in missing_bridges)
+        else:
+            lines.append("- None")
+
+        lines.extend(
+            [
+                "",
+                "## Recommended Next Action",
+                "",
+                "1. Clear Inbox files that no longer need handoff.",
+                "2. Add bridge cards for long-lived project directories.",
+                "3. Run `health-check` after changes.",
+            ]
+        )
     return "\n".join(lines) + "\n", issue_count
 
 

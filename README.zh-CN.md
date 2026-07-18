@@ -16,18 +16,7 @@
 
 ## 快速开始
 
-### 下载后直接使用
-
-新建知识库或交付客户时，推荐从 [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases) 下载完整包：
-
-- `obsidian-ai-workflow-kit-v0.9.1-zh-CN-full.zip`
-- `obsidian-ai-workflow-kit-v0.9.1-en-full.zip`
-
-解压后，在 Obsidian 中选择“打开文件夹作为仓库”，再打开根目录的 `START.md`。Full 包已经包含安全的 Vault 配置、启用 Obsidian 自带的 Bases，不安装任何社区插件。
-
-只有在已有 Vault 中添加最小底座时，才选择 `barebone` 压缩包。
-
-### 安装到已有 vault
+### 新建或安装到已有 vault
 
 推荐第一步：先把最小层安装进你自己的 vault。
 
@@ -74,6 +63,21 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 更新时会读取本地 manifest，只替换仍然保持原样的 kit 文件，不静默覆盖你改过的内容。
 
+`v0.9.1` 下载包仅保留为历史快照。从 `v0.10.0` 起，后续维护只使用仓库源码和 managed installer，不再构建定制客户 ZIP 包。
+
+### 让长期使用的本地主库保持同步
+
+如果 Vault 已有自己的入口、项目、Inbox、归档和私人上下文，使用受限的 `shared-core` 模式。它只管理通用系统文件，不接管工作内容。
+
+在公开仓库本地 clone 中先预览，再执行：
+
+```bash
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/working-vault" --mode shared-core --language zh-CN --dry-run
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/working-vault" --mode shared-core --language zh-CN
+```
+
+目标 Vault 必须在 `.obsidian-ai-workflow-kit/adoption-policy.json` 中明确只允许 `shared-core`。详细边界见 [Source Sync Policy](docs/release/source-sync-policy.md)。
+
 ### 30 秒演示
 
 安装到自己的 vault 前，可以先看只读演示：
@@ -118,12 +122,13 @@ AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任�
 
 ## 安装范围
 
-默认安装最小启动模板。进阶用户仍然可以传 `--mode full`。
+默认安装最小启动模板。进阶用户可以传 `--mode full`，长期工作库则使用受限的 `--mode shared-core`。
 
 | 模式 | 适合场景 | 会安装什么 |
 |---|---|---|
 | `barebone` | 给已有 vault 加一个最小入口 | 开工入口、核心工作目录、治理规则、项目登记、模板、`90-系统/脚本/kb.py` |
-| `full` | 新建 starter vault 或客户交付 | 全部工作流目录、示例、文档、模板、脚本和 Bases 动态视图 |
+| `full` | 新建完整 starter vault | 全部工作流目录、示例、文档、模板、脚本和 Bases 动态视图 |
+| `shared-core` | 让长期工作库跟随公开核心 | 通用规则、资料流程、召回、模板、Bases、脚本和标准；不包含入口、项目、Inbox、归档和根目录文件 |
 
 如果你不想用远程 `curl` 安装，可以本地克隆后运行：
 
@@ -192,4 +197,4 @@ English 安装使用英文路径。中文安装会把核心 vault 路径本地�
 
 ## Version
 
-当前版本：`0.9.1`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.10.0`。见 [CHANGELOG.md](CHANGELOG.md)。

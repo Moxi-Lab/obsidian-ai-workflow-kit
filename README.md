@@ -16,18 +16,7 @@ Instead of asking AI to search the whole vault, it uses task routing plus recall
 
 ## Start Fast
 
-### Download A Ready-To-Use Vault
-
-For a new vault or customer delivery, download a `full` archive from [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases):
-
-- `obsidian-ai-workflow-kit-v0.9.1-en-full.zip`
-- `obsidian-ai-workflow-kit-v0.9.1-zh-CN-full.zip`
-
-Unzip it, choose **Open folder as vault** in Obsidian, and open `START.md`. The full package already contains safe vault settings, enables the built-in Bases plugin, and installs no community plugins.
-
-Use a `barebone` archive only when you want the smallest foundation without examples, documentation, or Bases dashboards.
-
-### Existing Vault
+### New Or Existing Vault
 
 Recommended first step: install the minimal layer into your own vault.
 
@@ -82,6 +71,21 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 
 Updates use a local manifest to replace only managed kit files that you have not edited.
 
+The downloadable `v0.9.1` archives remain historical snapshots. Starting with `v0.10.0`, ongoing maintenance uses repository source plus the managed installer, and the project no longer builds custom customer ZIP packages.
+
+### Keep An Established Working Vault In Sync
+
+Use `shared-core` when the vault already has its own entry, projects, Inbox, archives, and private context. This mode manages only reusable system files and excludes working content.
+
+From a local clone of this repository, preview and then apply:
+
+```bash
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/working-vault" --mode shared-core --language zh-CN --dry-run
+python3 00-AI/scripts/kb.py upgrade-core "/path/to/working-vault" --mode shared-core --language zh-CN
+```
+
+The target vault must explicitly allow only `shared-core` in `.obsidian-ai-workflow-kit/adoption-policy.json`. See [Source Sync Policy](docs/release/source-sync-policy.md).
+
 ### 30-Second Demo
 
 Try the read-only demo before installing anything:
@@ -126,12 +130,13 @@ The agent should not scan your whole vault by default. It should read the startu
 
 ## Install Scope
 
-The default install is the minimal starter template. Advanced users can still pass `--mode full`.
+The default install is the minimal starter template. Advanced users can pass `--mode full` or the restricted `--mode shared-core` profile.
 
 | Mode | Best for | What it installs |
 |---|---|---|
 | `barebone` | First step inside an existing vault | startup entry, core workflow folders, governance, project registry, templates, `00-AI/scripts/kb.py` |
-| `full` | New starter vault or customer delivery | all workflow folders, examples, docs, templates, scripts, and built-in Bases views |
+| `full` | New complete starter vault | all workflow folders, examples, docs, templates, scripts, and built-in Bases views |
+| `shared-core` | Keep an established working vault aligned | reusable rules, pipeline, recall, templates, Bases, scripts, and standards; no entry, projects, Inbox, archives, or root files |
 
 Security-sensitive users can skip the remote `curl` form and run the installer from a local clone:
 
@@ -203,4 +208,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.9.1`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.10.0`. See [CHANGELOG.md](CHANGELOG.md).
