@@ -51,7 +51,7 @@ Launch Notes is a recurring writing project for turning product updates into cle
 | Article status | `current-state.md` |
 | Stable editorial decisions | `decisions.md` |
 | Temporary handoff | `01-Inbox/agent-handoffs/` |
-| Reusable writing lesson | `20-SharedAssets/02-modules/` |
+| Reusable writing lesson | `20-SharedAssets/01-user-assets/` |
 
 ## Reusable Lessons To Recall
 

@@ -50,7 +50,7 @@ After reading `00-AI/START-HERE.md`, the AI should route the material like this:
 | `draft-positioning.md` | possible decision | `10-Projects/product-launch/decisions.md` |
 | `onboarding-research.pdf` | source evidence | `40-ExternalSources/01-samples/` |
 | `todo-from-chat.md` | temporary task notes | project bridge next action or Inbox |
-| repeated lesson from the work | reusable asset | `20-SharedAssets/02-modules/` |
+| repeated lesson from the work | reusable asset | `20-SharedAssets/01-user-assets/` |
 
 ## After
 
@@ -65,7 +65,7 @@ After reading `00-AI/START-HERE.md`, the AI should route the material like this:
 └── 02-folder-intakes/product-launch-materials.md
 
 00-AI/recall/task-to-context-map.md
-20-SharedAssets/02-modules/<reusable-lesson>.md
+20-SharedAssets/01-user-assets/<reusable-lesson>.md
 ```
 
 Now a later AI session can start from the bridge card, read only the mapped context, and write updates back to the right place.

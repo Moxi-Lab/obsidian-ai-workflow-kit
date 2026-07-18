@@ -10,8 +10,14 @@ properties:
     displayName: Project
   pillar:
     displayName: Area
+  priority:
+    displayName: Priority
+  stage:
+    displayName: Stage
   status:
     displayName: Status
+  last_verified:
+    displayName: Last verified
   updated:
     displayName: Updated
   next_action:
@@ -29,7 +35,10 @@ views:
       - file.name
       - project
       - pillar
+      - priority
+      - stage
       - status
+      - last_verified
       - updated
       - next_action
     limit: 200
@@ -39,6 +48,9 @@ views:
       - file.name
       - project
       - pillar
+      - priority
+      - stage
       - status
+      - last_verified
       - updated
     limit: 500

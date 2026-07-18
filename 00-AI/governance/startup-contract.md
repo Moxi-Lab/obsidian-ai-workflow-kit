@@ -25,7 +25,7 @@ AI 每次开工先读 `00-AI/START-HERE.md`，再按任务类型读取最少上�
 |---|---|
 | 整理本机资料 | `00-AI/START-HERE.md`、`00-AI/pipeline/README.md`、`00-AI/pipeline/local-material-intake.md` |
 | 接手项目 | `00-AI/START-HERE.md`、项目桥接卡、`current-state.md`、`decisions.md` |
-| 资料整理 | `40-ExternalSources/README.md`、资料分析模板 |
+| 资料整理 | `00-AI/pipeline/README.md`、资料分析模板 |
 | 经验沉淀 | 经验资产化机制、问题知识卡模板 |
 | 维护知识库 | 巡检清单、召回地图、健康检查结果 |
 | 接续本地任务 | 对应任务卡、项目桥接卡、验收证据 |

@@ -10,8 +10,14 @@ properties:
     displayName: 项目
   pillar:
     displayName: 领域
+  priority:
+    displayName: 优先级
+  stage:
+    displayName: 阶段
   status:
     displayName: 状态
+  last_verified:
+    displayName: 最近核验
   updated:
     displayName: 更新日期
   next_action:
@@ -29,7 +35,10 @@ views:
       - file.name
       - project
       - pillar
+      - priority
+      - stage
       - status
+      - last_verified
       - updated
       - next_action
     limit: 200
@@ -39,6 +48,9 @@ views:
       - file.name
       - project
       - pillar
+      - priority
+      - stage
       - status
+      - last_verified
       - updated
     limit: 500

@@ -44,7 +44,7 @@ status: active
 |---|---|
 | 影响某个项目状态 | `10-Projects/<project>/current-state.md` |
 | 形成稳定项目决策 | `10-Projects/<project>/decisions.md` |
-| 可被多个项目复用 | 用 `00-AI/templates/TPL-question-knowledge-experience-asset-card.md` 新建卡片，或写入 `20-SharedAssets/02-modules/` |
+| 可被多个项目复用 | 用 `00-AI/templates/TPL-question-knowledge-experience-asset-card.md` 新建卡片，或写入 `20-SharedAssets/01-user-assets/` |
 | 以后任务开始前必须召回 | 更新对应项目桥接卡，或更新 `00-AI/recall/task-to-context-map.md` |
 
 只有升舱后的权威卡或共享资产才设置 `canonical: true`。

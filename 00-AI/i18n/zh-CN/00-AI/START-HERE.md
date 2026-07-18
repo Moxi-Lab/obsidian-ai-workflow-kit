@@ -46,7 +46,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 文档整理与分类建议 | `index.md`、`00-AI/pipeline/README.md`、`00-AI/pipeline/local-material-intake.md` |
 | 整理本机资料 | `00-AI/pipeline/README.md`、`00-AI/pipeline/local-material-intake.md` |
 | 接手项目 | `10-Projects/<项目>/BRIDGE-*.md` |
-| 整理外部资料 | `40-ExternalSources/README.md`、`00-AI/templates/TPL-source-analysis-card.md` |
+| 整理外部资料 | `00-AI/pipeline/README.md`、`00-AI/templates/TPL-source-analysis-card.md` |
 | 沉淀经验 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`00-AI/templates/TPL-question-knowledge-experience-asset-card.md` |
 | 复盘问题/事故 | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`、`00-AI/templates/TPL-incident-experience-card.md` |
 | 维护知识库 | `00-AI/governance/maintenance-loop.md`、`20-SharedAssets/02-modules/vault-health-checklist-v1.md` |
@@ -83,7 +83,7 @@ AI 读完本文件后，应先用下面格式回执，而不是立刻扫描整�
 | 排队、跨会话或阻塞任务 | `01-Inbox/tasks/` |
 | 外部资料分析 | `40-ExternalSources/01-samples/` 或对应主题目录 |
 | 项目状态 | 对应项目桥接卡 |
-| 复用经验 | `20-SharedAssets/02-modules/` |
+| 复用经验 | `20-SharedAssets/01-user-assets/` |
 | 问题/事故经验 | 复制 `00-AI/templates/TPL-incident-experience-card.md` 后写入对应项目或共享资产 |
 | 召回规则 | `00-AI/recall/` |
 | 标准模板 | `00-AI/templates/` |

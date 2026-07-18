@@ -67,7 +67,7 @@ To be filled by AI after reading the source.
 - Keep this source card in `40-ExternalSources/` as evidence.
 - If it changes project state, update `10-Projects/<project>/current-state.md`.
 - If it creates a stable decision, update `10-Projects/<project>/decisions.md`.
-- If it becomes reusable knowledge, create a question knowledge card / experience asset or write to `20-SharedAssets/02-modules/`.
+- If it becomes reusable knowledge, create a question knowledge card / experience asset or write to `20-SharedAssets/01-user-assets/`.
 - If it must be recalled before future tasks, update the matching project bridge card or `00-AI/recall/task-to-context-map.md`.
 
 ## Next AI Action

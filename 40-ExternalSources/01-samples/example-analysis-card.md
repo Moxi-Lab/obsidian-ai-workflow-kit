@@ -8,7 +8,7 @@ sample: true
 source_note: "<source-title>"
 source_url: "<source-url>"
 decision: "asset"
-writeback_target: "20-SharedAssets/02-modules/"
+writeback_target: "20-SharedAssets/01-user-assets/"
 ---
 
 # 资料分析卡：示例
@@ -36,7 +36,7 @@ writeback_target: "20-SharedAssets/02-modules/"
 
 ## 回写位置
 
-- `20-SharedAssets/02-modules/`
+- `20-SharedAssets/01-user-assets/`
 
 ## 处理记录
 

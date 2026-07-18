@@ -94,8 +94,8 @@ owner: maintainer
 
 | 经验类型 | 写入位置 |
 |---|---|
-| 跨项目规则、检查清单、SOP | `20-SharedAssets/02-modules/` |
-| 反复踩坑的解决方案 | `20-SharedAssets/02-modules/` 或问题知识卡 / 经验资产卡 |
+| 跨项目规则、检查清单、SOP | `20-SharedAssets/01-user-assets/` |
+| 反复踩坑的解决方案 | `20-SharedAssets/01-user-assets/` 或问题知识卡 / 经验资产卡 |
 | 某个项目专属状态和边界 | 对应 项目桥接卡 |
 | 某次任务的短期交接 | `01-Inbox/agent-handoffs/` |
 

@@ -4,6 +4,8 @@ status: active
 project: Example Project
 pillar: example
 project_entry: true
+priority: p1
+stage: example
 local_root: "<your-project-path>"
 kb_project: "10-Projects/01-example-project/README.md"
 startup_files:
@@ -12,6 +14,7 @@ startup_files:
   - "10-Projects/01-example-project/decisions.md"
 created: 2026-06-01
 updated: 2026-07-18
+last_verified: 2026-07-18
 next_action: Copy this example and replace the placeholder fields.
 ---
 
@@ -57,7 +60,7 @@ next_action: Copy this example and replace the placeholder fields.
 
 ## 可沉淀经验
 
-- 如果同类项目会重复出现，把经验上浮到 `20-SharedAssets/02-modules/`。
+- 如果同类项目会重复出现，把经验上浮到 `20-SharedAssets/01-user-assets/`。
 
 ## 写回规则
 
@@ -66,4 +69,4 @@ next_action: Copy this example and replace the placeholder fields.
 | 项目长期状态 | 本桥接卡或 `current-state.md` |
 | 稳定决策 | `decisions.md` |
 | 临时交接 | `01-Inbox/agent-handoffs/` |
-| 可复用经验 | `20-SharedAssets/02-modules/` |
+| 可复用经验 | `20-SharedAssets/01-user-assets/` |

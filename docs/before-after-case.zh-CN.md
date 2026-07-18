@@ -50,7 +50,7 @@ AI 读完 `00-AI/START-HERE.md` 后，应该这样分流：
 | `draft-positioning.md` | 候选决策 | `10-Projects/product-launch/decisions.md` |
 | `onboarding-research.pdf` | 资料证据 | `40-ExternalSources/01-samples/` |
 | `todo-from-chat.md` | 临时任务记录 | 项目桥接卡下一步或 Inbox |
-| 过程中反复出现的经验 | 可复用资产 | `20-SharedAssets/02-modules/` |
+| 过程中反复出现的经验 | 可复用资产 | `20-SharedAssets/01-user-assets/` |
 
 ## 整理后
 
@@ -65,7 +65,7 @@ AI 读完 `00-AI/START-HERE.md` 后，应该这样分流：
 └── 02-folder-intakes/product-launch-materials.md
 
 00-AI/recall/task-to-context-map.md
-20-SharedAssets/02-modules/<reusable-lesson>.md
+20-SharedAssets/01-user-assets/<reusable-lesson>.md
 ```
 
 之后新的 AI 会话可以从项目桥接卡开始，只读任务需要的上下文，并把结果写回正确位置。

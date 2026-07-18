@@ -22,7 +22,8 @@ class CorePathTests(unittest.TestCase):
 
     def test_default_stale_patterns_are_configured_outside_python(self):
         patterns = kb.load_stale_patterns(ROOT)
-        self.assertIn("KB-MANIFEST", patterns)
+        self.assertNotIn("KB-MANIFEST", patterns)
+        self.assertNotIn("context pack", patterns)
         self.assertNotIn("四大主线", patterns)
         self.assertNotIn("01-收件箱", patterns)
         self.assertNotIn("20-共享资产", patterns)
@@ -424,6 +425,8 @@ class InstallModeTests(unittest.TestCase):
         self.assertEqual(
             kb.install_paths_for_mode("barebone"),
             [
+                "AGENTS.md",
+                "CLAUDE.md",
                 "LICENSE",
                 "VERSION",
                 "index.md",
@@ -432,12 +435,16 @@ class InstallModeTests(unittest.TestCase):
                 "00-AI/governance",
                 "00-AI/pipeline/README.md",
                 "00-AI/pipeline/local-material-intake.md",
+                "00-AI/pipeline/source-to-knowledge-workflow.md",
                 "00-AI/recall/README.md",
+                "00-AI/recall/example-recall-chain.md",
+                "00-AI/recall/recall-fields.md",
                 "00-AI/recall/task-to-context-map.md",
                 "01-Inbox/README.md",
                 "10-Projects/README.md",
                 "10-Projects/PROJECTS-REGISTRY.md",
                 "20-SharedAssets/README.md",
+                "20-SharedAssets/01-user-assets/README.md",
                 "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
                 "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
                 "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
@@ -446,11 +453,26 @@ class InstallModeTests(unittest.TestCase):
                 "00-AI/templates/TPL-task-state-card.md",
                 "00-AI/templates/TPL-source-analysis-card.md",
                 "00-AI/templates/TPL-agent-handoff-card.md",
+                "00-AI/templates/TPL-incident-experience-card.md",
+                "00-AI/templates/TPL-question-knowledge-experience-asset-card.md",
                 "00-AI/config/stale-patterns.txt",
                 "00-AI/scripts/kb.py",
                 "00-AI/scripts/kb",
             ],
         )
+
+    def test_barebone_includes_every_runtime_file_named_by_startup_routes(self):
+        paths = set(kb.install_paths_for_mode("barebone"))
+
+        required_runtime_files = {
+            "00-AI/pipeline/source-to-knowledge-workflow.md",
+            "00-AI/recall/example-recall-chain.md",
+            "00-AI/recall/recall-fields.md",
+            "00-AI/templates/TPL-incident-experience-card.md",
+            "00-AI/templates/TPL-question-knowledge-experience-asset-card.md",
+        }
+
+        self.assertTrue(required_runtime_files.issubset(paths))
 
     def test_default_install_mode_is_minimal_template(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -991,6 +1013,25 @@ class FirstRunDocumentationTests(unittest.TestCase):
 
 
 class ProjectBridgeNamingTests(unittest.TestCase):
+    def test_project_rules_use_fact_verification_and_non_mechanical_handoffs(self):
+        agent_rules = (ROOT / "00-AI" / "AGENTS.md").read_text(encoding="utf-8")
+        template = (ROOT / "00-AI" / "templates" / "TPL-project-bridge-card.md").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("last_verified", agent_rules)
+        self.assertIn("30 days", agent_rules)
+        self.assertIn("文件变化或任务完成本身不触发交接卡", agent_rules)
+        self.assertIn("只有确实需要其它窗口或 Agent 接手时才写交接卡", template)
+
+    def test_project_bridge_template_routes_user_lessons_outside_managed_modules(self):
+        text = (ROOT / "00-AI" / "templates" / "TPL-project-bridge-card.md").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("20-SharedAssets/01-user-assets/", text)
+        self.assertIn("managed `02-modules/`", text)
+
     def test_new_project_uses_agent_neutral_bridge_filename(self):
         with tempfile.TemporaryDirectory() as tmp:
             args = argparse.Namespace(
@@ -1010,6 +1051,10 @@ class ProjectBridgeNamingTests(unittest.TestCase):
             self.assertIn("type: project-bridge", text)
             self.assertIn("project_entry: true", text)
             self.assertIn('pillar: "general"', text)
+            self.assertIn("priority: p1", text)
+            self.assertIn("stage: discovery", text)
+            self.assertIn("last_verified:", text)
+            self.assertIn("next_action: Define the next concrete project action.", text)
 
     def test_project_dirs_without_bridge_accepts_new_and_legacy_names(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1170,6 +1215,34 @@ class HealthContractTests(unittest.TestCase):
             errors = kb.check_base_dependency_metadata(root, "en")
 
             self.assertTrue(any("pillar" in error and "updated" in error for error in errors))
+            self.assertTrue(any("priority" in error and "last_verified" in error for error in errors))
+
+    def test_base_dependency_check_rejects_invalid_project_priority_and_date(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            project = root / "10-Projects" / "demo"
+            project.mkdir(parents=True)
+            (project / "BRIDGE-demo.md").write_text(
+                """---
+type: project-bridge
+status: active
+project: Demo
+pillar: general
+project_entry: true
+priority: urgent
+stage: discovery
+updated: 2026-07-18
+last_verified: yesterday
+next_action: Verify the project.
+---
+""",
+                encoding="utf-8",
+            )
+
+            errors = kb.check_base_dependency_metadata(root, "en")
+
+            self.assertTrue(any("unsupported project entry priority" in error for error in errors))
+            self.assertTrue(any("invalid project entry last_verified date" in error for error in errors))
 
     def test_base_dependency_check_requires_task_fields_and_source_capture_date(self):
         with tempfile.TemporaryDirectory() as tmp:

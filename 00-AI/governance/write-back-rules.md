@@ -14,10 +14,12 @@ AI 写入前先判断内容类型，再写到对应位置。
 | 临时交接 | `01-Inbox/agent-handoffs/` | 只服务下一次接续 |
 | 排队、跨会话或阻塞任务 | `01-Inbox/tasks/` | 当前对话无法闭环，并且需要明确下一步 |
 | 外部资料分析 | `40-ExternalSources/` | 有来源、有摘要、有可用结论 |
-| 可复用经验 | `20-SharedAssets/02-modules/` 或问题知识卡 | 未来多个任务会重复用 |
-| 问题/事故经验 | 用 `00-AI/templates/TPL-incident-experience-card.md` 新建后放到项目或 `20-SharedAssets/02-modules/` | 下次能避免失败、误判、返工或工具异常 |
+| 可复用经验 | `20-SharedAssets/01-user-assets/` 或问题知识卡 | 未来多个任务会重复用；用户资产不写入 managed core |
+| 问题/事故经验 | 用 `00-AI/templates/TPL-incident-experience-card.md` 新建后放到项目或 `20-SharedAssets/01-user-assets/` | 下次能避免失败、误判、返工或工具异常 |
 | 召回规则 | `00-AI/recall/` | 能告诉 AI 什么任务先读什么 |
 | 模板 | `00-AI/templates/` | 会重复创建同类页面 |
+
+交接卡不是任务完成回执。只有确实需要另一个窗口或 Agent 接手时才创建；当前对话已经闭环、仅有文件变化或只需更新项目状态时，不建交接卡。
 
 ## 写入格式
 

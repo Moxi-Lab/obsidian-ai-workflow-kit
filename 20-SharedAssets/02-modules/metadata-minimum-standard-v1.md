@@ -68,12 +68,16 @@ owner:
 project:
 pillar:
 project_entry:
+priority:
+stage:
+last_verified:
+next_action:
 stage:
 priority:
 next_action:
 ```
 
-每个长期项目只选择一页作为权威入口，并设置 `project_entry: true`。入口页必须同时填写 `type / updated / status / pillar / project`。普通 README、决策页、任务卡、模板和复盘不得设置 `project_entry: true`。
+每个长期项目只选择一页作为权威入口，并设置 `project_entry: true`。入口页必须同时填写 `type / updated / status / pillar / project / priority / stage / last_verified / next_action`。`priority` 使用 `p0 / p1 / p2 / p3`；`last_verified` 表示项目状态最近一次经过事实核验的日期，不能用批量迁移日期代替。普通 README、决策页、任务卡、模板和复盘不得设置 `project_entry: true`。
 
 ## 外部资料补充字段
 

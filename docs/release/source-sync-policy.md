@@ -42,6 +42,8 @@ An established working vault may opt into the `shared-core` profile. Its adoptio
 
 The shared-core profile owns reusable system files only. It must never own or overwrite the working vault's startup entry, Inbox, projects, archives, private context, or root documents. Working-vault customizations belong in clearly named local-extension paths rather than edits to managed files.
 
+Generated lessons and experience assets belong in `20-SharedAssets/01-user-assets/` (localized to the working vault's user-owned asset directory). `20-SharedAssets/02-modules/` is managed core and must not be used as the output directory for working-vault knowledge.
+
 Preview every update first:
 
 ```bash

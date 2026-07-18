@@ -46,7 +46,7 @@ Will not do: <explicit out-of-scope work for this session>
 | Document organization and classification suggestions | `index.md`, `00-AI/pipeline/README.md`, `00-AI/pipeline/local-material-intake.md` |
 | Local material intake | `00-AI/pipeline/README.md`, `00-AI/pipeline/local-material-intake.md` |
 | Project handoff | `10-Projects/<project>/BRIDGE-*.md` |
-| External source processing | `40-ExternalSources/README.md`, `00-AI/templates/TPL-source-analysis-card.md` |
+| External source processing | `00-AI/pipeline/README.md`, `00-AI/templates/TPL-source-analysis-card.md` |
 | Lesson capture | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`, `00-AI/templates/TPL-question-knowledge-experience-asset-card.md` |
 | Incident review | `20-SharedAssets/02-modules/project-lesson-promotion-v1.md`, `00-AI/templates/TPL-incident-experience-card.md` |
 | Vault maintenance | `00-AI/governance/maintenance-loop.md`, `20-SharedAssets/02-modules/vault-health-checklist-v1.md` |
@@ -83,7 +83,7 @@ Not handling yet: <unclear items or items needing user confirmation>
 | Queued, cross-session, or blocked task | `01-Inbox/tasks/` |
 | External source analysis | `40-ExternalSources/01-samples/` or a relevant topic folder |
 | Project state | The relevant project bridge card |
-| Reusable lesson | `20-SharedAssets/02-modules/` |
+| Reusable lesson | `20-SharedAssets/01-user-assets/` |
 | Incident lesson | Copy `00-AI/templates/TPL-incident-experience-card.md` into the relevant project or shared asset location |
 | Recall rule | `00-AI/recall/` |
 | Template | `00-AI/templates/` |

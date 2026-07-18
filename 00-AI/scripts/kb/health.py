@@ -18,6 +18,7 @@ from .config import (
     PROJECT_ENTRY_ALL_STATUSES,
     PROJECT_ENTRY_CURRENT_STATUSES,
     PROJECT_ENTRY_REQUIRED_FIELDS,
+    PROJECT_PRIORITY_VALUES,
     STATUS_TYPE_POLICIES,
     STATUS_VALUES,
     VAULT_STALE_PATTERNS_FILE,
@@ -386,11 +387,15 @@ def check_base_dependency_metadata(root: Path, language: str) -> list[str]:
                     errors.append(f"project entry missing metadata in {rel}: {', '.join(missing)}")
                 if metadata.get("status") not in PROJECT_ENTRY_ALL_STATUSES:
                     errors.append(f"unsupported project entry status in {rel}: {metadata.get('status') or '-'}")
+                if metadata.get("priority") not in PROJECT_PRIORITY_VALUES:
+                    errors.append(f"unsupported project entry priority in {rel}: {metadata.get('priority') or '-'}")
+                if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", metadata.get("last_verified", "")):
+                    errors.append(f"invalid project entry last_verified date in {rel}: {metadata.get('last_verified') or '-'}")
                 frontmatter_text = text[: text.find("\n---", 4)] if text.startswith("---\n") else ""
                 if re.search(r"^status:\s*[\"']", frontmatter_text, re.M):
                     errors.append(f"quoted project entry status in {rel}")
             if (
-                metadata.get("type") == "project-bridge"
+                metadata.get("type") in {"project-bridge", "codex-project-bridge"}
                 and metadata.get("status") in PROJECT_ENTRY_CURRENT_STATUSES
                 and marker != "true"
             ):

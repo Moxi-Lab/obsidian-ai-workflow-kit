@@ -19,7 +19,7 @@ status: active
 
 - 资料分析卡留在 `40-ExternalSources/` 作为来源证据，不移动、不覆盖。
 - 影响项目状态时，更新 `10-Projects/<project>/current-state.md` 或 `decisions.md`。
-- 变成可复用经验时，新建问题知识卡 / 经验资产卡，或写入 `20-SharedAssets/02-modules/`。
+- 变成可复用经验时，新建问题知识卡 / 经验资产卡，或写入 `20-SharedAssets/01-user-assets/`。
 - 需要以后被主动召回时，更新项目桥接卡或 `00-AI/recall/task-to-context-map.md`。
 - 原资料分析卡默认 `canonical: false`；升舱后的权威卡才设为 `canonical: true`。
 

@@ -33,6 +33,3 @@ jobs:
 
       - name: Run tool tests
         run: bash 00-AI/scripts/test_tools.sh
-
-      - name: Build four downloadable vault archives
-        run: python3 00-AI/scripts/kb.py build-release --output dist

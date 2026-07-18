@@ -49,6 +49,8 @@ status: active
 project: {yaml_string(args.name)}
 pillar: {yaml_string(pillar)}
 project_entry: true
+priority: p1
+stage: discovery
 local_root: {yaml_string(root_hint)}
 kb_project: "10-Projects/{args.slug}/README.md"
 startup_files:
@@ -57,6 +59,7 @@ startup_files:
   - "10-Projects/{args.slug}/decisions.md"
 updated: {today}
 created: {today}
+last_verified: {today}
 next_action: Define the next concrete project action.
 ---
 
@@ -92,7 +95,7 @@ Explain how this local project maps to the vault and why it matters.
 | Long-term project state | This bridge card or `current-state.md` |
 | Stable decisions | `decisions.md` |
 | Short handoff | `01-Inbox/agent-handoffs/` |
-| Reusable lesson | `20-SharedAssets/02-modules/` |
+| Reusable lesson | `20-SharedAssets/01-user-assets/` |
 """,
         "current-state.md": f"""---
 type: project-state

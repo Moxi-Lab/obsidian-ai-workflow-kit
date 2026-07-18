@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 
 CORE_PATHS = [
+    "AGENTS.md",
+    "CLAUDE.md",
     "install.sh",
     "index.md",
     "00-AI/START-HERE.md",
@@ -30,6 +32,7 @@ CORE_PATHS = [
     "10-Projects/PROJECTS-REGISTRY.md",
     "10-Projects/README.md",
     "20-SharedAssets/README.md",
+    "20-SharedAssets/01-user-assets/README.md",
     "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
     "40-ExternalSources/README.md",
     "00-AI/templates/TPL-project-bridge-card.md",
@@ -46,6 +49,8 @@ CORE_PATHS = [
 ]
 
 FULL_INSTALL_PATHS = [
+    "AGENTS.md",
+    "CLAUDE.md",
     "README.md",
     "README.zh-CN.md",
     "install.sh",
@@ -76,6 +81,8 @@ FULL_INSTALL_PATHS = [
 ]
 
 BAREBONE_INSTALL_PATHS = [
+    "AGENTS.md",
+    "CLAUDE.md",
     "LICENSE",
     "VERSION",
     "index.md",
@@ -84,12 +91,16 @@ BAREBONE_INSTALL_PATHS = [
     "00-AI/governance",
     "00-AI/pipeline/README.md",
     "00-AI/pipeline/local-material-intake.md",
+    "00-AI/pipeline/source-to-knowledge-workflow.md",
     "00-AI/recall/README.md",
+    "00-AI/recall/example-recall-chain.md",
+    "00-AI/recall/recall-fields.md",
     "00-AI/recall/task-to-context-map.md",
     "01-Inbox/README.md",
     "10-Projects/README.md",
     "10-Projects/PROJECTS-REGISTRY.md",
     "20-SharedAssets/README.md",
+    "20-SharedAssets/01-user-assets/README.md",
     "20-SharedAssets/02-modules/project-lesson-promotion-v1.md",
     "20-SharedAssets/02-modules/vault-health-checklist-v1.md",
     "20-SharedAssets/02-modules/metadata-minimum-standard-v1.md",
@@ -98,6 +109,8 @@ BAREBONE_INSTALL_PATHS = [
     "00-AI/templates/TPL-task-state-card.md",
     "00-AI/templates/TPL-source-analysis-card.md",
     "00-AI/templates/TPL-agent-handoff-card.md",
+    "00-AI/templates/TPL-incident-experience-card.md",
+    "00-AI/templates/TPL-question-knowledge-experience-asset-card.md",
     "00-AI/config/stale-patterns.txt",
     "00-AI/scripts/kb.py",
     "00-AI/scripts/kb",
@@ -220,6 +233,7 @@ ZH_CN_TARGET_RENAMES = [
     ("20-SharedAssets/02-modules/ai-vault-maintenance-sop-v1.md", "30-经验资产/02-通用模块/AI知识库维护SOP-v1.md"),
     ("20-SharedAssets/02-modules/metadata-minimum-standard-v1.md", "30-经验资产/02-通用模块/元数据最小标准-v1.md"),
     ("20-SharedAssets/02-modules/tags-and-recall-fields-v1.md", "30-经验资产/02-通用模块/标签与召回字段-v1.md"),
+    ("20-SharedAssets/01-user-assets", "30-经验资产/06-本地经验"),
     ("20-SharedAssets/02-modules", "30-经验资产/02-通用模块"),
     ("20-SharedAssets/03-workflows", "30-经验资产/03-工作流"),
     ("20-SharedAssets/04-optional-advanced", "30-经验资产/04-可选进阶"),
@@ -269,6 +283,7 @@ STATUS_TYPE_POLICIES = {
     "project-root": "project",
     "project-readme": "project",
     "project-bridge": "project",
+    "codex-project-bridge": "project",
     "project-state": "project",
     "decisions": "project",
     "source-analysis": "external",
@@ -315,9 +330,20 @@ LEGACY_STATUS_MAPS = {
     "review": {"pass": "accepted", "fail": "deferred", "partial": "deferred"},
 }
 
-PROJECT_ENTRY_REQUIRED_FIELDS = {"type", "updated", "status", "pillar", "project"}
+PROJECT_ENTRY_REQUIRED_FIELDS = {
+    "type",
+    "updated",
+    "status",
+    "pillar",
+    "project",
+    "priority",
+    "stage",
+    "next_action",
+    "last_verified",
+}
 PROJECT_ENTRY_CURRENT_STATUSES = {"active", "waiting", "paused", "blocked"}
 PROJECT_ENTRY_ALL_STATUSES = PROJECT_ENTRY_CURRENT_STATUSES | {"done", "archived"}
+PROJECT_PRIORITY_VALUES = {"p0", "p1", "p2", "p3"}
 LOCAL_TASK_REQUIRED_FIELDS = {"type", "created", "updated", "status", "project", "priority", "next_action"}
 EXTERNAL_BASE_TYPES = {"source-analysis", "analysis-card", "folder-intake", "web-clip"}
 

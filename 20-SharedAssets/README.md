@@ -11,6 +11,7 @@ status: active
 
 | 路径 | 用途 |
 |---|---|
+| `01-user-assets/` | 用户生成的经验资产、检查清单和解决方案；不受 shared-core 管理 |
 | `02-modules/` | SOP、规范、机制 |
 | `03-workflows/` | 可执行工作流 |
 | `04-optional-advanced/` | 多 Agent 并行开发等高级场景 |
@@ -40,7 +41,8 @@ status: active
 
 ## 使用规则
 
-- 只放多个项目会重复用到的内容。
+- 用户在使用过程中形成的经验写入 `01-user-assets/`。
+- `02-modules/` 保存 kit 维护的通用机制和标准，不作为用户经验写入目录。
 - 一次性项目过程不放这里。
 - 经验进入这里前，要写清楚适用场景、触发条件和验证方式。
 - 失败、误判、返工、用户纠正和工具异常进入这里前，要先按 `00-AI/templates/TPL-incident-experience-card.md` 写清根因、处理动作、验证方式和禁止事项。

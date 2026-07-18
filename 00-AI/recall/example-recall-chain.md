@@ -21,13 +21,10 @@ Help me write launch notes for the new onboarding flow.
 1. Read `00-AI/START-HERE.md`.
 2. Classify the task as launch writing and project continuation.
 3. Read `00-AI/recall/task-to-context-map.md`.
-4. Open the project bridge card:
-   `examples/filled-example/BRIDGE-launch-notes.md`
-5. Read the project's startup files:
-   `examples/filled-example/current-state.md` and `examples/filled-example/decisions.md`.
+4. Open the real project bridge card selected for the current task.
+5. Read only the startup files listed by that bridge card.
 6. Check reusable lessons listed in the bridge card.
-7. Read the relevant source-to-knowledge lesson:
-   `examples/source-to-knowledge/promoted-question-card.md`
+7. Read the relevant promoted lesson from `20-SharedAssets/01-user-assets/`.
 
 ## Why The Lesson Is Recalled
 
@@ -60,15 +57,15 @@ The agent should:
 
 | Result | Write back to |
 |---|---|
-| Changed project status | `examples/filled-example/current-state.md` |
-| Stable editorial decision | `examples/filled-example/decisions.md` |
+| Changed project status | The real project bridge card or its current-state page |
+| Stable editorial decision | The real project's decisions page |
 | Temporary handoff | `01-Inbox/agent-handoffs/` |
-| Reusable lesson | `20-SharedAssets/02-modules/` or a question knowledge card |
+| Reusable lesson | `20-SharedAssets/01-user-assets/` or a question knowledge card |
 
 ## Maintenance Note
 
 If the project bridge card is stale, the AI agent should tell the user before doing long work and suggest updating:
 
-- the bridge card `updated` field
+- the bridge card `last_verified` field after a real fact check
 - the current state section
 - the next startup action

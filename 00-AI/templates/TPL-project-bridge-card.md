@@ -1,7 +1,7 @@
 ---
 type: template
 created: 2026-05-14
-updated: 2026-05-24
+updated: 2026-07-18
 status: active
 aliases: ["TPL-Codex项目桥接卡", "项目桥接卡模板", "Project Bridge Card Template"]
 ---
@@ -17,12 +17,15 @@ status: active # active / waiting / paused / blocked / done / archived
 project:
 pillar: general
 project_entry: true
+priority: p1 # p0 / p1 / p2 / p3
+stage: discovery
 local_root:
 kb_project:
 startup_files:
 kb_bridge_status: kb-only # kb-only / project-linked / paused
 last_verified:
 next_action:
+next_review:
 ---
 ```
 
@@ -80,10 +83,10 @@ next_action:
 ## 写回规则
 
 - 项目状态变化：更新知识库项目页和本桥接卡。
-- 重要实现 / 验收：更新项目 docs，并在交接卡摘要。
-- 可复用经验：上浮到共享资产或经验资产卡。
+- 重要实现 / 验收：更新项目 docs 或 PR；只有确实需要其它窗口或 Agent 接手时才写交接卡。
+- 可复用经验：写入 `20-SharedAssets/01-user-assets/` 或从该目录创建经验资产卡；不要把用户经验写进 managed `02-modules/`。
 - 重要、持续或跨项目任务结束时，至少检查本卡“当前状态 / 最近决策 / 下次开工 / 可沉淀经验”四项；有变化才更新。
-- 未闭环事项写入交接卡或项目页，不散落在聊天里。
+- 排队、跨会话或阻塞事项进入任务卡或项目页；只有需要其它窗口或 Agent 接手时才写交接卡。
 
 ## 项目 AGENTS.md 最小入口
 
@@ -93,7 +96,7 @@ next_action:
 - 知识库入口：<你的知识库路径>/00-AI/START-HERE.md
 - 项目登记：<你的知识库路径>/<项目登记文件>.md
 - 项目桥接卡：<本卡路径>
-- 项目状态变化后，更新项目桥接卡或知识库交接卡。
+- 项目状态变化后更新项目桥接卡；需要其它窗口或 Agent 接手时再写知识库交接卡。
 ```
 
 ## 当前下一步
