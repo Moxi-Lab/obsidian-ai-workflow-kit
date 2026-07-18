@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.0 - 2026-07-18
+
+- Changed the default AI collaboration model to task-first, direct execution with no required job-role cards; local task cards are now reserved for queued, cross-session, or blocked work.
+- Added typed `status` contracts, explicit `project_entry: true` project indexes, and Base dependency metadata requirements.
+- Added three dependency-free Obsidian Bases views for projects, local tasks, and external sources in `full` mode, with English and Chinese path localization.
+- Expanded the read-only health check to detect broken and ambiguous Wikilinks, invalid typed status values, incomplete project/task/source fields, malformed Base contracts, and private-looking user paths.
+- Added `migrate-v0.9` to preview or migrate legacy dispatch cards, task status values, references, and project entry metadata without overwriting conflicting files.
+- Added `build-release` to produce verified English/Chinese × barebone/full downloadable vault archives; full archives contain safe Obsidian settings, enable the built-in Bases plugin, and install no community plugins.
+- Kept `captured` as the public source-ingestion date, retained manifest-based non-destructive upgrades, and expanded CI and release checks for all four delivery variants.
+
 ## 0.8.0 - 2026-06-04
 
 - Localized Chinese installs into Chinese vault paths: `00-入口/`, `01-收件箱/`, `10-项目/`, `20-资料/`, `30-经验资产/`, and `90-系统/`.
