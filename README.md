@@ -20,8 +20,8 @@ Instead of asking AI to search the whole vault, it uses task routing plus recall
 
 For a new vault or customer delivery, download a `full` archive from [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases):
 
-- `obsidian-ai-workflow-kit-v0.9.0-en-full.zip`
-- `obsidian-ai-workflow-kit-v0.9.0-zh-CN-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.1-en-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.1-zh-CN-full.zip`
 
 Unzip it, choose **Open folder as vault** in Obsidian, and open `START.md`. The full package already contains safe vault settings, enables the built-in Bases plugin, and installs no community plugins.
 
@@ -122,7 +122,7 @@ User task
   -> reusable lessons promoted for future recall
 ```
 
-The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place. Job-role cards are not part of the default workflow; name a review perspective directly when one is useful.
+The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place. When specialist review is useful, name the perspective in the task or acceptance criteria.
 
 ## Install Scope
 
@@ -167,7 +167,7 @@ Not a good fit:
 - [Concepts](docs/concepts.md)
 - [Templates](docs/templates.md)
 - [Scripts](00-AI/scripts/README.md)
-- [v0.9.0 Release Notes](docs/release/v0.9.0-release-notes.md)
+- [v0.9.1 Release Notes](docs/release/v0.9.1-release-notes.md)
 
 ## Repository Layout
 
@@ -203,4 +203,4 @@ This is a workflow kit, not an automation platform. If project state, decisions,
 
 ## Version
 
-Current version: `0.9.0`. See [CHANGELOG.md](CHANGELOG.md).
+Current version: `0.9.1`. See [CHANGELOG.md](CHANGELOG.md).

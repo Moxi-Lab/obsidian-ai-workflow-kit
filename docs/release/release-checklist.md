@@ -38,7 +38,7 @@ Use this checklist before switching the repository public or announcing a releas
 - [ ] README install command has been tested after the visibility change.
 - [ ] No private paths, secrets, personal notes, source clips, or private handoff history are included.
 - [ ] Release assets use the `v<VERSION>-<language>-<mode>.zip` naming contract.
-- [ ] After explicit maintainer approval, publish with `gh release create v0.9.0 dist/*.zip --title "Obsidian AI Workflow Kit v0.9.0" --notes-file docs/release/v0.9.0-release-notes.md`.
+- [ ] After explicit maintainer approval, publish with `gh release create v<VERSION> dist/*.zip --title "Obsidian AI Workflow Kit v<VERSION>" --notes-file docs/release/v<VERSION>-release-notes.md`.
 
 ## Source Sync Checks
 

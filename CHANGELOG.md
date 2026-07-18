@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.1 - 2026-07-18
+
+- Reworded current customer guidance around direct task execution, specialist review perspectives, and task-owned routing so obsolete organizational terminology no longer dominates the product experience.
+- Renamed the generic `Role` headings in `00-AI/AGENTS.md` to `Agent 职责` and `Agent Scope` without changing agent behavior.
+- Added a regression test that rejects job-card filenames, obsolete routing metadata, and organizational wording in current guidance.
+- Kept the `v0.8` dispatch-card migration paths and tests intact so existing installations can still upgrade safely.
+
 ## 0.9.0 - 2026-07-18
 
 - Changed the default AI collaboration model to task-first, direct execution with no required job-role cards; local task cards are now reserved for queued, cross-session, or blocked work.

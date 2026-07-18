@@ -20,8 +20,8 @@
 
 新建知识库或交付客户时，推荐从 [GitHub Releases](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/releases) 下载完整包：
 
-- `obsidian-ai-workflow-kit-v0.9.0-zh-CN-full.zip`
-- `obsidian-ai-workflow-kit-v0.9.0-en-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.1-zh-CN-full.zip`
+- `obsidian-ai-workflow-kit-v0.9.1-en-full.zip`
 
 解压后，在 Obsidian 中选择“打开文件夹作为仓库”，再打开根目录的 `START.md`。Full 包已经包含安全的 Vault 配置、启用 Obsidian 自带的 Bases，不安装任何社区插件。
 
@@ -114,7 +114,7 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
   -> 可复用经验进入后续召回
 ```
 
-AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任务映射打开必要上下文，完成任务后写回正确位置。默认流程不使用 CEO、CTO、QA 等岗位角色卡；需要专业视角时直接说明检查角度。
+AI 默认不应该扫描整个 vault。它应该先读开工入口，再按任务映射打开必要上下文，完成任务后写回正确位置。需要专业视角时，直接在任务或验收标准中说明检查角度。
 
 ## 安装范围
 
@@ -158,7 +158,7 @@ bash install.sh --language zh-CN "/path/to/your-vault"
 - [核心概念](docs/concepts.zh-CN.md)
 - [模板说明](docs/templates.zh-CN.md)
 - [脚本说明](00-AI/scripts/README.md)
-- [v0.9.0 发布说明](docs/release/v0.9.0-release-notes.md)
+- [v0.9.1 发布说明](docs/release/v0.9.1-release-notes.md)
 
 ## 仓库结构
 
@@ -192,4 +192,4 @@ English 安装使用英文路径。中文安装会把核心 vault 路径本地�
 
 ## Version
 
-当前版本：`0.9.0`。见 [CHANGELOG.md](CHANGELOG.md)。
+当前版本：`0.9.1`。见 [CHANGELOG.md](CHANGELOG.md)。
