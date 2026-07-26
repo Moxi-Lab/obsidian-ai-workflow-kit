@@ -2,7 +2,7 @@
 
 中文 | [English](README.md)
 
-[![CI](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
+[![CI](https://github.com/HiHeiBai/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HiHeiBai/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
 
 让你的本地 Obsidian vault 变成 AI 能读取、写回和维护的知识库。
 
@@ -25,13 +25,13 @@
 先预览：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --dry-run "/path/to/your-vault"
 ```
 
 确认后安装：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN "/path/to/your-vault"
 ```
 
 检查：
@@ -49,7 +49,7 @@ python3 "/path/to/your-vault/90-系统/脚本/kb.py" health-check --vault "/path
 如果你想安装完整 starter vault，包括资料流水线、召回系统、文档、示例和模板，可以使用进阶的 full 模式：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode full "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --mode full "/path/to/your-vault"
 ```
 
 安装器默认跳过已有文件；只有你明确传入 `--overwrite` 才会覆盖。
@@ -57,8 +57,8 @@ curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/m
 后续更新：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update --dry-run "/path/to/your-vault"
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --update "/path/to/your-vault"
 ```
 
 更新时会读取本地 manifest，只替换仍然保持原样的 kit 文件，不静默覆盖你改过的内容。

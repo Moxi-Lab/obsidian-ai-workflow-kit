@@ -19,7 +19,7 @@ printf "示例资料。\n" > ~/demo-materials/example.md
 如果仓库已经 public：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --dry-run ~/obsidian-ai-workflow-test
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN --dry-run ~/obsidian-ai-workflow-test
 ```
 
 如果你已经克隆仓库：
@@ -33,7 +33,7 @@ bash install.sh --language zh-CN --dry-run ~/obsidian-ai-workflow-test
 如果仓库已经 public：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN ~/obsidian-ai-workflow-test
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --language zh-CN ~/obsidian-ai-workflow-test
 ```
 
 如果你已经克隆仓库：
