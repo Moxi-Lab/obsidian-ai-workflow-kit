@@ -19,7 +19,7 @@ printf "Example note for folder intake.\n" > ~/demo-materials/example.md
 If this repository is public:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-workflow-test
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --dry-run ~/obsidian-ai-workflow-test
 ```
 
 If you cloned the repository:
@@ -33,7 +33,7 @@ bash install.sh --dry-run ~/obsidian-ai-workflow-test
 If this repository is public:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- ~/obsidian-ai-workflow-test
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- ~/obsidian-ai-workflow-test
 ```
 
 If you cloned the repository:

@@ -9,8 +9,8 @@ The v0.9 upgrade has two separate steps so kit files and user-owned notes are ne
 First preview and upgrade managed kit files. Keep the same language and mode as the existing install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full --dry-run "/path/to/your-vault"
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode full "/path/to/your-vault"
 ```
 
 Use `--mode barebone` for a barebone installation. The updater creates new kit files and updates only managed files that still match their previous checksum. Modified and unmanaged files are skipped.
@@ -119,13 +119,13 @@ New installs write a small manifest at `.obsidian-ai-workflow-kit/manifest.json`
 Preview an update first:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone --dry-run "/path/to/your-vault"
 ```
 
 Apply it:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Moxi-Lab/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
+curl -fsSL https://raw.githubusercontent.com/HiHeiBai/obsidian-ai-workflow-kit/main/install.sh | bash -s -- --update --mode barebone "/path/to/your-vault"
 ```
 
 Update behavior:
