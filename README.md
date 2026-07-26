@@ -1,22 +1,28 @@
 # Obsidian AI Workflow Kit
 
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="Obsidian AI Workflow Kit routes a new AI session through startup instructions, project context, required files, and structured write-back.">
+</p>
+
 [Chinese](README.zh-CN.md) | English
 
 [![CI](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Moxi-Lab/obsidian-ai-workflow-kit/actions/workflows/ci.yml)
 
 Make your local Obsidian vault readable, writable, and maintainable by AI agents.
 
-You open a new Claude Code, Cursor, Codex, or ChatGPT session. It asks what this project is, where the important context lives, and what changed last time. Again.
+## Give every new AI session a reliable starting point
 
-This kit fixes that handoff problem with a local-first Obsidian structure: one startup entry, project bridge cards, write-back rules, source triage, recall maps, and maintenance checks.
+Claude Code, Cursor, Codex, and ChatGPT should not need to rediscover what a project is, where its decisions live, or what changed last time. This kit provides a local-first Obsidian structure with one startup entry, project bridge cards, write-back rules, source triage, recall maps, and maintenance checks.
 
-It is not an app, community plugin, cloud memory service, or RAG stack. It is a file-system-level workflow that humans can edit and any AI agent with file access can follow. The optional dashboards use Obsidian's built-in Bases core plugin.
+It is a file-system-level workflow, not an app, community plugin, cloud memory service, or RAG stack. Humans can edit every part; any AI agent with file access can follow it. Instead of searching the entire vault, the agent routes to the small set of files the current task needs. Optional dashboards use Obsidian's built-in Bases core plugin.
 
-Instead of asking AI to search the whole vault, it uses task routing plus recall fields so the agent reads the right few files first.
+<p align="center">
+  <img src="./assets/readme/session-route.svg" width="100%" alt="A new AI session enters through START-HERE, opens project state and required context, then writes back a durable handoff for the next session.">
+</p>
 
-## Start Fast
+## Start fast
 
-### New Or Existing Vault
+### New or existing vault
 
 Recommended first step: install the minimal layer into your own vault.
 
@@ -73,7 +79,7 @@ Updates use a local manifest to replace only managed kit files that you have not
 
 The downloadable `v0.9.1` archives remain historical snapshots. Starting with `v0.10.0`, ongoing maintenance uses repository source plus the managed installer, and the project no longer builds custom customer ZIP packages.
 
-### Keep An Established Working Vault In Sync
+### Keep an established working vault in sync
 
 Use `shared-core` when the vault already has its own entry, projects, Inbox, archives, and private context. This mode manages only reusable system files and excludes working content.
 
@@ -86,7 +92,7 @@ python3 00-AI/scripts/kb.py upgrade-core "/path/to/working-vault" --mode shared-
 
 The target vault must explicitly allow only `shared-core` in `.obsidian-ai-workflow-kit/adoption-policy.json`. See [Source Sync Policy](docs/release/source-sync-policy.md).
 
-### 30-Second Demo
+### See the handoff in 30 seconds
 
 Try the read-only demo before installing anything:
 
@@ -96,7 +102,7 @@ Try the read-only demo before installing anything:
 
 The demo shows an AI agent reading the startup entry, finding a filled project bridge card, and reporting current state, latest decision, and next action. No Obsidian community plugins are required.
 
-## What You Get
+## What gets installed
 
 | Need | Included layer |
 |---|---|
@@ -109,7 +115,9 @@ The demo shows an AI agent reading the startup entry, finding a filled project b
 | Metadata silently drops pages from views | typed status, `project_entry`, and Base-field health checks |
 | The vault slowly gets messy | read-only link, metadata, and maintenance checks |
 
-## How It Works
+The minimal layer is deliberately small: it gives an agent a reliable entry, a project-aware route, and clear write-back rules. Add the pipeline, recall system, dashboards, examples, and templates only when the vault needs them.
+
+## How the routing works
 
 ![Obsidian AI Workflow Kit architecture](docs/images/architecture-flow.png)
 
@@ -128,7 +136,7 @@ User task
 
 The agent should not scan your whole vault by default. It should read the startup entry, open the mapped context, do the task, and write results back to the right place. When specialist review is useful, name the perspective in the task or acceptance criteria.
 
-## Install Scope
+## Choose an install scope
 
 The default install is the minimal starter template. Advanced users can pass `--mode full` or the restricted `--mode shared-core` profile.
 
@@ -146,7 +154,7 @@ bash install.sh "/path/to/your-vault"
 bash install.sh --language zh-CN "/path/to/your-vault"
 ```
 
-## Is This For You?
+## Is this for you?
 
 Good fit:
 
@@ -162,7 +170,7 @@ Not a good fit:
 - You want AI to scan your whole computer automatically.
 - You want automatic bulk rewriting of an existing vault.
 
-## Learn More
+## Learn more
 
 - [30-Second Demo](docs/30-second-demo.md)
 - [10-Minute First Run](docs/10-minute-first-run.md)
@@ -174,7 +182,7 @@ Not a good fit:
 - [Scripts](00-AI/scripts/README.md)
 - [v0.9.1 Release Notes](docs/release/v0.9.1-release-notes.md)
 
-## Repository Layout
+## Repository layout
 
 ```text
 00-AI/START-HERE.md              AI startup entry
