@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
+  <title id="title">A routed AI session inside the vault</title>
+  <desc id="desc">A new AI session enters through START-HERE, opens the project bridge and required context, completes the task, then writes a durable handoff for the next session.</desc>
+  <rect width="1200" height="470" rx="28" fill="#0d171b"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">
+    <text x="58" y="70" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="18" letter-spacing="2" fill="#96d9c0">THE SESSION ROUTE</text>
+    <text x="58" y="116" font-size="38" font-weight="760" fill="#f5f3eb">Context is a route through the vault, not a search query.</text>
+    <text x="58" y="151" font-size="21" fill="#aab9b8">Every stop exists in the repository today and has one job in the handoff.</text>
+  </g>
+  <path d="M154 268H1048" stroke="#446067" stroke-width="3" stroke-linecap="round"/>
+  <g fill="none" stroke="#90d7bc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M304 258L314 268 304 278M504 258L514 268 504 278M704 258L714 268 704 278M904 258L914 268 904 278"/>
+  </g>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC',sans-serif">
+    <g transform="translate(58 204)">
+      <circle cx="48" cy="64" r="48" fill="#1b2d31" stroke="#90d7bc" stroke-width="2"/>
+      <text x="48" y="59" text-anchor="middle" font-size="19" fill="#96d9c0">NEW</text>
+      <text x="48" y="83" text-anchor="middle" font-size="19" fill="#f5f3eb">SESSION</text>
+      <text x="48" y="143" text-anchor="middle" font-size="18" fill="#aab9b8">agent arrives</text>
+    </g>
+    <g transform="translate(314 194)">
+      <rect width="160" height="148" rx="16" fill="#152429" stroke="#90d7bc" stroke-width="2"/>
+      <text x="22" y="34" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="17" fill="#96d9c0">01 / ENTRY</text>
+      <text x="22" y="72" font-size="20" font-weight="720" fill="#f5f3eb">START-HERE</text>
+      <text x="22" y="102" font-size="18" fill="#aab9b8">one startup</text><text x="22" y="126" font-size="18" fill="#aab9b8">contract</text>
+    </g>
+    <g transform="translate(514 194)">
+      <rect width="160" height="148" rx="16" fill="#1b1f2c" stroke="#c8b2ee" stroke-width="2"/>
+      <text x="22" y="34" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="17" fill="#c8b2ee">02 / STATE</text>
+      <text x="22" y="72" font-size="20" font-weight="720" fill="#f5f3eb">PROJECT</text>
+      <text x="22" y="98" font-size="20" font-weight="720" fill="#f5f3eb">BRIDGE</text>
+      <text x="22" y="126" font-size="18" fill="#b9b6c5">current decisions</text>
+    </g>
+    <g transform="translate(714 194)">
+      <rect width="160" height="148" rx="16" fill="#152429" stroke="#7ca5b2" stroke-width="2"/>
+      <text x="22" y="34" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="17" fill="#9db9c2">03 / FOCUS</text>
+      <text x="22" y="72" font-size="20" font-weight="720" fill="#f5f3eb">REQUIRED</text>
+      <text x="22" y="98" font-size="20" font-weight="720" fill="#f5f3eb">CONTEXT</text>
+      <text x="22" y="126" font-size="18" fill="#aab9b8">only mapped files</text>
+    </g>
+    <g transform="translate(914 204)">
+      <circle cx="48" cy="64" r="48" fill="#1b2d31" stroke="#90d7bc" stroke-width="2"/>
+      <text x="48" y="59" text-anchor="middle" font-size="19" fill="#96d9c0">WRITE</text>
+      <text x="48" y="83" text-anchor="middle" font-size="19" fill="#f5f3eb">BACK</text>
+      <text x="48" y="143" text-anchor="middle" font-size="18" fill="#aab9b8">next session wins</text>
+    </g>
+  </g>
+  <rect x="58" y="390" width="1084" height="2" fill="#34484d"/>
+  <text x="58" y="427" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="18" fill="#90d7bc">00-AI/START-HERE.md  →  10-Projects/*/BRIDGE-*.md  →  task map  →  durable handoff</text>
+</svg>
